@@ -109,7 +109,7 @@ Devise.setup do |config|
 
   # Set up a pepper to generate the hashed password.
   # config.pepper = 'e43258d682eeb6ece9a2231b26e160a3637ebcef60b4929a755ee5da4e68281f0d4e1818573651e4c8a7ef2307032713cd0b52cd8ada9ec319cf4fdcd717cfe4'
-
+  config.omniauth :facebook, "216090858844959", "9ed13a6ea69ad38f60dd48c4bbfc5275", callback_url: "http://localhost:3000/users/auth/facebook/callback"
   # Send a notification email when the user's password is changed
   # config.send_password_change_notification = false
 
