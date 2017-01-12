@@ -6,9 +6,6 @@ RSpec.describe UsersController, type: :controller do
       expect(get: root_url(subdomain: nil)).to route_to(controller: "users",action: "home")
     end
 
-    it "test prova" do
-      get :/
-      expect(response).to render_template("home")
-    end
+
   end
 end
