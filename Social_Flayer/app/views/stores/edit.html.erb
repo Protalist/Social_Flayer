@@ -1,0 +1,25 @@
+<h1>Stores#new</h1>
+<p>Find me in app/views/stores/new.html.erb</p>
+<%= form_for @store, url: stores_path(params[:id]) do |f| %>
+  <% if @store.errors.any? %>
+    <ul>
+    <% @store.errors.full_messages.each do |msg| %>
+    <li><%= msg %></li>
+    <% end %>
+  </ul>
+  <% end %>
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name, autofocus: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label :location %><br />
+    <%= f.text_field :location, autofocus: true, id: "address" %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Sign up" %>
+  </div>
+
+<% end %>
