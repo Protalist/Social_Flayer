@@ -1,6 +1,6 @@
 class StoresController < ApplicationController
 before_action :store, only: [:show, :edit, :update,:destroy]
-  
+
   def show
     @show=@store
   end
@@ -13,7 +13,7 @@ before_action :store, only: [:show, :edit, :update,:destroy]
     @store=Store.new(store_params)
     puts current_user.id
     @store.owner_id=current_user.id
-    
+
     if @store.save
       redirect_to store_path(@store)
     else
