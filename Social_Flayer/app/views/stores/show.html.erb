@@ -1,2 +1,20 @@
 <h1> Il nome del negozio è: </h1>
 <%= @store.name %>
+<div class='vote'>
+  <table>
+    <tr>
+      <th> like </th>
+      <th> unlike </th>
+    </tr>
+    
+    <tr>
+      <td><%= link_to 'like', like_store_path(@show), method: :put %></td> #indirizzano al controller per inserire il voto
+      <td><%= link_to 'unlike', unlike_store_path(@show), method: :put %></td>
+    </tr>
+   
+    <tr>
+      <td><%=@show.get_upvotes.count%></td>
+      <td><%=@show.get_downvotes.count%></td>
+    </tr>
+  </table>
+</div>

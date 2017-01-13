@@ -1,5 +1,5 @@
 class StoresController < ApplicationController
-before_action :store, only: [:show, :edit, :update,:destroy]
+before_action :store, only: [:show, :edit, :update,:destroy,:upvote,:downvote]
 
   def show
     @show=@store
@@ -41,7 +41,15 @@ before_action :store, only: [:show, :edit, :update,:destroy]
   def index
     @stores=Store.all
   end
+  def upvote
+    @store.upvote_from current_user
+    redirect_to store_path(@store)
+  end
 
+  def downvote
+    @store.downvote_from current_user
+    redirect_to store_path(@store)
+  end
   protected
   #funzione che seatta un parametro
   def store
