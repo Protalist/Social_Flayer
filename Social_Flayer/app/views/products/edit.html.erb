@@ -1,0 +1,30 @@
+<h1>Products#new</h1>
+
+<%= form_for @product, url: store_product_path(params[:store_id],params[:id]) do |f| %>
+  <% if @product.errors.any? %>
+    <ul>
+    <% @product.errors.full_messages.each do |msg| %>
+    <li><%= msg %></li>
+    <% end %>
+  </ul>
+  <% end %>
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name, autofocus: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label :price %><br />
+    <%= f.text_field :price, autofocus: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label :feature %><br />
+    <%= f.text_area :feature, autofocus: true %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "update" %>
+  </div>
+
+<% end %>

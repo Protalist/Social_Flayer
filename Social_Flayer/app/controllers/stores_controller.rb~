@@ -3,9 +3,9 @@ before_action :store, only: [:show, :edit, :update,:destroy,:upvote,:downvote]
 
   def show
     @show=@store
-    
+    if @products!=nil
     @products=@show.products
-    
+    end
   end
 
   def new

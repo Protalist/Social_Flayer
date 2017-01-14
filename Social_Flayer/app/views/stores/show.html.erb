@@ -16,5 +16,22 @@
       <td><%=@show.get_upvotes.count%></td>
       <td><%=@show.get_downvotes.count%></td>
     </tr>
+    <tr>
+	<% if @products.count != 0 %>
+<% @products.each do |prod| %>
+    <tr>
+      <td><%= prod.name %></td>
+      <td><%= prod.price %></td>
+      <td><%= prod.duration_h%></td>
+      <td><%= prod.store_id %> </td>
+      
+        <td> <%= link_to 'edit', edit_store_product_path(@show,prod) %>
+        <td> <%= link_to 'destroy', store_product_path(@show,prod), data: { confirm: "Are you sure?" }, method: :delete %></td>
+      
+      <td><%=link_to 'show',store_product_path(@show,prod) %> </td>
+    </tr>
+  <% end %>
+<% end %>
   </table>
 </div>
+<%= link_to 'Crea prodotto', new_store_product_path(params[:id]) %>
