@@ -3,9 +3,7 @@ before_action :store, only: [:show, :edit, :update,:destroy,:upvote,:downvote]
 
   def show
     @show=@store
-    
     @products=@show.products
-    
   end
 
   def new
@@ -14,10 +12,16 @@ before_action :store, only: [:show, :edit, :update,:destroy,:upvote,:downvote]
 
   def create
     @store=Store.new(store_params)
-    puts current_user.id
     @store.owner_id=current_user.id
+    @admin_stores= Work.new()
+    @admin_stores.store_id=@store.id
+    @admin_stores.user_id=current_user.id
+    @admin_stores.accept=true
+    @admin_stores.save
 
     if @store.save
+      current_user.update(roles_mask: 1)
+      cookies[:last_Store]=@role
       redirect_to store_path(@store)
     else
       render 'new'
@@ -53,10 +57,17 @@ before_action :store, only: [:show, :edit, :update,:destroy,:upvote,:downvote]
     @store.downvote_from current_user
     redirect_to store_path(@store)
   end
+
+
+
   protected
   #funzione che seatta un parametro
   def store
-    @store=Store.find(params[:id])
+    if (Store.all.ids.include?(params[:id]))
+      @store=Store.find(params[:id])
+    else
+      redirect_to root_path
+    end
   end
   #
   def store_params

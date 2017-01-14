@@ -3,9 +3,10 @@ class Product < ApplicationRecord
 
 
   validates_uniqueness_of :name, :scope => :store_id
-  validates :duration_h, presence:  true
-  validates :price, presence: true
+  validates :duration_h, presence:  true, :numericality => {:only_integer => true}
+  validates :price, presence: true, :numericality => true
   validates :name, presence: true
+  validates :tyoe, presence: true
   validate :number_products
 
 

@@ -2,7 +2,7 @@ class ProductsController < ApplicationController
 
   def show
     @product=Product.find(params[:id])
-    @store=Store.find(params[:store_id])
+    @store=Store.find(params[:id])
   end
 
 
@@ -12,8 +12,9 @@ class ProductsController < ApplicationController
 
   def create
     @store=Store.find(params[:store_id])
-    @product=Product.new(product_params)
-    @product.store_id=params[:store_id]
+    #@product=Product.new(product_params)
+    #@product.store_id=params[:store_id]
+    @product=@store.products.build(product_params)
     if @product.save
       redirect_to store_path(@store)
     else
@@ -48,5 +49,5 @@ class ProductsController < ApplicationController
       params.require(:product).permit(:name,:price,:feature,:type_p,:duration_h)
   end
 
-  
+
 end

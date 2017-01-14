@@ -6,32 +6,37 @@
       <th> like </th>
       <th> unlike </th>
     </tr>
-    
+
     <tr>
-      <td><%= link_to 'like', like_store_path(@show), method: :put %></td> #indirizzano al controller per inserire il voto
+      <td><%= link_to 'like', like_store_path(@show), method: :put %></td> 
       <td><%= link_to 'unlike', unlike_store_path(@show), method: :put %></td>
     </tr>
-   
+
     <tr>
       <td><%=@show.get_upvotes.count%></td>
       <td><%=@show.get_downvotes.count%></td>
     </tr>
     <tr>
-	<% if @products.count != 0 %>
+  </table>
+
+<table>
+  <tr>
+    <th>nome</th>
+    <th>prezzo</th>
+    <th>manca</th>
+  </tr>
 <% @products.each do |prod| %>
     <tr>
       <td><%= prod.name %></td>
       <td><%= prod.price %></td>
       <td><%= prod.duration_h%></td>
-      <td><%= prod.store_id %> </td>
-      
-        <td> <%= link_to 'edit', edit_store_product_path(@show,prod) %>
-        <td> <%= link_to 'destroy', store_product_path(@show,prod), data: { confirm: "Are you sure?" }, method: :delete %></td>
-      
+      <td> <%= link_to 'edit', edit_store_product_path(@show,prod) %>
+      <td> <%= link_to 'destroy', store_product_path(@show,prod), data: { confirm: "Are you sure?" }, method: :delete %></td>
+
       <td><%=link_to 'show',store_product_path(@show,prod) %> </td>
     </tr>
   <% end %>
-<% end %>
-  </table>
+
+</table>
 </div>
 <%= link_to 'Crea prodotto', new_store_product_path(params[:id]) %>

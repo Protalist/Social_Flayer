@@ -3,4 +3,8 @@
 <%= @cu.username%> <br/>
 <%= @cu.surname%> <br/>
 <%= @cu.name %> <br/>
+
+<div>
+  <%= render 'shared/search' %>
+</div>
 <%= link_to 'Crea negozio', new_store_path %>

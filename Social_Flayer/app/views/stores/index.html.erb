@@ -1,5 +1,5 @@
 <h1> Index </h1>
 <% @stores.each do |store| %>
-<p> Nome: <p>
-<%= store.name %>
+<p> Nome:
+<%= store.name %>,<%= store.owner.name%> <%= button_to 'vai al negozio', store_path(store), method: :get %>
 <% end %>
