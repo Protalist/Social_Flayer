@@ -8,7 +8,7 @@
     </tr>
 
     <tr>
-      <td><%= link_to 'like', like_store_path(@show), method: :put %></td> 
+      <td><%= link_to 'like', like_store_path(@show), method: :put %></td>
       <td><%= link_to 'unlike', unlike_store_path(@show), method: :put %></td>
     </tr>
 
@@ -26,17 +26,33 @@
     <th>manca</th>
   </tr>
 <% @products.each do |prod| %>
-    <tr>
+    <tr id=prod<%=prod.id%> >
       <td><%= prod.name %></td>
       <td><%= prod.price %></td>
       <td><%= prod.duration_h%></td>
-      <td> <%= link_to 'edit', edit_store_product_path(@show,prod) %>
+      <td> <%= link_to 'edit', edit_store_product_path(@show,prod),remote: true %>
       <td> <%= link_to 'destroy', store_product_path(@show,prod), data: { confirm: "Are you sure?" }, method: :delete %></td>
-
       <td><%=link_to 'show',store_product_path(@show,prod) %> </td>
     </tr>
   <% end %>
 
 </table>
 </div>
-<%= link_to 'Crea prodotto', new_store_product_path(params[:id]) %>
+
+<div id=prova >
+</div>
+
+<div id='new_product'>
+  <%= link_to 'Crea prodotto', new_store_product_path(params[:id]), remote: true %> <br/>
+</div>
+
+
+add an add_admin
+<% if flash[:errors] %> <%= flash[:errors] %> <%end %>
+<%= form_for :admin, url: addadmin_store_path(params[:id]), method: :post do |f| %>
+  <%= f.label :username %>
+  <%= f.text_field :username %>
+  <%= f.submit "aggiungi" %>
+<% end %>
+
+<%= link_to 'edit', edit_store_path(@show) %>

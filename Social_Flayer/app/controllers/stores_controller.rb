@@ -13,13 +13,13 @@ before_action :store, only: [:show, :edit, :update,:destroy,:upvote,:downvote]
   def create
     @store=Store.new(store_params)
     @store.owner_id=current_user.id
-    @admin_stores= Work.new()
-    @admin_stores.store_id=@store.id
-    @admin_stores.user_id=current_user.id
-    @admin_stores.accept=true
-    @admin_stores.save
-
     if @store.save
+      @admin_stores= Work.new()
+      @admin_stores.store_id=@store.id
+      @admin_stores.user_id=current_user.id
+      @admin_stores.accept=true
+      @admin_stores.save
+      puts @admin_stores
       current_user.update(roles_mask: 1)
       cookies[:last_Store]=@role
       redirect_to store_path(@store)
@@ -58,12 +58,45 @@ before_action :store, only: [:show, :edit, :update,:destroy,:upvote,:downvote]
     redirect_to store_path(@store)
   end
 
+  def addadmin
+    @name=params[:admin][:username]
+    puts params[:id]
+    @user=User.where("username =?",@name)
+    if @user.count!=0
+      puts @user[0].id
+      @work=Work.new()
+      @work.user_id=@user[0].id
+      @work.store_id=params[:id]
+      @work.accept=false
+      if ! @work.save
+        flash[:errors]="non si può aggiungere l'utente"
+      else
+        flash[:errors]="mandata richiesta"
+      end
+    else
+      flash[:errors]="utente non esiste"
+    end
+    redirect_to store_path(params[:id])
+  end
+
+  def choose_yes
+    @work=Work.where(user_id: current_user.id,store_id: params[:id])
+    @work.update(accept: true)
+    current_user.update(roles_mask:  2)
+    redirect_to store_path(params[:id])
+  end
+
+  def choose_no
+    @work=Work.where(user_id: current_user.id,store_id: params[:id])
+    @work[0].destroy
+    redirect_to root_path
+  end
 
 
   protected
   #funzione che seatta un parametro
   def store
-    if (Store.all.ids.include?(params[:id]))
+    if (Store.all.ids.include?(params[:id].to_i))
       @store=Store.find(params[:id])
     else
       redirect_to root_path

@@ -6,6 +6,9 @@ Rails.application.routes.draw do
 
   resources :stores do  #aggiungiamo routes per stores
 	   member do
+        post 'chooseyes'=>'stores#choose_yes'
+        post 'chooseno'=>'stores#choose_no'
+        post 'addadmin' => 'stores#addadmin'
 	      put 'like' => 'stores#upvote'
         put 'unlike' => 'stores#downvote'
       end

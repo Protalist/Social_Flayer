@@ -5,6 +5,7 @@ class UsersController < ApplicationController
 
   def home
     @cu=current_user
+    @works_pendent=@cu.works.where(accept: false)
   end
 
   def back

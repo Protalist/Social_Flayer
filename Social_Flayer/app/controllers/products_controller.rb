@@ -2,7 +2,7 @@ class ProductsController < ApplicationController
 
   def show
     @product=Product.find(params[:id])
-    @store=Store.find(params[:id])
+    @store=Store.find(params[:store_id])
   end
 
 
@@ -28,9 +28,10 @@ class ProductsController < ApplicationController
 
 
   def update
+    @store=Store.find(params[:store_id])
     @product=Product.find(params[:id])
     if @product.update(product_params)
-      redirect_to store_path(params[:store_id])
+      redirect_to store_path(@store)
     else
       render 'edit'
     end

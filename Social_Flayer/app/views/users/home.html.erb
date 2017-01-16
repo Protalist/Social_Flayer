@@ -7,4 +7,17 @@
 <div>
   <%= render 'shared/search' %>
 </div>
-<%= link_to 'Crea negozio', new_store_path %>
+
+<br/>
+richiesete
+<div id='works_pendent'>
+  <ul>
+    <% @works_pendent.each do |w| %>
+      <li id='work<%=w.id%>'><%= Store.find(w.store_id).name %><%= link_to 'acceta la richiesta', chooseyes_store_path(w.store_id), method: :post %>, <%= link_to 'declina', chooseno_store_path(w.store_id), method: :post, remote: true %></li><br/>
+    <% end %>
+  </ul>
+</div>
+
+<div id='new_store'>
+  <%= link_to 'Crea negozio', new_store_path, remote: true %>
+</div>

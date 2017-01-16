@@ -1,5 +1,0 @@
-<h1> Index </h1>
-<%= @stores.each do |store| %>
-<p> Nome: <p>
-<%= store.name %>
-<%= end %>

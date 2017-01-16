@@ -6,7 +6,7 @@ class Product < ApplicationRecord
   validates :duration_h, presence:  true, :numericality => {:only_integer => true}
   validates :price, presence: true, :numericality => true
   validates :name, presence: true
-  validates :tyoe, presence: true
+  validates :type_p, presence: true
   validate :number_products
 
 

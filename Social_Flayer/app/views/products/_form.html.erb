@@ -1,9 +1,7 @@
-<h1>Products#new</h1>
-
-<%= form_for @product, url: store_products_path(params[:store_id]) do |f| %>
-  <% if @store.errors.any? %>
+<%= form_for (prod), url: path, remote: true do |f| %>
+  <% if prod.errors.any? %>
     <ul>
-    <% @store.errors.full_messages.each do |msg| %>
+    <% prod.errors.full_messages.each do |msg| %>
     <li><%= msg %></li>
     <% end %>
   </ul>
@@ -15,21 +13,26 @@
 
   <div class="field">
     <%= f.label :price %><br />
-    <%= f.text_field :price, autofocus: true %>
+    <%= f.text_field :price  %>
   </div>
 
   <div class="field">
     <%= f.label :duration_h %><br />
-    <%= f.text_field :duration_h, autofocus: true %>
+    <%= f.text_field :duration_h   %>
+  </div>
+
+  <div class="field">
+    <%= f.label :type_p %> <br/>
+    <%= f.text_field :type_p %>
   </div>
 
   <div class="field">
     <%= f.label :feature %><br />
-    <%= f.text_field :feature, autofocus: true %>
+    <%= f.text_area :feature   %>
   </div>
 
   <div class="actions">
     <%= f.submit "Sign up" %>
+    <%= link_to 'back', store_path(params[:store_id]) %>
   </div>
-
-<% end %>
+  <%end%>
