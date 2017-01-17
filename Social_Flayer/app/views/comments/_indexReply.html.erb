@@ -1,0 +1,6 @@
+<% @replys.each do |reply|%>  
+   <%= User.find(reply.user_id).username %> 
+   <%= reply.content %>
+<% end %>
+
+<%= render "comments/form",comment: Comment.new , path:reply_store_comment_path(params[:id],@comment.id)  %>

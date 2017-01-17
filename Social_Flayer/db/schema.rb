@@ -16,8 +16,10 @@ ActiveRecord::Schema.define(version: 20170117010937) do
     t.integer  "user_id"
     t.integer  "store_id"
     t.text     "content"
+    t.integer  "comment_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["comment_id"], name: "index_comments_on_comment_id"
     t.index ["store_id"], name: "index_comments_on_store_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end

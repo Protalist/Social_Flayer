@@ -13,7 +13,12 @@ Rails.application.routes.draw do
         put 'unlike' => 'stores#downvote'
       end
       resources :products, :except => [:index]
-      resources :comments
+      resources :comments do  #questo vuol dire che i commenti sono legati ai negozi
+         member do            #ora i member sono legati ai commenti
+            post 'reply'=> 'comments#reply'
+            get 'replyIndex' => 'comments#indexReply'
+         end
+      end
   end
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
