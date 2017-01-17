@@ -13,6 +13,7 @@ class User < ApplicationRecord
 
   has_many :works
   has_many :workstores, :through => :works, :source => 'store'
+  has_many :comments
 
   def self.from_omniauth(auth)
     item=auth.extra.raw_info.name.split

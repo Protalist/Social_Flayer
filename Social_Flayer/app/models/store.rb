@@ -4,6 +4,7 @@ class Store < ApplicationRecord
   has_many :products, dependent: :destroy
   has_many :works
   has_many :admin, :through => :works, :source => 'User'
+  has_many :comments
 
   acts_as_votable
 

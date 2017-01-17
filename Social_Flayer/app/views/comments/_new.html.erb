@@ -1,0 +1,21 @@
+<h4>Commenta</h4>
+<%= form_for :comment, url: store_comments_path(params[:id]) do |f| %>
+  <% if flash[:comm]%>
+    <ul>
+    <% flash[:comm].each do |msg| %>
+    <li><%= msg %></li>
+    <% end %>
+  </ul>
+  <% end %>
+
+
+  <div class="field">
+    <%= f.label :content %><br />
+    <%= f.text_area :content, autofocus: true %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Sign up" %>
+  </div>
+
+<% end %>

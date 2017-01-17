@@ -1,0 +1,8 @@
+<% if @comments!=nil %>
+<h4> Commenti: </h4>
+<% @comments.each do |comment| %>
+  utente: <%=User.find(comment.user_id).username%> <br />
+  dice:<%= comment.content %> <br/>
+
+<%end%>
+<% end %>
