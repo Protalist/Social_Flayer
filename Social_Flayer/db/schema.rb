@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20170117010937) do
     t.string   "name"
     t.float    "price"
     t.integer  "duration_h"
-    t.string   "type"
+    t.string   "type_p"
     t.text     "feature"
     t.integer  "store_id"
     t.datetime "created_at", null: false

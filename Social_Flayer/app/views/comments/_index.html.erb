@@ -1,8 +1,10 @@
 <% if @comments!=nil %>
 <h4> Commenti: </h4>
 <% @comments.each do |comment| %>
+  <div id='comment<%=comment.id%>'>
   utente: <%=User.find(comment.user_id).username%> <br />
   dice:<%= comment.content %> <br/>
-
+  <%= link_to 'edit', edit_store_comment_path(comment.store_id,comment.id), remote: true %><br/>
+  </div>
 <%end%>
 <% end %>

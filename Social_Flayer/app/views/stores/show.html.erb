@@ -38,18 +38,19 @@
 
 </table>
 </div>
-
 <div id=prova >
 </div>
+
+<div id='new_product'>
+  <%= link_to 'Crea prodotto', new_store_product_path(params[:id]), remote: true %> <br/>
+</div>
+
 
 <%= render 'comments/index' %>
 
 <%= render 'comments/new' %>
 
 
-<div id='new_product'>
-  <%= link_to 'Crea prodotto', new_store_product_path(params[:id]), remote: true %> <br/>
-</div>
 
 
 add an add_admin

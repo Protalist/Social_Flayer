@@ -4,7 +4,7 @@ before_action :store, only: [:show, :edit, :update,:destroy,:upvote,:downvote]
   def show
     @show=@store
     @products=@show.products
-    @comments=Comment.where("store_id = ?",@show.id)
+    @comments=@show.comments
   end
 
   def new
