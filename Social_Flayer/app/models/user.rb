@@ -11,7 +11,8 @@ class User < ApplicationRecord
 
   acts_as_voter
 
-  has_many :works
+  has_many :stores, dependent: :destroy
+  has_many :works, dependent: :destroy
   has_many :workstores, :through => :works, :source => 'store'
   has_many :comments
 

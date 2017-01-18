@@ -1,6 +1,13 @@
-<% @replys.each do |reply|%>  
-   <%= User.find(reply.user_id).username %> 
-   <%= reply.content %>
-<% end %>
-
-<%= render "comments/form",comment: Comment.new , path:reply_store_comment_path(params[:id],@comment.id)  %>
+<div id="reply2<%=params[:id]%>">
+ <% @replys.each do |reply|%>
+ <div id='comment<%=reply.id%>'>
+  &nbsp;&nbsp;utente:<%= User.find(reply.user_id).username %><br/>
+  &nbsp;&nbsp;&nbsp;risponde: <%= reply.content %>
+  <%= link_to 'edit', edit_store_comment_path(reply.store_id,reply.id), remote: true %>
+  <%= link_to 'destroy', store_comment_path(reply.store_id,reply.id), data: { confirm: "Are you sure?" }, method: :delete,remote: true %>
+  <br/><br/>
+  </div>
+  <% end %>
+</div>
+&nbsp;<h4>Rispondi</h4><%= render "comments/form",comment: Comment.new , path:reply_store_comment_path(params[:store_id],params[:id])  %>
+<%= link_to 'chiudi',store_path(params[:store_id])%>

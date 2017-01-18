@@ -21,18 +21,28 @@ class CommentsController < ApplicationController
       if !@comment.save
         flash[:comm]= @comment.errors.full_messages
       end
-      redirect_to store_path(params[:store_id])
+      respond_to do |format|
+        format.html {redirect_to store_path(params[:store_id])}
+        format.js {}
+      end
      end
 
     def edit
       @comment=Comment.find(params[:id])
     end
+
     def indexReply
-		#@replys=Comment.find(params[:id]).replys #cerco il commento a cui ci siamo riferiti e le relative risposte
+		    @replys=Comment.find(params[:id]).replys #cerco il commento a cui ci siamo riferiti e le relative risposte
     end
+
     def update
       @comment=Comment.find(params[:id])
       @comment.update(params.require(:comment).permit(:content))
       redirect_to store_path(params[:store_id])
+    end
+
+    def destroy
+      @comment=Comment.find(params[:id])
+      @comment.destroy
     end
 end

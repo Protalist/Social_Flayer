@@ -2,7 +2,7 @@ class Store < ApplicationRecord
   belongs_to :owner, class_name: 'User'
 
   has_many :products, dependent: :destroy
-  has_many :works
+  has_many :works, dependent: :destroy
   has_many :admin, :through => :works, :source => 'User'
   has_many :comments
 
