@@ -1,1 +1,1 @@
-$("#reply2<%=@comment.comment_id%>").append("&nbsp;&nbsp;utente:<%= User.find(@comment.user_id).username %><br/>&nbsp;&nbsp;&nbsp;risponde: <%=  @comment.content %><br/><br/>");
+$("#reply2<%=@comment.comment_id%>").append("&nbsp;<%= j render 'comments/comment', comment: @comment %><br/><br/>");

@@ -1,10 +1,7 @@
 <div id="reply2<%=params[:id]%>">
  <% @replys.each do |reply|%>
  <div id='comment<%=reply.id%>'>
-  &nbsp;&nbsp;utente:<%= User.find(reply.user_id).username %><br/>
-  &nbsp;&nbsp;&nbsp;risponde: <%= reply.content %>
-  <%= link_to 'edit', edit_store_comment_path(reply.store_id,reply.id), remote: true %>
-  <%= link_to 'destroy', store_comment_path(reply.store_id,reply.id), data: { confirm: "Are you sure?" }, method: :delete,remote: true %>
+  &nbsp;<%= render 'comments/comment', comment: reply %>
   <br/><br/>
   </div>
   <% end %>

@@ -12,8 +12,6 @@ class ProductsController < ApplicationController
 
   def create
     @store=Store.find(params[:store_id])
-    #@product=Product.new(product_params)
-    #@product.store_id=params[:store_id]
     @product=@store.products.build(product_params)
     if @product.save
       redirect_to store_path(@store)

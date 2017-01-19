@@ -1,12 +1,11 @@
 <%= form_for comment, url: path, remote: true do |f| %>
-  <% if flash[:comment]%>
+  <% if comment.errors.any? %>
     <ul>
-    <% flash[:commetn].each do |msg| %>
-    <li><%= msg %></li>
+      <% comment.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+      <% end %>
+    </ul>
     <% end %>
-  </ul>
-  <% end %>
-
 
   <div class="field">
     <%= f.label :content %><br />
