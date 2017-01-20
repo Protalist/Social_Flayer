@@ -6,8 +6,8 @@
 
 <div id='followandi'>
    <ul>
-     <%= @followings.each do |followati| %>
-  
+     <% @followings.each do |followati| %>
+
 		<li >negozio seguito  ------    <%=Store.find(followati.store_id).name %> </li>
 	<%end%>
    </ul>
