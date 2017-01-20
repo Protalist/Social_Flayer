@@ -27,7 +27,7 @@ class CommentsController < ApplicationController
           format.js {}
         end
       else
-        render 'comments/form'
+        render 'comments/form',comment: @comment , path:reply_store_comment_path(params[:store_id],params[:id])
       end
 
      end

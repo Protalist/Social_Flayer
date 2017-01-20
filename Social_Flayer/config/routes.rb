@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       end
       resources :products, :except => [:index]
       resources :comments do  #questo vuol dire che i commenti sono legati ai negozi
+        resources :responds, :except => [:index]
          member do            #ora i member sono legati ai commenti
             post 'reply'=> 'comments#reply'
             get 'replyIndex' => 'comments#indexReply'

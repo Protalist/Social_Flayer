@@ -1,1 +1,1 @@
-$("#reply2<%=@comment.comment_id%>").append("&nbsp;<%= j render 'comments/comment', comment: @comment %><br/><br/>");
+$("#reply2<%=@comment.comment_id%>").prepend("<div id='comment<%=@comment.id%>'>"+"&nbsp;<%= j render 'comments/comment', comment: @comment %><br/><br/>"+"</div>");

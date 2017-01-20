@@ -1,0 +1,1 @@
+$('#respond<%=@respond.id%>').replaceWith('<div id="respond<%=@respond.id%>">'+'<%=j render form="responds/form", respond:  @respond , path: store_comment_respond_path(params[:store_id],params[:comment_id],params[:id])  %>'+'</div>');
