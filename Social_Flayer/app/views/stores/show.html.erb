@@ -18,7 +18,11 @@
     </tr>
     <tr>
   </table>
-
+<div class='follow'>
+	<%= button_to 'follow del negozio', follow_store_path(@show), method: :post %>
+	<%= button_to 'unfollow', unfollow_store_path(@show), method: :post %>
+	<h1> numero followerZ <%= @show.followers.count%> </h1>
+</div>
 <table>
   <tr>
     <th>nome</th>

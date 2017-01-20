@@ -4,12 +4,20 @@
 <%= @cu.surname%> <br/>
 <%= @cu.name %> <br/>
 
+<div id='followandi'>
+   <ul>
+     <%= @followings.each do |followati| %>
+  
+		<li >negozio seguito  ------    <%=Store.find(followati.store_id).name %> </li>
+	<%end%>
+   </ul>
+</div>
 <div>
   <%= render 'shared/search' %>
 </div>
 
 <br/>
-richiesete
+richieste
 <div id='works_pendent'>
   <ul>
     <% @works_pendent.each do |w| %>

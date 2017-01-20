@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   resources :stores do  #aggiungiamo routes per stores
 	   member do
         post 'chooseyes'=>'stores#choose_yes'
+        post 'follow'=>'stores#follow'
+        post 'unfollow'=>'stores#unfollow'
         post 'chooseno'=>'stores#choose_no'
         post 'addadmin' => 'stores#addadmin'
 	      put 'like' => 'stores#upvote'

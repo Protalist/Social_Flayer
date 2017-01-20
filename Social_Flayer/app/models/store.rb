@@ -5,6 +5,8 @@ class Store < ApplicationRecord
   has_many :works, dependent: :destroy
   has_many :admin, :through => :works, :source => 'User'
   has_many :comments
+  has_many :follow_stores
+  has_many :followers, :through => :follow_stores, :source => 'user'
 
   acts_as_votable
 

@@ -1,5 +1,5 @@
 class StoresController < ApplicationController
-before_action :store, only: [:show, :edit, :update,:destroy,:upvote,:downvote]
+before_action :store, only: [:show, :edit, :update,:destroy,:upvote,:downvote,:follow,:unfollow]
 
   def show
     @show=@store
@@ -78,8 +78,27 @@ before_action :store, only: [:show, :edit, :update,:destroy,:upvote,:downvote]
       flash[:errors]="utente non esiste"
     end
     redirect_to store_path(params[:id])
-  end
+  end                                                           
 
+  
+  def follow
+     @follow=FollowStore.new()
+     @follow.store_id=params[:id]
+     @follow.user_id=current_user.id
+     @follow.save 
+     redirect_to store_path(@store)
+  end
+	
+  
+  def unfollow
+     @follow=FollowStore.where(store_id: params[:id], user_id: current_user.id).destroy_all
+     
+     
+     redirect_to store_path(@store)
+     
+     
+     
+  end
   def choose_yes
     @work=Work.where(user_id: current_user.id,store_id: params[:id])
     @work.update(accept: true)

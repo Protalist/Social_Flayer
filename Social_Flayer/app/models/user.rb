@@ -15,7 +15,8 @@ class User < ApplicationRecord
   has_many :works, dependent: :destroy
   has_many :workstores, :through => :works, :source => 'store'
   has_many :comments
-
+  has_many :follow_stores
+  has_many :followings, :through => :follow_stores, :source => 'Store'
   def self.from_omniauth(auth)
     item=auth.extra.raw_info.name.split
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
