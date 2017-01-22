@@ -19,8 +19,18 @@
     <tr>
   </table>
 <div class='follow'>
-	<%= button_to 'follow del negozio', follow_store_path(@show), method: :post %>
-	<%= button_to 'unfollow', unfollow_store_path(@show), method: :post %>
+    
+		<%if can? :follow, @show%>
+			<div id='follow'>
+				<%= button_to 'follow del negozio', follow_store_path(@show), method: :post, remote: true %>
+			</end>
+		<%end%>
+		<%if can? :unfollow, @show%>
+			<div id='unfollow'>
+			
+				<%= button_to 'unfollow', unfollow_store_path(@show), method: :post, remote: true %>
+			</end>
+		<%end%>
 	<h1> numero followerZ <%= @show.followers.count%> </h1>
 </div>
 <table>
