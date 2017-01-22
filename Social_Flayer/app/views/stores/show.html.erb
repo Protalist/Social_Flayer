@@ -52,8 +52,9 @@
 
 <%= render 'comments/index' %>
 
+<% if can? :create, Comment.new(store_id: @show.id) %>
 <%= render 'comments/new' %>
-
+<% end %> 
 
 
 

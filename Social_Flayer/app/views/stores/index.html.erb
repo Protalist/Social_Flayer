@@ -7,10 +7,12 @@
 <%= render 'shared/search' %>
 
 <% @stores.each do |store| %>
-<% if store!=nil %> 
+<% if store!=nil %>
+ <div id='store'>
 <p> Nome:
-<%= store.name %>,<%= store.owner.name%> <%= button_to 'vai al negozio', store_path(store), method: :get %>
-situato in : <div name='loc'><%=store.location%> </div>distance froms: <%=params[:location]%>====<%= store[1]%>
+<%= store.name %>,<%= store.owner.name%>
+situato in : <div name='loc'><%=store.location%></div>  <%= button_to 'vai al negozio', store_path(store), method: :get %>
+</div>
 <% end %>
 <%end %>
 

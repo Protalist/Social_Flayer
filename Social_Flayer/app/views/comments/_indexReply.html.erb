@@ -14,7 +14,11 @@
   <% end%>
   <% end %>
 </div>
-&nbsp;<h4>Rispondi</h4><%= render "comments/form",comment: Comment.new , path:reply_store_comment_path(params[:store_id],params[:id])  %>
+<%if can? :create , Comment.new(store_id: params[:store_id])%>
+  &nbsp;<h4>Rispondi</h4><%= render "comments/form",comment: Comment.new , path:reply_store_comment_path(params[:store_id],params[:id])  %>
+<%end%>
 
-&nbsp;<h4>rispondi come negozio </h4> <%= render "responds/form", respond: Respond.new, path: store_comment_responds_path(params[:store_id],params[:id]) %>
+<%if can? :create , Respond.new(store_id: params[:store_id].to_i)%>
+  &nbsp;<h4>rispondi come negozio </h4> <%= render "responds/form", respond: Respond.new, path: store_comment_responds_path(params[:store_id],params[:id]) %>
+<%end%>
 <%= link_to 'chiudi',store_path(params[:store_id])%>

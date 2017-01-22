@@ -10,6 +10,26 @@ class Ability
       can :manage, User do |client|
        client.id == user.id
       end
+      #stores
+
+      #comment
+      can :create , Comment do |comment|
+         !Work.where(store_id: comment.store_id, user_id: user.id).exists?
+      end
+
+      can :update, Comment do |comment|
+        comment.user_id==user.id
+      end
+
+    elsif user.roles_mask==1 || user.roles_mask==2
+      #respond
+      can :create, Respond do |respond|
+          Work.where(store_id: respond.store_id,user_id: user.id).exists?
+      end
+
+      can :updare, Respond do |respond|
+          Work.where(store_id: respond.store_id,user_id: user.id).exists?
+      end
 
     else
       can :read, :all

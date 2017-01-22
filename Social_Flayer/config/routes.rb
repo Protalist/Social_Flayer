@@ -1,8 +1,13 @@
 Rails.application.routes.draw do
   root 'users#home'
 
-  post 'home/change' => 'users#change', as: 'change'
-  post 'home/back' => 'users#back', as: 'back'
+
+
+  scope :user do
+    get "/:id"=>'users#show', as: 'user_show'
+    post 'change' => 'users#change', as: 'change'
+    post 'back' => 'users#back', as: 'back'
+  end
 
   resources :stores do  #aggiungiamo routes per stores
 	   member do

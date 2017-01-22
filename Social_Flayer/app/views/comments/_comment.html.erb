@@ -1,4 +1,6 @@
 utente: <%=User.find(comment.user_id).username%> <br />
 &nbsp;dice:<%= comment.content %> <br/>
+<%if can? :update, comment%>
 &nbsp;<%= link_to 'edit', edit_store_comment_path(comment.store_id,comment.id), remote: true %>
 &nbsp;<%= link_to 'destroy', store_comment_path(comment.store_id,comment.id), data: { confirm: "Are you sure?" }, method: :delete ,remote: true%> <br/>
+<%end%>

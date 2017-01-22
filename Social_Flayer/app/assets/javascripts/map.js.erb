@@ -15,20 +15,6 @@ function initMap() {
           geocodeAddress(geocoder,map,address[i].innerHTML);
         }
 
-        document.getElementById('prova').innerHTML=address[2].innerHTML;
-
-        //document.getElementById('submit').addEventListener('click', function() {
-         // geocodeAddress(geocoder, map);
-        //});
-
-
-		google.maps.event.addDomListener(window, "resize", function () {
-                    var center = map.getCenter();
-                    google.maps.event.trigger(map, "resize");
-                    map.setCenter(center);
-                });
-
-
         autocomplete()
 
 
@@ -72,9 +58,6 @@ function autocomplete(){
         (document.getElementById('address')),
             {types: ['geocode']});
 
-        // When the user selects an address from the dropdown, populate the address
-        // fields in the form.
-        //autocomplete.addListener('place_changed', fillInAddress);
-		
-		
+ 
+
 }
