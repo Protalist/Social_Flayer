@@ -1,6 +1,6 @@
 class StoresController < ApplicationController
 before_action :store, only: [:show, :edit, :update,:destroy,:upvote,:downvote,:follow,:unfollow]
-
+respond_to :html, :xml, :json
   def show
     @show=@store
     @products=@show.products
@@ -9,6 +9,7 @@ before_action :store, only: [:show, :edit, :update,:destroy,:upvote,:downvote,:f
 
   def new
     @store=Store.new
+    
   end
 
   def create
@@ -87,9 +88,9 @@ before_action :store, only: [:show, :edit, :update,:destroy,:upvote,:downvote,:f
      @follow.user_id=current_user.id
      @follow.save 
      respond_to do |format|
-		format.html (redirect_to store_path(@store))
-		format.js{}
-	 end
+      format.html {redirect_to store_path(@store)}
+		  format.json
+	   end
   end
 	
   
@@ -98,9 +99,9 @@ before_action :store, only: [:show, :edit, :update,:destroy,:upvote,:downvote,:f
      
      
      respond_to do |format|
-		format.html (redirect_to store_path(@store))
-		format.js{}
-	 end
+		  format.html {redirect_to store_path(@store)}
+		  format.json
+	   end
      
      
      
