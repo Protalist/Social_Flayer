@@ -23,7 +23,7 @@
 		<%if can? :follow, @show%>
 			<div id='follow'>
 				<%= button_to 'follow del negozio', follow_store_path(@show), method: :post, remote: true %>
-			</end>
+			</div>
 		<%end%>
 		<%if can? :unfollow, @show%>
 			<div id='unfollow'>
