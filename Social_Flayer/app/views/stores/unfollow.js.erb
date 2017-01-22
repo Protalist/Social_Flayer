@@ -1,1 +1,1 @@
-$(‘#unfollow’).replaceWith(‘<div id=”follow”>’+’bottone per follow’+’</div>’);
+$('#unfollow').replaceWith('<div id=”follow”>'+'<%= button_to 'follow del negozio', follow_store_path(@show), method: :post, remote: true %>'+'</div>');

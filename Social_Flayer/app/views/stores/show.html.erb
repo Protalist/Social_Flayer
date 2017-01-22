@@ -28,7 +28,7 @@
 		<%if can? :unfollow, @show%>
 			<div id='unfollow'>
 			
-				<%= button_to 'unfollow', unfollow_store_path(@show), method: :post, remote: true %>
+				<%= button_to 'unfollow del negozio', unfollow_store_path(@show), method: :post, remote: true %>
 			</end>
 		<%end%>
 	<h1> numero followerZ <%= @show.followers.count%> </h1>

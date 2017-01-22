@@ -86,7 +86,10 @@ before_action :store, only: [:show, :edit, :update,:destroy,:upvote,:downvote,:f
      @follow.store_id=params[:id]
      @follow.user_id=current_user.id
      @follow.save 
-     redirect_to store_path(@store)
+     respond_to do |format|
+		format.html (redirect_to store_path(@store))
+		format.js{}
+	 end
   end
 	
   
@@ -94,7 +97,10 @@ before_action :store, only: [:show, :edit, :update,:destroy,:upvote,:downvote,:f
      @follow=FollowStore.where(store_id: params[:id], user_id: current_user.id).destroy_all
      
      
-     redirect_to store_path(@store)
+     respond_to do |format|
+		format.html (redirect_to store_path(@store))
+		format.js{}
+	 end
      
      
      
