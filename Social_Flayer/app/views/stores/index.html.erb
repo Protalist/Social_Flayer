@@ -1,5 +1,17 @@
 <h1> Index </h1>
+
+<%= render "shared/search" %>
+
+<div id="map" style="width: 50%; height: 700px;"></div>
+ 
+<%= render 'shared/search' %>
+
 <% @stores.each do |store| %>
+<% if store!=nil %> 
 <p> Nome:
 <%= store.name %>,<%= store.owner.name%> <%= button_to 'vai al negozio', store_path(store), method: :get %>
+situato in : <div name='loc'><%=store.location%> </div>distance froms: <%=params[:location]%>====<%= store[1]%>
 <% end %>
+<%end %>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9DIhdJpFjMX2Kl7W2qf4pjYivfJah8y8&libraries=places&callback=initMap"></script>
