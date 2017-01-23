@@ -13,5 +13,18 @@ class Store < ApplicationRecord
   validates_uniqueness_of :name, :scope => :owner_id
   validates :name , presence: true
   validates :location , presence: true
+  
+  def self.search(params)
+    stores=Store.joins(:products).distinct
+    if params
+      if  (params[:type] != nil && params[:type] != "")
+        stores=stores.where("type_p LIKE ?", "%#{params[:type]}%")
+      end
+      if(params[:name] != nil && params[:name] != "")
+        stores=stores.where(["stores.name LIKE ?","%#{params[:name]}%"])
+      end
+    end
+    return stores
+  end
 
 end

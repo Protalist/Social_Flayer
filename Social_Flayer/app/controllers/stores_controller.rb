@@ -48,7 +48,7 @@ respond_to :html, :xml, :json
   end
 
   def index
-    @stores=Store.all
+    @stores =Store.search(params)
   end
   def upvote
     @store.upvote_from current_user

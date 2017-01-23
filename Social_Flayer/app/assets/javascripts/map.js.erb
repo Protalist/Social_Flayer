@@ -28,11 +28,25 @@ function geocodeAddress_center(geocoder, resultsMap,address) {
             resultsMap.setCenter(results[0].geometry.location);
             var marker = new google.maps.Marker({
               map: resultsMap,
-              position: results[0].geometry.location
+              position: results[0].geometry.location,
+              animation: google.maps.Animation.DROP,
+
+              
             });
-          } //else {
-            //alert('Geocode was not successful for the following reason: ' + status);
-          //}
+            
+            google.maps.event.addListener(marker, 'click', function () {
+            
+                    var infowindow = new google.maps.InfoWindow({
+                            content: '<div><h1> CULO </h1></div>',
+                       
+                    });
+                  
+                    infowindow.open(map, marker);
+                   
+                });
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
         });
       }
 
@@ -45,12 +59,27 @@ function geocodeAddress(geocoder, resultsMap,address) {
           if (status == 'OK') {
             var marker = new google.maps.Marker({
               map: resultsMap,
-              position: results[0].geometry.location
+              position: results[0].geometry.location,
+              
+              animation: google.maps.Animation.DROP,
             });
-          } //else {
-            //alert('Geocode was not successful for the following reason: ' + status);
-          //}
+            
+            google.maps.event.addListener(marker, 'click', function () {
+                    
+                    var infowindow = new google.maps.InfoWindow({
+                        content: '<div><strong> Culaccio </strong></div>',
+                       
+                    });
+                    
+                    infowindow.open(map, marker);
+               
+                });
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
         });
+
+       
       }
 
 function autocomplete(){

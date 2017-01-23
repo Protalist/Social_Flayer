@@ -1,0 +1,9 @@
+<%= form_tag stores_path, method: :get do %>
+punto di partenza
+<%= text_field_tag :location,params[:location], id: 'address' %> <br />
+Cerca negozio
+<%= text_field_tag :name,params[:name] %> <br />
+tipologia di prodotto
+<%=text_field_tag :type, params[:type] %> <br />
+<%= submit_tag "cerca" %>
+<% end %>
