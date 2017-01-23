@@ -1,1 +1,1 @@
-$('#follow').replaceWith('<div id=”unfollow”>'+'<%= button_to 'unfollow del negozio', unfollow_store_path(@show), method: :post, remote: true %>'+'</div>'),format:'js';
+$('#follow').html('<%= button_to "unfollow del negozio", unfollow_store_path(@store), method: :post, remote: true %>'+"<h1> numero followerZ <%= @store.followers.count %> </h1>");

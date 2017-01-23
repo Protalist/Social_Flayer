@@ -89,7 +89,7 @@ respond_to :html, :xml, :json
      @follow.save 
      respond_to do |format|
       format.html {redirect_to store_path(@store)}
-		  format.json
+		  format.js{}
 	   end
   end
 	
@@ -100,7 +100,7 @@ respond_to :html, :xml, :json
      
      respond_to do |format|
 		  format.html {redirect_to store_path(@store)}
-		  format.json
+		  format.js{}
 	   end
      
      
