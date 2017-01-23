@@ -9,7 +9,7 @@ respond_to :html, :xml, :json
 
   def new
     @store=Store.new
-    
+
   end
 
   def create
@@ -48,8 +48,27 @@ respond_to :html, :xml, :json
   end
 
   def index
-    @stores =Store.search(params)
+    @distance=Hash.new
+    @like=Hash.new
+    @stores=Store.search(params)
+    distance=0
+    @stores.each do |store|
+      if params[:location]!=''
+        distance=store.distance_from(params[:location])
+      end
+      @distance[store]=distance
+      @like[store]=store.get_upvotes.count
+    end
+
+    if(params[:view]=='like')
+      render 'index2'
+    elsif (params[:view]=='distance')
+      render 'index2'
+    else
+      render 'index'
+    end
   end
+
   def upvote
     @store.upvote_from current_user
     redirect_to store_path(@store)
@@ -79,32 +98,32 @@ respond_to :html, :xml, :json
       flash[:errors]="utente non esiste"
     end
     redirect_to store_path(params[:id])
-  end                                                           
+  end
 
-  
+
   def follow
      @follow=FollowStore.new()
      @follow.store_id=params[:id]
      @follow.user_id=current_user.id
-     @follow.save 
+     @follow.save
      respond_to do |format|
       format.html {redirect_to store_path(@store)}
 		  format.json
 	   end
   end
-	
-  
+
+
   def unfollow
      @follow=FollowStore.where(store_id: params[:id], user_id: current_user.id).destroy_all
-     
-     
+
+
      respond_to do |format|
 		  format.html {redirect_to store_path(@store)}
 		  format.json
 	   end
-     
-     
-     
+
+
+
   end
   def choose_yes
     @work=Work.where(user_id: current_user.id,store_id: params[:id])
