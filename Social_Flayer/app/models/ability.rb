@@ -6,7 +6,7 @@ class Ability
 
     user ||= User.new # guest user (not logged in)
     if user.roles_mask==0
-    
+
       #control if an user can follow a store or he has already followed it.
       can :follow, Store do |store|
          !FollowStore.where(store_id: store.id, user_id: user.id).exists?
@@ -15,6 +15,15 @@ class Ability
       can :unfollow, Store do |store|
          FollowStore.where(store_id: store.id, user_id: user.id).exists?
       end
+
+      can :follow, User do |client|
+        !FollowerUser.where(follower_id: user.id,followed_id:client.id).exists? && client.id != user.id
+      end
+
+      can :unfollow, User do |client|
+        FollowerUser.where(follower_id: user.id,followed_id:client.id).exists? && client.id != user.id
+      end
+
       #can menage  it self
       can :manage, User do |client|
        client.id == user.id

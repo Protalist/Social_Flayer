@@ -1,2 +1,12 @@
-afito
-pagina di <%=User.find(params[:id]).name%>
+afito <br/>
+<div id='follow'>
+<%if can? :follow, @show %>
+<%= button_to 'follow', follow_user_path(params[:id]), remote: true%>
+<% end%>
+
+<%if can? :unfollow, @show %>
+<%= button_to 'unfollow', unfollow_user_path(params[:id]), remote: true%>
+<% end%>
+</div>
+
+pagina di <%=@show.name%> <br/>

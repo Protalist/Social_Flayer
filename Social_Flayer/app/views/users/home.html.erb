@@ -17,7 +17,7 @@
   <%= form_tag users_path, method: :get do %>
      cerca amigo da followare che non paga afito :D
      <%= text_field_tag :username ,params[:username], id:"nome"  %>
-    
+
      <%= submit_tag "cerca", id: "submit"%>
    <% end %>
 
@@ -37,6 +37,20 @@ richieste
   </ul>
 </div>
 
+<div id='user_followed'>
+  <h4> utenti seguiti </h4>
+  <% @user_follow.where(follower_id: @cu.id).each do |f| %>
+    <%=User.find(f.followed_id).name%>
+  <%end%>
+</div>
+
+<div id='user_follower'>
+  <h4> utenti che ti seguono </h4>
+  <% @user_follow.where(followed_id: @cu.id).each do |f| %>
+    <%=User.find(f.follower_id).name%>
+  <%end%>
+</div>
+<br/>
 <div id='new_store'>
   <%= link_to 'Crea negozio', new_store_path, remote: true %>
 </div>

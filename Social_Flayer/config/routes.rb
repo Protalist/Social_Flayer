@@ -2,19 +2,17 @@ Rails.application.routes.draw do
   root 'users#home'
 
 
-  
+
   scope :user do
-    get "/:id"=>'users#show', as: 'user_show'
+    get "/:id"=>'users#show', as: 'user'
     post 'change' => 'users#change', as: 'change'
     post 'back' => 'users#back', as: 'back'
     get "" => 'users#index', as: 'users'
-    
-    
-   
-    
+    post '/:id/follow' => 'users#follow', as: 'follow_user'
+    post '/:id/unfollow' => 'users#unfollow', as: 'unfollow_user'
   end
 
- 
+
   resources :stores do  #aggiungiamo routes per stores
 	   member do
         post 'chooseyes'=>'stores#choose_yes'
