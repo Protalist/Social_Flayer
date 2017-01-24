@@ -12,6 +12,17 @@
 	<%end%>
    </ul>
 </div>
+
+<div>
+  <%= form_tag users_path, method: :get do %>
+     cerca amigo da followare che non paga afito :D
+     <%= text_field_tag :nome ,params[:nome], id:"nome"  %>
+     <%= text_field_tag :cognome,params[:cognome], id:"cognome"  %>
+     <%= submit_tag "cerca", id: "submit"%>
+   <% end %>
+
+</div>
+
 <div>
   <%= render 'shared/search' %>
 </div>

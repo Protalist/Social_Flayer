@@ -2,7 +2,15 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   #load_and_authorize_resource
 
+  def index
+    @users=User.where(true)
+    
+  end
 
+  def show
+    @show=@user
+    @persona=current_user
+  end
   def home
     @cu=current_user
     @works_pendent=@cu.works.where(accept: false)

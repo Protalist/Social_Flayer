@@ -8,6 +8,9 @@ class User < ApplicationRecord
   validates :name , presence: true
   validates :surname , presence: true
   validates :username , presence: true, uniqueness: true
+  has_many :followerusers, :source => 'FollowUser'
+  has_many :followeduser, :source => 'FollowUser'
+
 
   acts_as_voter
 
