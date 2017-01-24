@@ -11,6 +11,16 @@ function initMap() {
         var geocoder = new google.maps.Geocoder();
 
         var address = document.getElementById('address').value;
+        //nel frattempo lo centro in address, se è una città almeno la rileva
+        //se dovesse essere un negozio lo ricentra
+        geocoder.geocode({'address': address}, function(results, status) {
+          if (status == 'OK') {
+            map.setCenter(results[0].geometry.location);
+            map.setZoom(15);
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
         stores = document.getElementsByName('store');
         for(var i=0; i<stores.length;i++){
           geocodeAddress(geocoder,map,stores[i],address);
