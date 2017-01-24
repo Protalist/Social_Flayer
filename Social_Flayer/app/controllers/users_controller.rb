@@ -3,7 +3,11 @@ class UsersController < ApplicationController
   #load_and_authorize_resource
 
   def index
-    @users=User.where(true)
+    
+    @users=User.where("username LIKE ?","%#{params[:username]}%")
+    
+    
+    
     
   end
 
