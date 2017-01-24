@@ -1,7 +1,8 @@
-<div id='store'>
+<%s=Store.find(store)%>
+<div name='store' id='<%=store%>' s='<%= s.name%>' loc='<%= s.location%>'>
 <p> Nome:
-<%= store.name %>,<%= store.owner.name%><br/>
-situato in : <i name='loc'><%=store.location%></i>
+<%= s.name %>,<%= s.owner.name%><br/></p>
+situato in : <%=s.location%>
 <%= button_to 'vai al negozio', store_path(store), method: :get %>
 <br/>
 </div>

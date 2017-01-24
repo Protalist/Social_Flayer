@@ -1,5 +1,6 @@
 var placeSearch, autocomplete;
 
+var stores;
 
 function initMap() {
 
@@ -8,79 +9,71 @@ function initMap() {
           center: {lat: -34.397, lng: 150.644}
         });
         var geocoder = new google.maps.Geocoder();
+
         var address = document.getElementById('address').value;
-        geocodeAddress_center(geocoder, map,address);
-        address=document.getElementsByName('loc');
-        for(var i=0; i<address.length;i++){
-          geocodeAddress(geocoder,map,address[i].innerHTML);
+        stores = document.getElementsByName('store');
+        for(var i=0; i<stores.length;i++){
+          geocodeAddress(geocoder,map,stores[i],address);
         }
 
-        autocomplete()
+        autocomplete();
+
 
 
       }
 
-function geocodeAddress_center(geocoder, resultsMap,address) {
-       
+function geocodeAddress(geocoder, resultsMap,store, address) {
+
         if( address == '') return;
-        geocoder.geocode({'address': address}, function(results, status) {
-          if (status == 'OK') {
-            resultsMap.setCenter(results[0].geometry.location);
-            var marker = new google.maps.Marker({
-              map: resultsMap,
-              position: results[0].geometry.location,
+        var infowindow;
+        var dot=false;
+        geocoder.geocode({'address': store.getAttribute("loc")}, function(results, status) {
+          if (status == 'OK') {
+            //controllo se il nome è quello che ho cercato, se sì lo centro.
+            if(address==store.getAttribute("s")){
+              dot=true;
+            resultsMap.setCenter(results[0].geometry.location);
+            resultsMap.setZoom(15);
+            }
+            var marker = new google.maps.Marker({
+              map: resultsMap,
+              position: results[0].geometry.location,
+
               animation: google.maps.Animation.DROP,
+            });
+            if(dot){
+              marker.setAnimation(google.maps.Animation.BOUNCE);
+              dot=false;
+            }
 
-              
-            });
-            
-            google.maps.event.addListener(marker, 'click', function () {
-            
-                    var infowindow = new google.maps.InfoWindow({
-                            content: '<div><h1> CULO </h1></div>',
-                       
+            google.maps.event.addListener(marker, 'mouseover', function () {
+
+                    infowindow = new google.maps.InfoWindow({
+                        content: '<div><strong>'+'<a href="/stores/'+store.id+'">'+"link al negozio: "+store.getAttribute("s")+'</a>'+' </strong></div>',
+
                     });
-                  
+
                     infowindow.open(map, marker);
-                   
+                    if (marker.getAnimation() !== null) {
+                        marker.setAnimation(null);
+                    }
+
+
                 });
-          } else {
-            alert('Geocode was not successful for the following reason: ' + status);
-          }
-        });
-      }
+              google.maps.event.addListener(marker, 'mouseout', function () {
 
+                        infowindow.close();
 
-
-function geocodeAddress(geocoder, resultsMap,address) {
-       
-        if( address == '') return;
-        geocoder.geocode({'address': address}, function(results, status) {
-          if (status == 'OK') {
-            var marker = new google.maps.Marker({
-              map: resultsMap,
-              position: results[0].geometry.location,
-              
-              animation: google.maps.Animation.DROP,
-            });
-            
-            google.maps.event.addListener(marker, 'click', function () {
-                    
-                    var infowindow = new google.maps.InfoWindow({
-                        content: '<div><strong> Culaccio </strong></div>',
-                       
                     });
-                    
-                    infowindow.open(map, marker);
-               
-                });
-          } else {
-            alert('Geocode was not successful for the following reason: ' + status);
-          }
-        });
 
-       
-      }
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+
+
+
+      }
 
 function autocomplete(){
     autocomplete = new google.maps.places.Autocomplete(
