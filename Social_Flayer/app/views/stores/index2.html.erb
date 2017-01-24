@@ -1,0 +1,25 @@
+<h1>
+<%if params[:view]== 'distance'%>
+  lista dei negozi in oridine di distanza
+<%elsif params[:view]== 'like'%>
+  lista dei nego in ordine di gradimento
+<%end%>
+</h1>
+
+<%if params[:view]== 'distance'%>
+  <% @distance.sort_by {|key,value| value}.each do |store| %>
+    lista dei negozi in oridine di distanza <br/>
+    distanza=<%= store[1]%>
+    <%= render 'stores/store', store: store[0] %>
+
+  <%end%>
+<%elsif params[:view]== 'like'%>
+  <% @like.sort_by {|key,value| value}.reverse.each do |store| %>
+    lista dei nego in ordine di gradimento</br>
+    gradimento= <%=store[1]%>
+    <%= render 'stores/store', store: store[0] %>
+  <%end%>
+
+<%end %>
+<br/><br/>
+<%= render 'shared/advanced_search' %>

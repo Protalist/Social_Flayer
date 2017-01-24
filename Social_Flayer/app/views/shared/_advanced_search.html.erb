@@ -1,9 +1,17 @@
 <%= form_tag stores_path, method: :get do %>
-punto di partenza
+punto di partenza<br/>
 <%= text_field_tag :location,params[:location], id: 'address' %> <br />
-Cerca negozio
+Cerca negozio<br/>
 <%= text_field_tag :name,params[:name] %> <br />
-tipologia di prodotto
+tipologia di prodotto<br/>
 <%=text_field_tag :type, params[:type] %> <br />
+<br/>
+<%= radio_button_tag(:view, "map", true) %>
+<%= label_tag(:view_like, "visualizza nella mappa") %>
+<%= radio_button_tag(:view, "distance") %>
+<%= label_tag(:view_distance, "visualizza in ordine di distanza") %>
+<%= radio_button_tag(:view, "like") %>
+<%= label_tag(:view_like, "visualizza in ordine di gradimento") %>
+<br/>
 <%= submit_tag "cerca" %>
 <% end %>

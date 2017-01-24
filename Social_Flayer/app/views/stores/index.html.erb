@@ -7,14 +7,8 @@
 <%= render 'shared/search' %>
 
 <% @stores.each do |store| %>
-<% if store!=nil %>
- <div id='store'>
-<p> Nome:
-<%= store.name %>,<%= store.owner.name%>
-situato in : <div name='loc'><%=store.location%></div>  <%= button_to 'vai al negozio', store_path(store), method: :get %>
-</div>
-<% end %>
+  <%= render 'stores/store', store: store %>
 <%end %>
+<br/><br/>
 <%= render 'shared/advanced_search' %>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9DIhdJpFjMX2Kl7W2qf4pjYivfJah8y8&libraries=places&callback=initMap"></script>
-
