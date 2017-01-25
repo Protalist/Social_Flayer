@@ -2,6 +2,7 @@ var placeSearch, autocomplete;
 
 var stores;
 
+
 function initMap() {
 
         var map = new google.maps.Map(document.getElementById('map'), {
@@ -13,12 +14,14 @@ function initMap() {
         var address = document.getElementById('address').value;
         //nel frattempo lo centro in address, se è una città almeno la rileva
         //se dovesse essere un negozio lo ricentra
+        var res= document.getElementById("res");
         geocoder.geocode({'address': address}, function(results, status) {
           if (status == 'OK') {
             map.setCenter(results[0].geometry.location);
             map.setZoom(15);
+            res.innerHTML="Ricerca in zona riuscita!";
           } else {
-            alert('Geocode was not successful for the following reason: ' + status);
+            res.innerHTML="Ricerca in zona fallita";
           }
         });
         stores = document.getElementsByName('store');
@@ -42,8 +45,9 @@ function geocodeAddress(geocoder, resultsMap,store, address) {
             //controllo se il nome è quello che ho cercato, se sì lo centro.
             if(address==store.getAttribute("s")){
               dot=true;
-            resultsMap.setCenter(results[0].geometry.location);
-            resultsMap.setZoom(15);
+              res.innerHTML="Ricerca del negozio riuscita!";
+              resultsMap.setCenter(results[0].geometry.location);
+              resultsMap.setZoom(15);
             }
             var marker = new google.maps.Marker({
               map: resultsMap,
@@ -78,6 +82,7 @@ function geocodeAddress(geocoder, resultsMap,store, address) {
 
           } else {
             alert('Geocode was not successful for the following reason: ' + status);
+            res.innerHTML="Ricerca del negozio fallita!";
           }
         });
 
