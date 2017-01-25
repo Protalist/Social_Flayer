@@ -5,7 +5,7 @@ class RespondsController < ApplicationController
   end
 
   def create
-    puts "agagagaggag"
+
     @respond=Respond.new(params.require(:respond).permit(:content))
     @respond.store_id=params[:store_id]
     @respond.comment_id=params[:comment_id]

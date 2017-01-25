@@ -27,7 +27,10 @@ class Store < ApplicationRecord
     http.use_ssl = true
     response = http.request(request)
     data_hash = JSON.parse(response.body)
-    return data_hash["rows"][0]["elements"][0]["distance"]["text"].split[0].to_f
+    if(data_hash["rows"][0]["elements"][0]["status"].to_s!="NOT_FOUND")
+      return data_hash["rows"][0]["elements"][0]["distance"]["text"].split[0].to_f
+    end
+
   end
 
   def self.search(params)
