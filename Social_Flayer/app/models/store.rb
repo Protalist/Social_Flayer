@@ -9,6 +9,7 @@ class Store < ApplicationRecord
   has_many :works, dependent: :destroy
   has_many :admin, :through => :works, :source => 'User'
   has_many :comments
+  has_many :responds
   has_many :follow_stores
   has_many :followers, :through => :follow_stores, :source => 'user'
 
@@ -29,15 +30,15 @@ class Store < ApplicationRecord
     data_hash = JSON.parse(response.body)
     if(data_hash["rows"][0]["elements"][0]["status"].to_s!="NOT_FOUND")
       return data_hash["rows"][0]["elements"][0]["distance"]["text"].split[0].to_f
+    else
+      return -1
     end
 
   end
 
   def self.search(params)
     stores=Store.left_outer_joins(:products).distinct
-    stores.each do |c|
-      puts c.name
-    end
+
     if params
       if  (params[:type] != nil && params[:type] != "")
         stores=stores.where("type_p LIKE ?", "%#{params[:type]}%")

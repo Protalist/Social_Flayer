@@ -15,8 +15,27 @@ class UsersController < ApplicationController
     @works_pendent=@cu.works.where(accept: false)
     @followings=FollowStore.where(user_id: current_user.id)
     @user_follow=FollowerUser.where("followed_id = ? OR follower_id = ?", @cu.id,@cu.id)
+    @store_follow=Store.joins(" join follow_stores, users ON users.id = follow_stores.user_id and follow_stores.store_id=stores.id").where("users.id = ?", @cu.id)
+    @products=[]
+    @responds=[]
+    @store_follow.each do |f|
+        @products+=f.products
+        @responds+=f.responds
+    end
+    @comments=@cu.comments
+    @replys=[]
+    @comments.each do |f|
+      @replys+=f.replys+f.responds
+    end
+    @cosa_fanno=[]
+    @followed=@user_follow.where(follower_id: @cu.id)
+    @commenti_followed=[]
+    @followed.each do |f|
+      @commenti_followed+=User.find(f.followed_id).comments
+      @cosa_fanno+=FollowStore.where(user_id: f.followed_id)
+    end
+    @list=(@commenti_followed+@cosa_fanno+@replys+@products).sort!{|a,b| a.updated_at <=> b.updated_at}.reverse#.order(created_at: :asc)
   end
-
   def back
     current_user.update(roles_mask: 0)
     redirect_to root_path
