@@ -1,7 +1,8 @@
 var placeSearch, autocomplete;
 
-var stores;
 
+
+var dot=false;
 
 function initMap() {
 
@@ -14,17 +15,59 @@ function initMap() {
         var address = document.getElementById('address').value;
         //nel frattempo lo centro in address, se è una città almeno la rileva
         //se dovesse essere un negozio lo ricentra
+
         var res= document.getElementById("res");
+        var stores = document.getElementsByName('store');
+        for(var i=0; i<stores.length;i++){
+
+          if(address==stores[i].getAttribute("s")){
+
+            res.innerHTML="Ricerca del negozio riuscita!";
+            dot=true;
+
+          }
+        }
+
+
+        if(!dot){
         geocoder.geocode({'address': address}, function(results, status) {
           if (status == 'OK') {
             map.setCenter(results[0].geometry.location);
             map.setZoom(15);
             res.innerHTML="Ricerca in zona riuscita!";
+
+            var markerPos = new google.maps.Marker({
+              map: map,
+              position: results[0].geometry.location,
+
+              animation: google.maps.Animation.DROP,
+            });
+            google.maps.event.addListener(markerPos, 'mouseover', function () {
+
+                    infowindow = new google.maps.InfoWindow({
+                        content: '<div><strong>'+'Posizione di partenza'+ '</strong></div>',
+
+                    });
+
+                    infowindow.open(map, markerPos);
+                    if (marker.getAnimation() !== null) {
+                        marker.setAnimation(null);
+                    }
+
+
+                });
+              google.maps.event.addListener(markerPos, 'mouseout', function () {
+
+                        infowindow.close();
+
+                    });
           } else {
             res.innerHTML="Ricerca in zona fallita";
           }
         });
-        stores = document.getElementsByName('store');
+      }
+
+
         for(var i=0; i<stores.length;i++){
           geocodeAddress(geocoder,map,stores[i],address);
         }
@@ -39,15 +82,15 @@ function geocodeAddress(geocoder, resultsMap,store, address) {
 
         if( address == '') return;
         var infowindow;
-        var dot=false;
+
         geocoder.geocode({'address': store.getAttribute("loc")}, function(results, status) {
           if (status == 'OK') {
             //controllo se il nome è quello che ho cercato, se sì lo centro.
+
             if(address==store.getAttribute("s")){
-              dot=true;
-              res.innerHTML="Ricerca del negozio riuscita!";
               resultsMap.setCenter(results[0].geometry.location);
               resultsMap.setZoom(15);
+              marker.setAnimation(google.maps.Animation.BOUNCE);
             }
             var marker = new google.maps.Marker({
               map: resultsMap,
@@ -56,7 +99,6 @@ function geocodeAddress(geocoder, resultsMap,store, address) {
               animation: google.maps.Animation.DROP,
             });
             if(dot){
-              marker.setAnimation(google.maps.Animation.BOUNCE);
               dot=false;
             }
 
@@ -71,14 +113,14 @@ function geocodeAddress(geocoder, resultsMap,store, address) {
                     if (marker.getAnimation() !== null) {
                         marker.setAnimation(null);
                     }
-
+                    
+                    //si chiude automaticamente dopo 5 seocondi
+                    setTimeout(function(){
+                      infowindow.close();
+                    }, 5000);
 
                 });
-              google.maps.event.addListener(marker, 'mouseout', function () {
 
-                        infowindow.close();
-
-                    });
 
           } else {
             alert('Geocode was not successful for the following reason: ' + status);
