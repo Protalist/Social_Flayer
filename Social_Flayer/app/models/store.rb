@@ -27,7 +27,9 @@ class Store < ApplicationRecord
     http.use_ssl = true
     response = http.request(request)
     data_hash = JSON.parse(response.body)
-    if(data_hash["rows"][0]["elements"][0]["status"].to_s!="NOT_FOUND")
+    check=data_hash["rows"][0]["elements"][0]["status"].to_s
+    print "LEGGI QUA:"+ check
+    if(check!="NOT_FOUND" && check!="ZERO_RESULTS")
       return data_hash["rows"][0]["elements"][0]["distance"]["text"].split[0].to_f
     end
 
