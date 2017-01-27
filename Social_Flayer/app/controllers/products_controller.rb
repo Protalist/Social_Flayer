@@ -1,4 +1,6 @@
 class ProductsController < ApplicationController
+  load_and_authorize_resource :except => :create
+
 
   def show
     @product=Product.find(params[:id])
@@ -13,6 +15,7 @@ class ProductsController < ApplicationController
   def create
     @store=Store.find(params[:store_id])
     @product=@store.products.build(product_params)
+    authorize! :create, @product
     if @product.save
       redirect_to store_path(@store)
     else

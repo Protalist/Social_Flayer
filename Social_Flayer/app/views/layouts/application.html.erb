@@ -13,6 +13,9 @@
     <% if flash[:notice] %>
       <div class="notice"><%= flash[:notice] %></div>
     <% end %>
+    <% if flash[:alert] %>
+      <div class="aller"><%= flash[:alert] %></div>
+    <% end %>
     <% if user_signed_in? %>
       <%= render 'shared/back' %>
       <%= render 'shared/change' %>

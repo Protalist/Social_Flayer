@@ -1,4 +1,5 @@
 class StoresController < ApplicationController
+   
 before_action :store, only: [:show, :edit, :update,:destroy,:upvote,:downvote,:follow,:unfollow]
 respond_to :html, :xml, :json
   def show

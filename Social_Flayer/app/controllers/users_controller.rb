@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  load_and_authorize_resource
   before_action :authenticate_user!
   #load_and_authorize_resource
 
@@ -7,7 +8,12 @@ class UsersController < ApplicationController
   end
 
   def show
-    @show=User.find(params[:id])
+    if User.all.ids.include?(params[:id].to_i)
+      @show=User.find(params[:id])
+      render 'users/show'
+    else
+      redirect_to root_path
+    end
   end
 
   def home
@@ -43,10 +49,13 @@ class UsersController < ApplicationController
 
   def change
    @role=params.require(:store_id)
-   cookies[:last_Store]=@role
+   cookies[:last_store]=@role
    @store=Store.find(@role)
    if @store.owner_id==current_user.id
    current_user.update(roles_mask: 1)
+
+   elsif !Work.where(store_id: @role, user_id: current_user.id).exist?
+     redirect_to home
    else
      current_user.update(roles_mask: 2)
    end

@@ -28,7 +28,13 @@ class Ability
       can :manage, User do |client|
        client.id == user.id
       end
+
+      can :show, User
       #stores
+
+      #product
+      can :show, Product
+
 
       #comment
       can :create , Comment do |comment|
@@ -38,8 +44,71 @@ class Ability
       can :update, Comment do |comment|
         comment.user_id==user.id
       end
+    elsif user.roles_mask==1
+      #user
+      can :back, User
+      can :change, User
 
-    elsif user.roles_mask==1 || user.roles_mask==2
+      #product
+      can :show, Product do |product|
+        Work.where(store_id: product.store_id, user_id: user.id).exists?
+      end
+
+      can :new, Product
+
+      can :create, Product do |product|
+        Work.where(store_id: product.store_id, user_id: user.id).exists?
+      end
+
+      can :edit, Product do |product|
+        Work.where(store_id: product.store_id, user_id: user.id).exists?
+      end
+
+      can :update, Product do |product|
+        Work.where(store_id: product.store_id, user_id: user.id).exists?
+      end
+
+      can :destroy, Product do |product|
+        Work.where(store_id: product.store_id, user_id: user.id).exists?
+      end
+
+      #respond
+      can :create, Respond do |respond|
+          Work.where(store_id: respond.store_id,user_id: user.id).exists?
+      end
+
+      can :updare, Respond do |respond|
+          Work.where(store_id: respond.store_id,user_id: user.id).exists?
+      end
+
+
+    elsif user.roles_mask==2
+      #user
+      can :back, User
+      can :change, User
+      #product
+      can :show, Product do |product|
+        Work.where(store_id: product.store_id, user_id: user.id).exists?
+      end
+
+      can :new, Product
+
+      can :create, Product do |product|
+        Work.where(store_id: product.store_id, user_id: user.id).exists?
+      end
+
+      can :edit, Product do |product|
+        Work.where(store_id: product.store_id, user_id: user.id).exists?
+      end
+
+      can :update, Product do |product|
+        Work.where(store_id: product.store_id, user_id: user.id).exists?
+      end
+
+      can :destroy, Product do |product|
+        Work.where(store_id: product.store_id, user_id: user.id).exists?
+      end
+
       #respond
       can :create, Respond do |respond|
           Work.where(store_id: respond.store_id,user_id: user.id).exists?
