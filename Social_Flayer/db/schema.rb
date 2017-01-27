@@ -66,8 +66,10 @@ ActiveRecord::Schema.define(version: 20170123220538) do
     t.string   "name"
     t.string   "location"
     t.integer  "owner_id"
+    t.string   "owner_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["owner_type", "owner_id"], name: "index_stores_on_owner_type_and_owner_id"
   end
 
   create_table "users", force: :cascade do |t|

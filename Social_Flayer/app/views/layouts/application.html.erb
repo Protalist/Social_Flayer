@@ -6,12 +6,13 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    
+
   </head>
 
-  <body>
-      <body onload="autocomplete()">
-
+    <body onload="autocomplete()">
+    <% if flash[:notice] %>
+      <div class="notice"><%= flash[:notice] %></div>
+    <% end %>
     <% if user_signed_in? %>
       <%= render 'shared/back' %>
       <%= render 'shared/change' %>

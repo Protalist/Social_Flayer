@@ -4,8 +4,10 @@ class CreateStores < ActiveRecord::Migration[5.0]
       t.string :name
       t.string :location
       t.integer :owner_id
-
+      t.string :owner_type
       t.timestamps
     end
+
+    add_index :stores, [:owner_type, :owner_id]
   end
 end
