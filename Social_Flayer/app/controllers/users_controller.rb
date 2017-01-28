@@ -36,11 +36,13 @@ class UsersController < ApplicationController
     @cosa_fanno=[]
     @followed=@user_follow.where(follower_id: @cu.id)
     @commenti_followed=[]
+    @vote=[]
     @followed.each do |f|
       @commenti_followed+=User.find(f.followed_id).comments
       @cosa_fanno+=FollowStore.where(user_id: f.followed_id)
+      @vote+= @vote+=ActsAsVotable::Vote.where(voter_id: f.followed_id)
     end
-    @list=(@commenti_followed+@cosa_fanno+@replys+@products).sort!{|a,b| a.updated_at <=> b.updated_at}.reverse#.order(created_at: :asc)
+    @list=(@commenti_followed+@cosa_fanno+@replys+@products+@vote).sort!{|a,b| a.updated_at <=> b.updated_at}.reverse
   end
   def back
     current_user.update(roles_mask: 0)

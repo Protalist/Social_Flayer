@@ -43,7 +43,7 @@
     <tr id=prod<%=prod.id%> >
       <td><%= prod.name %></td>
       <td><%= prod.price %></td>
-      <td><%= prod.duration_h%></td>
+      <td><%= prod.time_offer%></td>
       <td> <%= link_to 'edit', edit_store_product_path(@show,prod),remote: true %>
       <td> <%= link_to 'destroy', store_product_path(@show,prod), data: { confirm: "Are you sure?" }, method: :delete %></td>
       <td><%=link_to 'show',store_product_path(@show,prod) %> </td>
@@ -64,7 +64,7 @@
 
 <% if can? :create, Comment.new(store_id: @show.id) %>
 <%= render 'comments/new' %>
-<% end %> 
+<% end %>
 
 
 
