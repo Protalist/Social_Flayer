@@ -37,13 +37,28 @@ class Ability
 
 
       #comment
+      can :new,Comment do |comment|
+        !Work.where(store_id: comment.store_id, user_id: user.id).exists? 
+      end
+      can :reply,Comment do |comment|
+        !Work.where(store_id: comment.store_id, user_id: user.id).exists? 
+      end
       can :create , Comment do |comment|
-         !Work.where(store_id: comment.store_id, user_id: user.id).exists?
+         !Work.where(store_id: comment.store_id, user_id: user.id).exists? 
       end
 
       can :update, Comment do |comment|
         comment.user_id==user.id
       end
+
+      can :edit, Comment do |comment|
+        comment.user_id==user.id
+      end
+      can :destroy, Comment do |comment|
+        comment.user_id==user.id
+      end
+      can :indexReply,Comment
+      
     elsif user.roles_mask==1
       #user
       can :back, User
@@ -73,12 +88,20 @@ class Ability
       end
 
       #respond
-      can :create, Respond do |respond|
-          Work.where(store_id: respond.store_id,user_id: user.id).exists?
+      can :new,Respond do |risp|
+        Store.where(id: risp.store_id,owener_id: user.id).exists?
       end
-
-      can :updare, Respond do |respond|
-          Work.where(store_id: respond.store_id,user_id: user.id).exists?
+      can :create,Respond do |risp|
+        Store.where(id: risp.store_id,owener_id: user.id).exists?
+      end
+      can :edit,Respond do |risp|
+        Store.where(id: risp.store_id,owener_id: user.id).exists?
+      end
+      can :update,Respond do |risp|
+        Store.where(id: risp.store_id,owener_id: user.id).exists?
+      end
+      can :destroy,Respond do |risp|
+        Store.where(id: risp.store_id,owener_id: user.id).exists?
       end
 
 
@@ -110,12 +133,20 @@ class Ability
       end
 
       #respond
-      can :create, Respond do |respond|
-          Work.where(store_id: respond.store_id,user_id: user.id).exists?
+      can :new,Respond do |risp|
+        Work.where(store_id: risp.store_id,user_id: user.id,accept: true).exists?
+      end 
+      can :create,Respond do |risp|
+        Work.where(store_id: risp.store_id,user_id: user.id,accept: true).exists?
       end
-
-      can :updare, Respond do |respond|
-          Work.where(store_id: respond.store_id,user_id: user.id).exists?
+      can :edit,Respond do |risp|
+        Work.where(store_id: risp.store_id,user_id: user.id,accept: true).exists?
+      end
+      can :update,Respond do |risp|
+        Work.where(store_id: risp.store_id,user_id: user.id,accept: true).exists?
+      end
+      can :destroy,Respond do |risp|
+        Work.where(store_id: risp.store_id,user_id: user.id,accept: true).exists?
       end
 
     else
