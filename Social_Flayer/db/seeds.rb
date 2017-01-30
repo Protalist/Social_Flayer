@@ -32,3 +32,79 @@
 
 @store_admin4= Work.new(:user_id => @user3.id, :store_id => @store3.id, :accept => false)
 @store_admin4.save
+
+@item=@store.products.build(:name => "pizza al pomodoro", :price => 2, :feature => "la pizza al pomodoro più buona del mondo", :duration_h=>34, :type_p => "cibo")
+@item.save
+
+@item2=@store.products.build(:name => "pizza con i funghi", :price => 3, :feature => "la pizza al pomodoro più buona del mondo", :duration_h=>32, :type_p => "pizza")
+@item2.save
+
+@item3=@store.products.build(:name => "pizza rancida", :price => 1, :feature => "la pizza al pomodoro più buona del mondo", :duration_h=>6000000, :type_p => "non cibo")
+@item3.save
+
+@item4=@store2.products.build(:name => "detersivo", :price => 2, :feature => "bello pulito", :duration_h=>34, :type_p => "detersivi")
+@item.save
+
+@item5=@store2.products.build(:name => "lavapiatti", :price => 3, :feature => "bello pulito", :duration_h=>32, :type_p => "detersivi")
+@item5.save
+
+@item6=@store2.products.build(:name => "lava ciupoli", :price => 1, :feature =>"bello pulito", :duration_h=>6000000, :type_p => "accessori")
+@item6.save
+
+@item7=@store3.products.build(:name => "detersivo al pomodoro", :price => 2, :feature => "la pizza al pomodoro più buona del mondo", :duration_h=>34, :type_p => "detersivo e cibo")
+@item7.save
+
+@item8=@store3.products.build(:name => "taglia ugnhie", :price => 3, :feature => "la pizza al pomodoro più buona del mondo", :duration_h=>32, :type_p => "accessori")
+@item8.save
+
+@item9=@store3.products.build(:name => "leva calli di zio mario", :price => 1, :feature => "la pizza al pomodoro più buona del mondo", :duration_h=>6000000, :type_p => "accessori")
+@item9.save
+
+@comment=Comment.new(:user_id => @user.id, :store_id => @store3.id, :content => "commento 1")
+@comment.save
+
+@comment2=Comment.new(:user_id => @user2.id, :store_id => @store.id, :content => "commento 2")
+@comment2.save
+
+@comment3=Comment.new(:user_id => @user3.id, :store_id => @store.id, :content => "commento 3")
+@comment3.save
+
+@comment4=Comment.new(:user_id => @user3.id, :store_id => @store.id,:comment_id => @comment2.id, :content => "commento 3")
+@comment4.save
+
+@comment5=Comment.new(:user_id => @user2.id, :store_id => @store.id,:comment_id => @comment3.id, :content => "commento 3")
+@comment5.save
+
+@respond=Respond.new(:store_id => @store.id, :comment_id => @comment2.id, :content => "respond1")
+@respond.save
+
+@follow_store=FollowStore.new(:store_id => @store.id, :user_id => @user.id)
+@follow_store.save
+
+@follow_store=FollowStore.new(:store_id => @store.id, :user_id => @user.id)
+@follow_store.save
+
+@follow_store2=FollowStore.new(:store_id => @store2.id, :user_id => @user2.id)
+@follow_store2.save
+
+@follow_store3=FollowStore.new(:store_id => @store3.id, :user_id => @user3.id)
+@follow_store3.save
+
+@follow_user=FollowerUser.new(:followed_id => @user.id, :follower_id => @user2.id)
+@follow_user.save
+
+@follow_user2=FollowerUser.new(:followed_id => @user2.id, :follower_id => @user3.id)
+@follow_user2.save
+
+@follow_user3=FollowerUser.new(:followed_id => @user3.id, :follower_id => @user.id)
+@follow_user3.save
+
+@follow_user4=FollowerUser.new(:followed_id => @user.id, :follower_id => @user3.id)
+@follow_user4.save
+
+
+@store.upvote_from @user
+
+@store2.upvote_from @user2
+
+@store3.upvote_from @user3

@@ -1,142 +1,118 @@
 var placeSearch, autocomplete;
-
-
-
-var dot=false;
+var address
+var directionsService
+var directionsDisplay
 
 function initMap() {
 
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 8,
-          center: {lat: -34.397, lng: 150.644}
-        });
-        var geocoder = new google.maps.Geocoder();
-
-        var address = document.getElementById('address').value;
-        //nel frattempo lo centro in address, se è una città almeno la rileva
-        //se dovesse essere un negozio lo ricentra
-
-        var res= document.getElementById("res");
-        var stores = document.getElementsByName('store');
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 8,
+          center: {lat: -34.397, lng: 150.644}
+        });
+        directionsService = new google.maps.DirectionsService;
+        directionsDisplay = new google.maps.DirectionsRenderer({
+          draggable: true,
+          map: map,
+          panel: document.getElementById('right-panel')
+        });
+        var geocoder = new google.maps.Geocoder();
+        address = document.getElementById('address').value;
+        geocodeAddress_center(geocoder, map,address);
+        stores=document.getElementsByName('store');
         for(var i=0; i<stores.length;i++){
-
-          if(address==stores[i].getAttribute("s")){
-
-            res.innerHTML="Ricerca del negozio riuscita!";
-            dot=true;
-
-          }
+          geocodeAddress(geocoder,map,stores[i]);
         }
+        autocomplete()
 
 
-        if(!dot){
+      }
+
+function geocodeAddress_center(geocoder, resultsMap,address) {
+
+        if( address == '') return;
         geocoder.geocode({'address': address}, function(results, status) {
           if (status == 'OK') {
-            map.setCenter(results[0].geometry.location);
-            map.setZoom(15);
-            res.innerHTML="Ricerca in zona riuscita!";
-
-            var markerPos = new google.maps.Marker({
-              map: map,
-              position: results[0].geometry.location,
-
-              animation: google.maps.Animation.DROP,
+            resultsMap.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+              map: resultsMap,
+              position: results[0].geometry.location
             });
-            google.maps.event.addListener(markerPos, 'mouseover', function () {
-
-                    infowindow = new google.maps.InfoWindow({
-                        content: '<div><strong>'+'Posizione di partenza'+ '</strong></div>',
-
+             google.maps.event.addListener(marker, 'mouseover', function () {
+               infowindow = new google.maps.InfoWindow({
+                        content: '<div><strong>'+address+' </strong></div>',
                     });
+             infowindow.open(map, marker);
+             if (marker.getAnimation() !== null) {
+                 marker.setAnimation(null);
+             }
 
-                    infowindow.open(map, markerPos);
-                    if (marker.getAnimation() !== null) {
-                        marker.setAnimation(null);
-                    }
-
-
-                });
-              google.maps.event.addListener(markerPos, 'mouseout', function () {
-
-                        infowindow.close();
-
-                    });
-          } else {
-            res.innerHTML="Ricerca in zona fallita";
+            //si chiude automaticamente dopo 5 seocondi
+            setTimeout(function(){
+               infowindow.close();
+              }, 5000);
+            });
           }
         });
       }
 
 
-        for(var i=0; i<stores.length;i++){
-          geocodeAddress(geocoder,map,stores[i],address);
-        }
 
-        autocomplete();
+function geocodeAddress(geocoder, resultsMap,store) {
 
-
-
-      }
-
-function geocodeAddress(geocoder, resultsMap,store, address) {
-
-        if( address == '') return;
-        var infowindow;
-
+        if( store.getAttribute("loc") == '') return;
         geocoder.geocode({'address': store.getAttribute("loc")}, function(results, status) {
           if (status == 'OK') {
-            //controllo se il nome è quello che ho cercato, se sì lo centro.
-
-            if(address==store.getAttribute("s")){
-              resultsMap.setCenter(results[0].geometry.location);
-              resultsMap.setZoom(15);
-              marker.setAnimation(google.maps.Animation.BOUNCE);
-            }
             var marker = new google.maps.Marker({
               map: resultsMap,
-              position: results[0].geometry.location,
-
-              animation: google.maps.Animation.DROP,
+              position: results[0].geometry.location
             });
-            if(dot){
-              dot=false;
-            }
 
-            google.maps.event.addListener(marker, 'mouseover', function () {
-
-                    infowindow = new google.maps.InfoWindow({
-                        content: '<div><strong>'+'<a href="/stores/'+store.id+'">'+"link al negozio: "+store.getAttribute("s")+'</a>'+' </strong></div>',
-
-                    });
-
-                    infowindow.open(map, marker);
-                    if (marker.getAnimation() !== null) {
-                        marker.setAnimation(null);
-                    }
-                    
-                    //si chiude automaticamente dopo 5 seocondi
-                    setTimeout(function(){
-                      infowindow.close();
-                    }, 5000);
-
+        google.maps.event.addListener(marker, 'mouseover', function () {
+          infowindow = new google.maps.InfoWindow({
+                  content: '<div><strong><a href="/stores/'+store.id+'">'+"link al negozio: "+store.getAttribute("s")+' </a></strong></div><br/>Situato in: '+store.getAttribute("loc"),
                 });
+                infowindow.open(map, marker);
+                if (marker.getAnimation() !== null) {
+                  marker.setAnimation(null);
+                }
 
-
-          } else {
-            alert('Geocode was not successful for the following reason: ' + status);
-            res.innerHTML="Ricerca del negozio fallita!";
+                //si chiude automaticamente dopo 5 seocondi
+                setTimeout(function(){
+                  infowindow.close();
+                }, 5000);
+              });
+              if(address != ""){
+                google.maps.event.addListener(marker, 'click',function(){
+                  displayRoute(address,store.getAttribute("loc") , directionsService,
+                  directionsDisplay);
+                });
+              }
           }
+
+
         });
-
-
-
       }
 
 function autocomplete(){
     autocomplete = new google.maps.places.Autocomplete(
-        (document.getElementById('address')),
-            {types: ['geocode']});
-
- 
+        (document.getElementById('address')),
+            {types: ['geocode']});
 
 }
+
+
+
+function displayRoute(origin, destination, service, display) {
+        service.route({
+          origin: origin,
+          destination: destination,
+          travelMode: 'DRIVING',
+          avoidTolls: true
+        }, function(response, status) {
+          if (status === 'OK') {
+            display.setDirections(response);
+          } else {
+            alert('Could not display directions due to: ' + status);
+          }
+        });
+      }
