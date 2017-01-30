@@ -22,6 +22,8 @@ Rails.application.routes.draw do
         post 'addadmin' => 'stores#addadmin'
 	      put 'like' => 'stores#upvote'
         put 'unlike' => 'stores#downvote'
+        get 'leave' => 'stores#leave_store'
+        post 'change_admin' => 'stores#change_admin'
       end
       resources :products, :except => [:index]
       resources :comments do  #questo vuol dire che i commenti sono legati ai negozi

@@ -7,7 +7,7 @@ class Store < ApplicationRecord
 
   has_many :products, dependent: :destroy
   has_many :works, dependent: :destroy
-  has_many :admin, :through => :works, :source => 'User'
+  has_many :admin, :through => :works, :source => 'user'
   has_many :comments
   has_many :responds
   has_many :follow_stores

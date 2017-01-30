@@ -67,7 +67,7 @@
 <% end %>
 
 
-
+<%if can? :addadmin,@show %>
 add an add_admin
 <% if flash[:errors] %> <%= flash[:errors] %> <%end %>
 <%= form_for :admin, url: addadmin_store_path(params[:id]), method: :post do |f| %>
@@ -75,5 +75,16 @@ add an add_admin
   <%= f.text_field :username %>
   <%= f.submit "aggiungi" %>
 <% end %>
-
+<%%end>
+<%if can? :leave_store, @show%>
+<br/>
+<%= button_to 'lascia negozio', leave_store_path, method: :get%>
+<br/>
+<%end%>
+<%if can? :change_admin, @show%>
+<%= form_for :role, url: change_admin_store_path do |f| %>
+  <% s=@show.admin.where("Works.accept = ?", true) %>
+  <%= select_tag "user_id", options_from_collection_for_select(s, "id", "username", @show.owner_id), onchange: "this.form.submit()",data: { confirm: "Are you sure?" } %>
+<% end %>
+<%end%> <br/>
 <%= link_to 'edit', edit_store_path(@show) %>

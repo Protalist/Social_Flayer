@@ -1,5 +1,5 @@
 class StoresController < ApplicationController
-   
+
 before_action :store, only: [:show, :edit, :update,:destroy,:upvote,:downvote,:follow,:unfollow]
 respond_to :html, :xml, :json
   def show
@@ -139,6 +139,25 @@ respond_to :html, :xml, :json
     redirect_to root_path
   end
 
+  def change_admin
+    user=params[:user_id]
+    store=Store.find(params[:id])
+    if Work.where(user_id: user, store_id: store.id).exists?
+      store.update(owner_id: user)
+      current_user.update(roles_mask: 2)
+    end
+    redirect_to store_path(store)
+  end
+
+  def leave_store
+    user=current_user
+    store=params[:id]
+    if Work.where(user_id: current_user.id, store_id: store).exists?
+      Work.where(user_id: current_user.id, store_id: store)[0].destroy
+      current_user.update(roles_mask: 0)
+    end
+    redirect_to root_path
+  end
 
   protected
   #funzione che seatta un parametro

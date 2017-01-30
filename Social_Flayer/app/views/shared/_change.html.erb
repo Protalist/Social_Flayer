@@ -1,5 +1,4 @@
 <%= form_for :role, url: change_path do |f| %>
   <% s=current_user.workstores.where("works.accept = ?" ,true) %>
-  <% puts s%>
   <%= select_tag "store_id", options_from_collection_for_select(s, "id", "name" ),prompt: "select store", onchange: "this.form.submit()" %>
 <% end %>

@@ -6,16 +6,7 @@ class Ability
 
     user ||= User.new # guest user (not logged in)
     if user.roles_mask==0
-
-      #control if an user can follow a store or he has already followed it.
-      can :follow, Store do |store|
-         !FollowStore.where(store_id: store.id, user_id: user.id).exists?
-      end
-      #control if an user wants to unfollow, he has to be a foolower
-      can :unfollow, Store do |store|
-         FollowStore.where(store_id: store.id, user_id: user.id).exists?
-      end
-
+      #user
       can :follow, User do |client|
         !FollowerUser.where(follower_id: user.id,followed_id:client.id).exists? && client.id != user.id
       end
@@ -30,7 +21,25 @@ class Ability
       end
 
       can :show, User
-      #stores
+      can :index, User
+
+      #store
+      can :show, Store
+      can :new, Store
+      can :create, Store
+      can :index, Store
+      can :upvote, Store
+      can :downvote, Store
+      can :choose_no, Store
+      can :choose_yes, Store
+      #control if an user can follow a store or he has already followed it.
+      can :follow, Store do |store|
+         !FollowStore.where(store_id: store.id, user_id: user.id).exists?
+      end
+      #control if an user wants to unfollow, he has to be a foolower
+      can :unfollow, Store do |store|
+         FollowStore.where(store_id: store.id, user_id: user.id).exists?
+      end
 
       #product
       can :show, Product
@@ -38,13 +47,13 @@ class Ability
 
       #comment
       can :new,Comment do |comment|
-        !Work.where(store_id: comment.store_id, user_id: user.id).exists? 
+        !Work.where(store_id: comment.store_id, user_id: user.id).exists?
       end
       can :reply,Comment do |comment|
-        !Work.where(store_id: comment.store_id, user_id: user.id).exists? 
+        !Work.where(store_id: comment.store_id, user_id: user.id).exists?
       end
       can :create , Comment do |comment|
-         !Work.where(store_id: comment.store_id, user_id: user.id).exists? 
+         !Work.where(store_id: comment.store_id, user_id: user.id).exists?
       end
 
       can :update, Comment do |comment|
@@ -58,12 +67,36 @@ class Ability
         comment.user_id==user.id
       end
       can :indexReply,Comment
-      
+
     elsif user.roles_mask==1
       #user
       can :back, User
       can :change, User
 
+      #store
+      can :show, Store do |store|
+        Work.where(store_id: store.id, user_id: user.id).exists?
+      end
+
+      can :edit, Store do |store|
+        store.owner_id==user.id
+      end
+
+      can :update, Store do |store|
+        store.owner_id==user.id
+      end
+
+      can :destroy, Store do |store|
+        store.owner_id==user.id
+      end
+
+      can :addadmin, Store do |store|
+        store.owner_id==user.id
+      end
+
+      can :change_admin, Store do |store|
+        store.owner_id==user.id
+      end
       #product
       can :show, Product do |product|
         Work.where(store_id: product.store_id, user_id: user.id).exists?
@@ -109,6 +142,17 @@ class Ability
       #user
       can :back, User
       can :change, User
+
+      #store
+      can :show, Store do |store|
+        Work.where(store_id: store.id, user_id: user.id).exists?
+      end
+
+      can :leave_store, Store do |store|
+        Work.where(store_id: store.id, user_id: user.id).exists?
+      end
+
+
       #product
       can :show, Product do |product|
         Work.where(store_id: product.store_id, user_id: user.id).exists?
@@ -135,7 +179,7 @@ class Ability
       #respond
       can :new,Respond do |risp|
         Work.where(store_id: risp.store_id,user_id: user.id,accept: true).exists?
-      end 
+      end
       can :create,Respond do |risp|
         Work.where(store_id: risp.store_id,user_id: user.id,accept: true).exists?
       end
