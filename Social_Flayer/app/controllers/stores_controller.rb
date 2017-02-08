@@ -1,28 +1,29 @@
 class StoresController < ApplicationController
+  load_and_authorize_resource :except => :create
+ before_action :store, only: [:show, :edit, :update,:destroy,:upvote,:downvote,:follow,:unfollow]
 
-before_action :store, only: [:show, :edit, :update,:destroy,:upvote,:downvote,:follow,:unfollow]
-respond_to :html, :xml, :json
   def show
     @show=@store
     @products=@show.products
     @comments=@show.comments.where("comment_id IS NULL")
+    render 'show'
   end
 
   def new
     @store=Store.new
-
   end
 
   def create
     @store=Store.new(store_params)
     @store.owner_id=current_user.id
     if @store.save
+      authorize! :create, @store
       @admin_stores= Work.new()
       @admin_stores.store_id=@store.id
       @admin_stores.user_id=current_user.id
       @admin_stores.accept=true
       @admin_stores.save
-      puts @admin_stores
+
       current_user.update(roles_mask: 1)
       cookies[:last_Store]=@role
       redirect_to store_path(@store)
@@ -54,7 +55,7 @@ respond_to :html, :xml, :json
     @stores=Store.search(params)
     distance=0
     @stores.each do |store|
-      if params[:location]!=''
+      if params[:location]!='' and params[:location]!=nil
         distance=store.distance_from(params[:location])
       end
       @distance[store]=distance
@@ -72,20 +73,18 @@ respond_to :html, :xml, :json
 
   def upvote
     @store.upvote_from current_user
-    redirect_to store_path(@store)
+    redirect_to store_path(@store.id)
   end
 
   def downvote
     @store.downvote_from current_user
-    redirect_to store_path(@store)
+    redirect_to store_path(@store.id)
   end
 
   def addadmin
     @name=params[:admin][:username]
-    puts params[:id]
     @user=User.where("username =?",@name)
     if @user.count!=0
-      puts @user[0].id
       @work=Work.new()
       @work.user_id=@user[0].id
       @work.store_id=params[:id]
@@ -108,7 +107,7 @@ respond_to :html, :xml, :json
      @follow.user_id=current_user.id
      @follow.save
      respond_to do |format|
-      format.html {redirect_to store_path(@store)}
+      format.html {redirect_to store_path(@store.id)}
 		  format.js{}
 	   end
   end
@@ -116,16 +115,13 @@ respond_to :html, :xml, :json
 
   def unfollow
      @follow=FollowStore.where(store_id: params[:id], user_id: current_user.id).destroy_all
-
-
      respond_to do |format|
-		  format.html {redirect_to store_path(@store)}
+		  format.html {redirect_to store_path(@store.id)}
 		  format.js{}
 	   end
 
-
-
   end
+
   def choose_yes
     @work=Work.where(user_id: current_user.id,store_id: params[:id])
     @work.update(accept: true)
@@ -135,25 +131,27 @@ respond_to :html, :xml, :json
 
   def choose_no
     @work=Work.where(user_id: current_user.id,store_id: params[:id])
-    @work[0].destroy
+    @work.destroy_all
     redirect_to root_path
   end
 
   def change_admin
     user=params[:user_id]
-    store=Store.find(params[:id])
+    store=@store
     if Work.where(user_id: user, store_id: store.id).exists?
       store.update(owner_id: user)
       current_user.update(roles_mask: 2)
+    else
+      flash[:error]="non puoi nominare questo utente"
     end
-    redirect_to store_path(store)
+    redirect_to store_path(store.id)
   end
 
   def leave_store
     user=current_user
     store=params[:id]
     if Work.where(user_id: current_user.id, store_id: store).exists?
-      Work.where(user_id: current_user.id, store_id: store)[0].destroy
+      Work.where(user_id: current_user.id, store_id: store).destroy_all
       current_user.update(roles_mask: 0)
     end
     redirect_to root_path
@@ -162,7 +160,7 @@ respond_to :html, :xml, :json
   protected
   #funzione che seatta un parametro
   def store
-    if (Store.all.ids.include?(params[:id].to_i))
+    if (Store.ids.include?(params[:id].to_i))
       @store=Store.find(params[:id])
     else
       redirect_to root_path

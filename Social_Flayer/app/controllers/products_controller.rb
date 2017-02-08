@@ -15,8 +15,9 @@ class ProductsController < ApplicationController
   def create
     @store=Store.find(params[:store_id])
     @product=@store.products.build(product_params)
-    authorize! :create, @product
+
     if @product.save
+      authorize! :create, @product
       redirect_to store_path(@store)
     else
       render 'new'

@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   load_and_authorize_resource
   before_action :authenticate_user!
-  #load_and_authorize_resource
+
 
   def index
     @users=User.where("username LIKE ?","%#{params[:username]}%")
@@ -17,6 +17,7 @@ class UsersController < ApplicationController
   end
 
   def home
+    puts authorize! :home, current_user
     @cu=current_user
     @works_pendent=@cu.works.where(accept: false)
     @followings=FollowStore.where(user_id: current_user.id)

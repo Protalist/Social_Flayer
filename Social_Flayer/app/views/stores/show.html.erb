@@ -44,7 +44,7 @@
       <td><%= prod.name %></td>
       <td><%= prod.price %></td>
       <td><%= prod.time_offer%></td>
-      <td> <%= link_to 'edit', edit_store_product_path(@show,prod),remote: true %>
+      <td> <%= link_to 'edit', edit_store_product_path(@show,prod) %>
       <td> <%= link_to 'destroy', store_product_path(@show,prod), data: { confirm: "Are you sure?" }, method: :delete %></td>
       <td><%=link_to 'show',store_product_path(@show,prod) %> </td>
     </tr>
@@ -75,7 +75,7 @@ add an add_admin
   <%= f.text_field :username %>
   <%= f.submit "aggiungi" %>
 <% end %>
-<%%end>
+<%end%>
 <%if can? :leave_store, @show%>
 <br/>
 <%= button_to 'lascia negozio', leave_store_path, method: :get%>
@@ -87,4 +87,5 @@ add an add_admin
   <%= select_tag "user_id", options_from_collection_for_select(s, "id", "username", @show.owner_id), onchange: "this.form.submit()",data: { confirm: "Are you sure?" } %>
 <% end %>
 <%end%> <br/>
+<%= link_to 'destroy', store_path(@show), data: { confirm: "Are you sure?" }, method: :delete %>
 <%= link_to 'edit', edit_store_path(@show) %>

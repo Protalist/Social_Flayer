@@ -12,6 +12,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  
+
   #permette di modificare i parametri all'interno di devise
   def configure_permitted_parameters
       devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :surname, :username])
