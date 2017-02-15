@@ -19,4 +19,7 @@ class ApplicationController < ActionController::Base
       devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :surname, :username])
       devise_parameter_sanitizer.permit(:account_update, keys: [:name, :surname,:username])
   end
+
+  add_flash_types :error_comments
+
 end
