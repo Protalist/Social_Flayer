@@ -18,7 +18,7 @@ class ProductsController < ApplicationController
 
     if @product.save
       authorize! :create, @product
-      redirect_to store_path(@store)
+      redirect_to store_path(@store.id)
     else
       render 'new'
     end
@@ -30,9 +30,9 @@ class ProductsController < ApplicationController
 
 
   def update
-    @store=Store.find(params[:store_id])
+    @store=Store.find(@product.store_id)
     if @product.update(product_params)
-      redirect_to store_path(@store)
+      redirect_to store_path(@store.id)
     else
       render 'edit'
     end
@@ -41,7 +41,7 @@ class ProductsController < ApplicationController
 #distrugge il prodotto
   def destroy
     @product.destroy
-    redirect_to store_path(params[:store_id])
+    redirect_to store_path(@product.store_id)
   end
 
 
