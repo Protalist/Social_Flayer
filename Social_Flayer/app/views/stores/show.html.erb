@@ -1,0 +1,91 @@
+<h1> Il nome del negozio è: </h1>
+<%= @store.name %>
+<div class='vote'>
+  <table>
+    <tr>
+      <th> like </th>
+      <th> unlike </th>
+    </tr>
+
+    <tr>
+      <td><%= link_to 'like', like_store_path(@show), method: :put %></td>
+      <td><%= link_to 'unlike', unlike_store_path(@show), method: :put %></td>
+    </tr>
+
+    <tr>
+      <td><%=@show.get_upvotes.count%></td>
+      <td><%=@show.get_downvotes.count%></td>
+    </tr>
+    <tr>
+  </table>
+<div id='follow'>
+		<%if can? :follow, @show%>
+
+				<%= button_to 'follow del negozio', follow_store_path(@show), method: :post, remote: true %>
+
+		<%end%>
+		<%if can? :unfollow, @show%>
+
+
+        <%= button_to 'unfollow del negozio', unfollow_store_path(@show), method: :post, remote: true %>
+
+		<%end%>
+    <h1> numero followerZ <%= @show.followers.count%> </h1>
+
+  </div>
+<table>
+  <tr>
+    <th>nome</th>
+    <th>prezzo</th>
+    <th>manca</th>
+  </tr>
+<% @products.each do |prod| %>
+    <tr id=prod<%=prod.id%> >
+      <td><%= prod.name %></td>
+      <td><%= prod.price %></td>
+      <td><%= prod.time_offer%></td>
+      <td> <%= link_to 'edit', edit_store_product_path(@show,prod) %>
+      <td> <%= link_to 'destroy', store_product_path(@show,prod), data: { confirm: "Are you sure?" }, method: :delete %></td>
+      <td><%=link_to 'show',store_product_path(@show,prod) %> </td>
+    </tr>
+  <% end %>
+
+</table>
+</div>
+<div id=prova >
+</div>
+
+<div id='new_product'>
+  <%= link_to 'Crea prodotto', new_store_product_path(params[:id]), remote: true %> <br/>
+</div>
+
+
+<%= render 'comments/index' %>
+
+<% if can? :create, Comment.new(store_id: @show.id) %>
+<%= render 'comments/new' %>
+<% end %>
+
+
+<%if can? :addadmin,@show %>
+add an add_admin
+<% if flash[:errors] %> <%= flash[:errors] %> <%end %>
+<%= form_for :admin, url: addadmin_store_path(params[:id]), method: :post do |f| %>
+  <%= f.label :username %>
+  <%= f.text_field :username %>
+  <%= f.submit "aggiungi" %>
+<% end %>
+<%end%>
+<%if can? :leave_store, @show%>
+<br/>
+<%= button_to 'lascia negozio', leave_store_path, method: :get%>
+<br/>
+<%end%>
+<%if can? :change_admin, @show%>
+<%= form_for :role, url: change_admin_store_path do |f| %>
+  <% s=@show.admin.where("Works.accept = ?", true) %>
+  <%= select_tag "user_id", options_from_collection_for_select(s, "id", "username", @show.owner_id), onchange: "this.form.submit()",data: { confirm: "Are you sure?" } %>
+<% end %>
+<%end%> <br/>
+<%= link_to 'destroy', store_path(@show), data: { confirm: "Are you sure?" }, method: :delete %>
+<%= link_to 'edit', edit_store_path(@show) %>

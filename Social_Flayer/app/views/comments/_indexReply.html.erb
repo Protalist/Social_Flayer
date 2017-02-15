@@ -1,0 +1,24 @@
+<div id="reply2<%=params[:id]%>">
+ <% (@comment.responds+@replys).each do |reply|%>
+ <%=reply.class%> <br/>
+ <% if reply.class ==Comment %>
+    <div id='comment<%=reply.id%>'>
+      &nbsp;<%= render 'comments/comment', comment: reply %>
+      <br/><br/>
+    </div>
+  <% else %>
+    <div id="respond<%=reply.id%>">
+      &nbsp;<%= render 'responds/respond', respond: reply %>
+      <br/><br/>
+    </div>
+  <% end%>
+  <% end %>
+</div>
+<%if can? :create , Comment.new(store_id: params[:store_id])%>
+  &nbsp;<h4>Rispondi</h4><%= render "comments/form",comment: Comment.new , path:reply_store_comment_path(params[:store_id],params[:id])  %>
+<%end%>
+
+<%if can? :create , Respond.new(store_id: params[:store_id].to_i)%>
+  &nbsp;<h4>rispondi come negozio </h4> <%= render "responds/form", respond: Respond.new, path: store_comment_responds_path(params[:store_id],params[:id]) %>
+<%end%>
+<%= link_to 'chiudi',store_path(params[:store_id])%>

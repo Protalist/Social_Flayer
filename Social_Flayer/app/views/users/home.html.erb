@@ -1,0 +1,77 @@
+<%= @cu.id%> <br/>
+<%= @cu.email%> <br/>
+<%= @cu.username%> <br/>
+<%= @cu.surname%> <br/>
+<%= @cu.name %> <br/>
+
+<div id='followandi'>
+   <ul>
+     <% @followings.each do |followati| %>
+
+		<li >negozio seguito  ------    <%=Store.find(followati.store_id).name %> </li>
+	<%end%>
+   </ul>
+</div>
+
+<div style="width: 700px; height: 500px; overflow-y: scroll;">
+  <%@list.each do |l|%>
+
+    <%if l.class == Comment%>
+      <%= render "comments/comment", comment: l %>
+    <%elsif l.class == Store%>
+      <%= render "stores/store", store: l %>
+    <%elsif l.class == Respond%>
+      <%= render "responds/respond", respond: l%>
+    <% elsif l.class == Product%>
+      <%= render "products/product", product: l%>
+    <%elsif l.class == FollowStore %>
+      l'utente <%= link_to ""+User.find(l.user_id).name, user_path(l.user_id) %> segue il negozio <%=link_to ""+Store.find(l.store_id).name, store_path(l.store_id)%>
+    <%elsif l.class == ActsAsVotable::Vote%>
+      l'utente <%= User.find(l.voter_id).name%> ha votato <%=link_to ""+Store.find(l.votable_id).name, store_path(l.votable_id)%> <%= User.find(l.voter_id).voted_up_on? Store.find(l.votable_id) %>
+    <%end%><br/>
+    data:<%= l.updated_at %><br/>
+  ____________________________________________________________<br/>
+  <%end%>
+</div>
+
+<div>
+  <%= form_tag users_path, method: :get do %>
+     cerca amigo da followare che non paga afito :D
+     <%= text_field_tag :username ,params[:username], id:"nome"  %>
+
+     <%= submit_tag "cerca", id: "submit"%>
+   <% end %>
+
+</div>
+
+<div>
+  <%= render 'shared/search' %>
+</div>
+
+<br/>
+richieste
+<div id='works_pendent'>
+  <ul>
+    <% @works_pendent.each do |w| %>
+      <li id='work<%=w.id%>'><%= Store.find(w.store_id).name %><%= link_to 'acceta la richiesta', chooseyes_store_path(w.store_id), method: :post %>, <%= link_to 'declina', chooseno_store_path(w.store_id), method: :post, remote: true %></li><br/>
+    <% end %>
+  </ul>
+</div>
+
+<div id='user_followed'>
+  <h4> utenti seguiti </h4>
+  <% @user_follow.where(follower_id: @cu.id).each do |f| %>
+    <%=User.find(f.followed_id).name%>
+  <%end%>
+</div>
+
+<div id='user_follower'>
+  <h4> utenti che ti seguono </h4>
+  <% @user_follow.where(followed_id: @cu.id).each do |f| %>
+    <%=User.find(f.follower_id).name%>
+  <%end%>
+</div>
+<br/>
+<div id='new_store'>
+  <%= link_to 'Crea negozio', new_store_path, remote: true %>
+</div>

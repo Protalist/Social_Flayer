@@ -1,0 +1,6 @@
+utente: <%=Store.find(respond.store_id).name%> <br />
+&nbsp;dice:<%= respond.content %> <br/>
+<% if can? :updare, respond%>
+  &nbsp;<%= link_to 'edit', edit_store_comment_respond_path(respond.store_id,respond.comment_id,respond.id), remote: true %>
+  &nbsp;<%= link_to 'destroy', store_comment_respond_path(respond.store_id,respond.comment_id,respond.id), data: { confirm: "Are you sure?" }, method: :delete ,remote: true%> <br/>
+<% end %>

@@ -1,0 +1,1 @@
+$('#follow').html('<%= button_to "follow del negozio", follow_store_path(@store), method: :post, remote: true %>'+"<h1> numero followerZ <%= @store.followers.count %> </h1>");

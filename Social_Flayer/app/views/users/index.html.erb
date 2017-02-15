@@ -1,0 +1,6 @@
+<div id='utenti'>
+   <%@users.each do |useri| %>
+    <li> <%=useri.name%>  <%= link_to "vai all'utente", user_path(useri)%></li>
+   <%end%>
+
+</div>
