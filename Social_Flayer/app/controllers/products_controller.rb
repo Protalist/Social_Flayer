@@ -1,10 +1,10 @@
 class ProductsController < ApplicationController
+  before_filter :product, only: [:show, :edit ,:update,:destroy]
   load_and_authorize_resource :except => :create
 
 
   def show
-    @product=Product.find(params[:id])
-    @store=Store.find(params[:store_id])
+    @store=Store.find(@product.store_id)
   end
 
 
@@ -31,7 +31,6 @@ class ProductsController < ApplicationController
 
   def update
     @store=Store.find(params[:store_id])
-    @product=Product.find(params[:id])
     if @product.update(product_params)
       redirect_to store_path(@store)
     else
@@ -41,13 +40,20 @@ class ProductsController < ApplicationController
 
 #distrugge il prodotto
   def destroy
-    @prod=Product.find(params[:id])
-    @prod.destroy
+    @product.destroy
     redirect_to store_path(params[:store_id])
   end
 
 
   private
+  def product
+    if (Product.ids.include?(params[:id].to_i))
+      @product=Product.find(params[:id])
+    else
+      redirect_to root_path
+    end
+  end
+
   def product_params
       params.require(:product).permit(:name,:price,:feature,:type_p,:duration_h)
   end
