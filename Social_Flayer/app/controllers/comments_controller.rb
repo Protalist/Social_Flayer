@@ -1,4 +1,3 @@
-
 class CommentsController < ApplicationController
     before_filter :comment, only: [:edit,:indexReply ,:update,:destroy]
     load_and_authorize_resource :except => [:create, :reply]
@@ -31,7 +30,10 @@ class CommentsController < ApplicationController
           format.js {}
         end
       else
-        render :nothing=>true
+        respond_to do |format|
+          format.html {redirect_to store_path(params[:store_id])}
+          format.js {render "shared/nothing"}
+        end
       end
 
      end
@@ -42,6 +44,10 @@ class CommentsController < ApplicationController
 
     def indexReply
 		    @replys=@comment.replys #cerco il commento a cui ci siamo riferiti e le relative risposte
+        respond_to do |format|
+          format.html {render :file => "#{Rails.root}/public/404.html"}
+          format.js {}
+        end
     end
 
     def update

@@ -26,7 +26,10 @@ Rails.application.routes.draw do
         post 'change_admin' => 'stores#change_admin'
       end
       resources :products, :except => [:index]
+
       resources :comments ,:except => [:show, :index] do  #questo vuol dire che i commenti sono legati ai negozi
+
+
         resources :responds, :except => [:index]
          member do            #ora i member sono legati ai commenti
             post 'reply'=> 'comments#reply'
