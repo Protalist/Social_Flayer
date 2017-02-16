@@ -57,6 +57,7 @@ class ProductsController < ApplicationController
   def product_params
       params.require(:product).permit(:name,:price,:feature,:type_p,:duration_h)
   end
+  
 
 
 end
