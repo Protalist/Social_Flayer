@@ -10,5 +10,9 @@ class Comment < ApplicationRecord
   has_many :responds
 
   validates :content , presence: true
+  validates_uniqueness_of :comment_id
+  validates :user_id , presence: true
+  validates :store_id , presence: true
+  validates :comment_id, presence: true
 
 end
