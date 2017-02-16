@@ -12,7 +12,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  
+  rescue_from ActionController::RoutingError do |exception|
+    if exception.message == "lost_connection"
+      render :file => "#{Rails.root}/public/500.html"
+    end
+  end
 
   #permette di modificare i parametri all'interno di devise
   def configure_permitted_parameters

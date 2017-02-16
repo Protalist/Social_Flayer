@@ -1,6 +1,6 @@
 class StoresController < ApplicationController
+  before_action :store, only: [:show, :edit, :update,:destroy,:upvote,:downvote,:follow,:unfollow]
   load_and_authorize_resource :except => :create
- before_action :store, only: [:show, :edit, :update,:destroy,:upvote,:downvote,:follow,:unfollow]
 
   def show
     @show=@store
@@ -55,9 +55,8 @@ class StoresController < ApplicationController
     @stores=Store.search(params)
     distance=0
     @stores.each do |store|
-      if params[:location]!='' and params[:location]!=nil
+
         distance=store.distance_from(params[:location])
-      end
       @distance[store]=distance
       @like[store]=store.get_upvotes.count
     end
