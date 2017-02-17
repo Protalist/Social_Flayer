@@ -6,16 +6,20 @@ class RespondsController < ApplicationController
 
   def create
 
-    @respond=Respond.new(params.require(:respond).permit(:content))
+    @respond=Respond.new(respond_params)
     @respond.store_id=params[:store_id]
     @respond.comment_id=params[:comment_id]
+    authorize! :create, @respond
     if @respond.save
       respond_to do |format|
         format.html {redirect_to store_path(params[:store_id])}
         format.js {}
       end
     else
-      render 'responds/form'
+       respond_to do |format|
+          format.html {redirect_to store_path(params[:store_id])}
+          format.js {render "shared/nothing"}
+      end
     end
   end
 
@@ -32,6 +36,25 @@ class RespondsController < ApplicationController
   def destroy
     @respond=Respond.find(params[:id])
     @respond.destroy
+    respond_to do |format|
+        format.html {redirect_to store_path(params[:store_id])}
+        format.js {}
+    end
   end
 
+
+    private
+
+    def respond
+      if (Respond.ids.include?(params[:id].to_i))
+        @respond=Respond.find(params[:id])
+      else
+        redirect_to root_path
+      end
+    end
+    def respond_params
+      
+      params.require(:respond).permit(:content)
+    end
 end
+
