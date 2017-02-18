@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :user,:only => [:show,:follow,:unfollow]
   load_and_authorize_resource
   before_action :authenticate_user!
 
@@ -8,16 +9,10 @@ class UsersController < ApplicationController
   end
 
   def show
-    if User.all.ids.include?(params[:id].to_i)
-      @show=User.find(params[:id])
-      render 'users/show'
-    else
-      redirect_to root_path
-    end
+     @show=@user
   end
 
   def home
-    puts authorize! :home, current_user
     @cu=current_user
     @works_pendent=@cu.works.where(accept: false)
     @followings=FollowStore.where(user_id: current_user.id)
@@ -41,10 +36,11 @@ class UsersController < ApplicationController
     @followed.each do |f|
       @commenti_followed+=User.find(f.followed_id).comments
       @cosa_fanno+=FollowStore.where(user_id: f.followed_id)
-      @vote+= @vote+=ActsAsVotable::Vote.where(voter_id: f.followed_id)
+      @vote+=ActsAsVotable::Vote.where(voter_id: f.followed_id)
     end
     @list=(@commenti_followed+@cosa_fanno+@replys+@products+@vote).sort!{|a,b| a.updated_at <=> b.updated_at}.reverse
   end
+
   def back
     current_user.update(roles_mask: 0)
     redirect_to root_path
@@ -55,22 +51,30 @@ class UsersController < ApplicationController
    cookies[:last_store]=@role
    @store=Store.find(@role)
    if @store.owner_id==current_user.id
-   current_user.update(roles_mask: 1)
-
-   elsif !Work.where(store_id: @role, user_id: current_user.id).exist?
-     redirect_to home
+     current_user.update(roles_mask: 1)
+     redirect_to store_path(@role)
+   elsif !Work.where(store_id: @role, user_id: current_user.id).exists?
+     redirect_to root_path
    else
      current_user.update(roles_mask: 2)
+     redirect_to store_path(@role)
    end
-   redirect_to store_path(@role)
  end
 
  def follow
    @follow=FollowerUser.new
    @follow.followed_id=params[:id]
    @follow.follower_id=current_user.id
-   if @follow.followed_id!= @follow.follower_id
-     @follow.save
+   if @follow.save
+     respond_to do |format|
+       format.html {redirect_to user_path(@user.id)}
+       format.js {}
+     end
+   else
+     respond_to do |format|
+       format.html {redirect_to user_path(@user.id)}
+       format.js {render "shared/nothing"}
+     end
    end
  end
 
@@ -78,7 +82,26 @@ class UsersController < ApplicationController
     @follow=FollowerUser.where(followed_id: params[:id],follower_id: current_user.id).first
     if @follow
       @follow.destroy
+      respond_to do |format|
+        format.html {redirect_to user_path(@user.id)}
+        format.js {}
+      end
+    else
+      respond_to do |format|
+        format.html {redirect_to user_path(@user.id)}
+        format.js {render "shared/nothing"}
+      end
     end
+ end
+
+ private
+
+ def user
+   if (User.ids.include?(params[:id].to_i))
+     @user=User.find(params[:id])
+   else
+     redirect_to root_path
+   end
  end
 
 end
