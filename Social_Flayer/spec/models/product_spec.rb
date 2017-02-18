@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Product, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  
   before(:each) do
       @product1=Product.new(name: "prova", store_id:1 ,id:1, price:1, type_p:1, duration_h:1)
       expect(@product1).to_not eq(nil)
