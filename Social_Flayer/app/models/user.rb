@@ -8,8 +8,7 @@ class User < ApplicationRecord
   validates :name , presence: true
   validates :surname , presence: true
   validates :username , presence: true, uniqueness: true
-  has_many :followerusers, :source => 'FollowUser'
-  has_many :followeduser, :source => 'FollowUser'
+
 
 
   acts_as_voter
@@ -19,8 +18,11 @@ class User < ApplicationRecord
   has_many :workstores, :through => :works, :source => 'store'
   has_many :comments
 
-  has_many :follower, :source => 'follower_user', as: :follower
-  has_many :followed, :source => 'follower_user', as: :followed
+  has_many :follow_stores,dependent: :destroy
+  has_many :followed_store, :through => :follow_stores, :source => 'Store'
+
+  has_many :follower, :source => 'follower_user', as: :follower , dependent: :destroy
+  has_many :followed, :source => 'follower_user', as: :followed , dependent: :destroy
 
   def self.from_omniauth(auth, f)
     item=auth.extra.raw_info.name.split

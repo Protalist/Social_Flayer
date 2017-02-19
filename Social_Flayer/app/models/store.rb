@@ -10,7 +10,7 @@ class Store < ApplicationRecord
   has_many :admin, :through => :works, :source => 'user'
   has_many :comments,dependent: :destroy
   has_many :responds,dependent: :destroy
-  has_many :follow_stores
+  has_many :follow_stores, dependent: :destroy
   has_many :followers, :through => :follow_stores, :source => 'user'
 
   acts_as_votable
