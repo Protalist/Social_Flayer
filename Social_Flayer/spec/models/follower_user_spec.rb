@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe FollowerUser, type: :model do
+
   before(:each) do
     @follow_user1 = FollowerUser.new(follower_id:1,followed_id:2)
     expect(@follow_user1).to_not eq(nil)
@@ -27,7 +28,7 @@ RSpec.describe FollowerUser, type: :model do
       @follow_user2 = FollowerUser.new(follower_id:1,followed_id:2)
       expect(@follow_user2).to_not be_valid
     end
-    
+
   end
   describe "associazioni" do
      it "follower" do
@@ -45,8 +46,9 @@ RSpec.describe FollowerUser, type: :model do
     it "non posso seguire me stesso" do
       @follow_user2 = FollowerUser.new(follower_id:1,followed_id:1)
       expect(@follow_user2).to_not be_valid
-     
+
     end
   end
-  
+
+
 end
