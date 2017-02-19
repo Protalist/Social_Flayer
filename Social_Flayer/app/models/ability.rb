@@ -22,16 +22,12 @@ class Ability
 
       can :show, User
       can :index, User
-
+      alias_action :new, :create, :show, :upvote, :index,:downvote,:choose_no,:choose_yes, to: :funzioniruolo0
       #store
-      can :show, Store
-      can :new, Store
-      can :create, Store
-      can :index, Store
-      can :upvote, Store
-      can :downvote, Store
-      can :choose_no, Store
-      can :choose_yes, Store
+      
+      can :funzioniruolo0, Store
+      
+     
       #control if an user can follow a store or he has already followed it.
       can :follow, Store do |store|
          !FollowStore.where(store_id: store.id, user_id: user.id).exists?
@@ -55,17 +51,11 @@ class Ability
       can :create , Comment do |comment|
          !Work.where(store_id: comment.store_id, user_id: user.id).exists?
       end
-
-      can :update, Comment do |comment|
+      alias_action :update, :edit, :destroy,  to: :funzionistessouserid
+      can :funzionistessouserid, Comment do |comment|
         comment.user_id==user.id
       end
-
-      can :edit, Comment do |comment|
-        comment.user_id==user.id
-      end
-      can :destroy, Comment do |comment|
-        comment.user_id==user.id
-      end
+      
       can :indexReply,Comment
 
     elsif user.roles_mask==1

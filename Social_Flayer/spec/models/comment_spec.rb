@@ -31,17 +31,8 @@ RSpec.describe Comment, type: :model do
         @commento1.store_id=nil
         expect(@commento1).to_not be_valid
       end
-       it "comment_id nullo" do
-        @commento1.comment_id=nil
-        expect(@commento1).to_not be_valid
-        @commento1.comment_id=""
-        expect(@commento1).to_not be_valid
-      end
-      it "test unicità" do
-        @commento1.save
-        @commento2=Comment.new(user_id: 2, store_id:1,content: "ciao", comment_id: 1)
-        expect(@commento2).to_not be_valid
-      end
+       
+      
     end
     describe "test associazioni" do
       it "user_id" do
