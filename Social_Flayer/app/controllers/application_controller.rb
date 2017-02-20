@@ -13,9 +13,18 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from ActionController::RoutingError do |exception|
+
     if exception.message == "lost_connection"
       render :file => "#{Rails.root}/public/500.html"
+    
+    elsif exception.message == "not found"
+      render :file => "#{Rails.root}/public/404.html"
     end
+
+  end
+
+  def not_found
+      raise ActionController::RoutingError.new('not found')
   end
 
   #permette di modificare i parametri all'interno di devise
