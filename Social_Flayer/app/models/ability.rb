@@ -5,6 +5,11 @@ class Ability
 
 
     user ||= User.new # guest user (not logged in)
+    alias_action :back, :change, to: :roles
+    alias_action :edit, :update, :destroy, :addadmin, :change_admin, to: :owner_ab
+    alias_action :show, :create, :edit, :update, :destroy, to: :crud_prod
+    alias_action :new,:create,:edit,:update,:destroy, to: :crud_respond
+
     if user.roles_mask==0
       #user
       can :follow, User do |client|
@@ -24,10 +29,10 @@ class Ability
       can :index, User
       alias_action :new, :create, :show, :upvote, :index,:downvote,:choose_no,:choose_yes, to: :funzioniruolo0
       #store
-      
+
       can :funzioniruolo0, Store
-      
-     
+
+
       #control if an user can follow a store or he has already followed it.
       can :follow, Store do |store|
          !FollowStore.where(store_id: store.id, user_id: user.id).exists?
@@ -55,76 +60,35 @@ class Ability
       can :funzionistessouserid, Comment do |comment|
         comment.user_id==user.id
       end
-      
+
       can :indexReply,Comment
 
     elsif user.roles_mask==1
       #user
-      can :back, User
-      can :change, User
+      can :roles, User
 
       #store
       can :show, Store do |store|
         Work.where(store_id: store.id, user_id: user.id).exists?
       end
 
-      can :edit, Store do |store|
+      can :owner_ab, Store do |store|
         store.owner_id==user.id
       end
 
-      can :update, Store do |store|
-        store.owner_id==user.id
-      end
-
-      can :destroy, Store do |store|
-        store.owner_id==user.id
-      end
-
-      can :addadmin, Store do |store|
-        store.owner_id==user.id
-      end
-
-      can :change_admin, Store do |store|
-        store.owner_id==user.id
-      end
       #product
-      can :show, Product do |product|
+      can :crud_prod, Product do |product|
         Work.where(store_id: product.store_id, user_id: user.id).exists?
       end
 
       can :new, Product
 
-      can :create, Product do |product|
-        Work.where(store_id: product.store_id, user_id: user.id).exists?
-      end
-
-      can :edit, Product do |product|
-        Work.where(store_id: product.store_id, user_id: user.id).exists?
-      end
-
-      can :update, Product do |product|
-        Work.where(store_id: product.store_id, user_id: user.id).exists?
-      end
-
-      can :destroy, Product do |product|
-        Work.where(store_id: product.store_id, user_id: user.id).exists?
-      end
 
       #respond
-      can :new,Respond do |risp|
-        Store.where(id: risp.store_id,owener_id: user.id).exists?
-      end
-      can :create,Respond do |risp|
-        Store.where(id: risp.store_id,owener_id: user.id).exists?
-      end
-      can :edit,Respond do |risp|
-        Store.where(id: risp.store_id,owener_id: user.id).exists?
-      end
-      can :update,Respond do |risp|
-        Store.where(id: risp.store_id,owener_id: user.id).exists?
-      end
-      can :destroy,Respond do |risp|
-        Store.where(id: risp.store_id,owener_id: user.id).exists?
+
+
+      can :crud_respond ,Respond do |risp|
+        Store.where(id: risp.store_id,owner_id: user.id).exists?
       end
 
 
