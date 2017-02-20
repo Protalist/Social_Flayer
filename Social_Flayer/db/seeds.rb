@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-@user = User.new(:email => 'test@example.com', :password => 'password', :password_confirmation => 'password',:name => 'aldo', :surname => 'baglio', :username=> 'all')
+@user = User.new(:email => 'test@example.com', :password => 'password', :password_confirmation => 'password',:name => 'aldo', :surname => 'baglio', :username=> 'all',:admin => true)
 @user.save
 
 @user2  = User.new(:email => 'test2@example.com', :password => 'password', :password_confirmation => 'password',:name => 'giovanni', :surname => 'baglio', :username=> 'jova')

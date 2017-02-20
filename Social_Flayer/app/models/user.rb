@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, :omniauth_providers => [:facebook]
 
+  attr_readonly :admin
   validates :name , presence: true
   validates :surname , presence: true
   validates :username , presence: true, uniqueness: true
@@ -37,4 +38,7 @@ class User < ApplicationRecord
         user.username=auth.info.email+"/"+item[0]+"/"+item[1]
     end
   end
+
+  private
+
 end

@@ -10,6 +10,10 @@ class Ability
     alias_action :show, :create, :edit, :update, :destroy, to: :crud_prod
     alias_action :new,:create,:edit,:update,:destroy, to: :crud_respond
 
+    if user.admin?
+      can :manage,:all
+    end
+
     if user.roles_mask==0
       #user
       can :follow, User do |client|
