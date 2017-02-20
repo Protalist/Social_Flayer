@@ -91,6 +91,7 @@ RSpec.describe Ability do
     @ability=Ability.new(@user)
     @store1= Store.create(:name => 'pizza_bella' , :location => 'Roma,piazza trento', :owner_id=> @user.id)
     @store2= Store.create(:name => 'pizza_bella' , :location => 'Roma,piazza trento', :owner_id=> @user2.id)
+
   end
 
   describe "user" do
@@ -144,8 +145,92 @@ RSpec.describe Ability do
         allow(Work).to receive(:where).and_return(double("work", exists?: true))
         expect(@ability).to be_able_to(:crud_respond, @respond)
       end
-      
+
     end
+
+  end
+
+  describe "client pro" do
+    before(:each) do
+      @user.update(roles_mask: 2)
+      @ability=Ability.new(@user)
+      @store1= Store.create(:name => 'pizza_bella' , :location => 'Roma,piazza trento', :owner_id=> @user.id)
+      @product=Product.create(:name => "prova", :store_id => 1 ,:id => 1, :price => 1, :type_p => 1, :duration_h => 1)
+      @respond=Respond.new(:store_id =>1, :comment_id => 3, :content => "respond1")
+    end
+
+    describe "store" do
+      it "show" do
+        allow(Work).to receive(:where).and_return(double("work", exists?: true))
+        expect(@ability).to be_able_to(:show, @store1)
+      end
+
+      it "leave_store" do
+        allow(Work).to receive(:where).and_return(double("work", exists?: true))
+        expect(@ability).to be_able_to(:leave_store, @store1)
+      end
+    end
+
+    describe "products" do
+      it  "show" do
+        allow(Work).to receive(:where).and_return(double("work", exists?: true))
+        expect(@ability).to be_able_to(:show, @product)
+      end
+
+      it "new" do
+        expect(@ability).to be_able_to(:new, @product)
+      end
+
+      it "create" do
+        allow(Work).to receive(:where).and_return(double("work", exists?: true))
+        expect(@ability).to be_able_to(:create, @product)
+      end
+
+      it "edit" do
+        allow(Work).to receive(:where).and_return(double("work", exists?: true))
+        expect(@ability).to be_able_to(:edit, @product)
+      end
+
+      it "update" do
+        allow(Work).to receive(:where).and_return(double("work", exists?: true))
+        expect(@ability).to be_able_to(:update, @product)
+      end
+
+      it "destroy" do
+        allow(Work).to receive(:where).and_return(double("work", exists?: true))
+        expect(@ability).to be_able_to(:destroy, @product)
+      end
+
+    end
+
+    describe "respond" do
+      it "new" do
+        allow(Work).to receive(:where).and_return(double("work", exists?: true))
+        expect(@ability).to be_able_to(:new, @respond)
+      end
+
+      it "create" do
+        allow(Work).to receive(:where).and_return(double("work", exists?: true))
+        expect(@ability).to be_able_to(:create, @respond)
+      end
+
+      it "edit" do
+        allow(Work).to receive(:where).and_return(double("work", exists?: true))
+        expect(@ability).to be_able_to(:edit, @respond)
+      end
+
+      it "update" do
+        allow(Work).to receive(:where).and_return(double("work", exists?: true))
+        expect(@ability).to be_able_to(:update, @respond)
+      end
+
+      it "destroy" do
+        allow(Work).to receive(:where).and_return(double("work", exists?: true))
+        expect(@ability).to be_able_to(:destroy, @respond)
+      end
+
+    end
+
 
   end
 end
