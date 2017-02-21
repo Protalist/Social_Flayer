@@ -11,11 +11,11 @@ RSpec.describe Ability do
 
   context "a guest user" do
     it "should be able to manage self" do
-      expect(@ability).to be_able_to(:crud, @user)
+      expect(@ability).to be_able_to(:manageuser, @user)
     end
 
     it "should not be able to manage others" do
-      expect(@ability).to_not be_able_to(:crud, @user2)
+      expect(@ability).to_not be_able_to(:manageuser, @user2)
     end
     it "funzioniruolo0" do
       @store = Store.create(:name => "Negozio",:location => "dpgland",:owner_id => 3)
