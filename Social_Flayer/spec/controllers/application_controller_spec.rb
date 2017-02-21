@@ -3,7 +3,10 @@ require 'rails_helper'
 RSpec.describe ApplicationController, type: :controller do
   before(:each) do
     @fake_user=double('User', id: 1, roles_mask: 0)
-    @fake_user2=double('User', id: 1, roles_mask: 1)
+    @fake_user2=double('User', id: 2, roles_mask: 1)
+    @fake_userNM=double('User',id: 3, roles_mask: -1)
+    @fake_user3=double('User', id: 4, roles_mask: 2)
+
   end
   controller do
     def index
@@ -17,19 +20,33 @@ RSpec.describe ApplicationController, type: :controller do
 
   describe "eccezioni can can" do
 
-    it "role mask = 0" do
+    it " role mask = 0" do
       allow(controller).to receive(:current_user).and_return(@fake_user)
       get :index
       expect(response).to redirect_to(root_path)
 
     end
 
-    it "rolemask = 1 " do
+    it " rolemask = 1 || rolemask = 2  con cookies non nulli " do
 
       allow(controller).to receive(:current_user).and_return(@fake_user2)
       cookies[:last_store]=1
       get :index
       expect(response).to redirect_to(store_path(1))
+
+    end
+
+    it " rolemask = 1 || rolemask = 2 con cookies nulli " do
+      allow(controller).to receive(:current_user).and_return(@fake_user3)
+      allow(@fake_user3).to receive(:update).with(roles_mask: 0).and_return(true)
+      get :index
+      expect(response).to redirect_to(root_path)
+    end
+
+    it " senza rolemask " do
+      allow(controller).to receive(:current_user).and_return(@fake_userNM)
+      get :index
+      expect(response).to redirect_to(new_user_session_path)
 
     end
 
