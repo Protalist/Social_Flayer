@@ -14,10 +14,12 @@ class User < ApplicationRecord
 
   acts_as_voter
 
-  has_many :stores, as: :owner, dependent: :destroy
+  has_many :stores, :through => :owner, source: :store
+  has_many :store, foreign_key: :owner_id, class_name: "Store", dependent: :destroy
+
   has_many :works, dependent: :destroy
   has_many :workstores, :through => :works, :source => 'store'
-  has_many :comments
+  has_many :comments, dependent: :destroy
 
   has_many :follow_stores,dependent: :destroy
   has_many :followed_store, :through => :follow_stores, :source => 'Store'

@@ -4,7 +4,7 @@ class Ability
   def initialize(user)
 
 
-    user ||= User.new # guest user (not logged in)
+    user ||= User.new(:email => 'guest@example.com', :password => 'guest', :password_confirmation => 'guest',:name => 'guest', :surname => 'guest', :username=> 'guest',:admin => false, :roles_mask => -1) # guest user (not logged in)
     alias_action :back, :change, to: :roles
     alias_action :edit, :update, :destroy, :addadmin, :change_admin, to: :owner_ab
     alias_action :show, :create, :edit, :update, :destroy, to: :crud_prod
@@ -152,7 +152,7 @@ class Ability
       end
 
     else
-      can :read, :all
+      can [:show,:index], :all
     end
 
 

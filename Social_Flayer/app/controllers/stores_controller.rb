@@ -15,9 +15,9 @@ class StoresController < ApplicationController
 
   def create
     @store=Store.new(store_params)
+    authorize! :create, @store
     @store.owner_id=current_user.id
     if @store.save
-      authorize! :create, @store
       @admin_stores= Work.new()
       @admin_stores.store_id=@store.id
       @admin_stores.user_id=current_user.id
