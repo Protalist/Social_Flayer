@@ -23,9 +23,9 @@ class Ability
       can :unfollow, User do |client|
         FollowerUser.where(follower_id: user.id,followed_id:client.id).exists? && client.id != user.id
       end
-
+      alias_action :index,:show,:home,:back,:change,:follow,:unfollow, to: :manageuser
       #can menage  it self
-      can :manage, User do |client|
+      can :manageuser, User do |client|
        client.id == user.id
       end
 

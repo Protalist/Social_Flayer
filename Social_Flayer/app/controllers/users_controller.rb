@@ -13,32 +13,34 @@ class UsersController < ApplicationController
   end
 
   def home
-    @cu=current_user
-    @works_pendent=@cu.works.where(accept: false)
-    @followings=FollowStore.where(user_id: current_user.id)
-    @user_follow=FollowerUser.where("followed_id = ? OR follower_id = ?", @cu.id,@cu.id)
-    @store_follow=Store.joins(" join follow_stores, users ON users.id = follow_stores.user_id and follow_stores.store_id=stores.id").where("users.id = ?", @cu.id)
-    @products=[]
-    @responds=[]
-    @store_follow.each do |f|
+   
+      @cu=current_user
+      @works_pendent=@cu.works.where(accept: false)
+      @followings=FollowStore.where(user_id: current_user.id)
+      @user_follow=FollowerUser.where("followed_id = ? OR follower_id = ?", @cu.id,@cu.id)
+      @store_follow=Store.joins(" join follow_stores, users ON users.id = follow_stores.user_id and follow_stores.store_id=stores.id").where("users.id = ?", @cu.id)
+      @products=[]
+      @responds=[]
+      @store_follow.each do |f|
         @products+=f.products
         @responds+=f.responds
-    end
-    @comments=@cu.comments
-    @replys=[]
-    @comments.each do |f|
-      @replys+=f.replys+f.responds
-    end
-    @cosa_fanno=[]
-    @followed=@user_follow.where(follower_id: @cu.id)
-    @commenti_followed=[]
-    @vote=[]
-    @followed.each do |f|
-      @commenti_followed+=User.find(f.followed_id).comments
-      @cosa_fanno+=FollowStore.where(user_id: f.followed_id)
-      @vote+=ActsAsVotable::Vote.where(voter_id: f.followed_id)
-    end
-    @list=(@commenti_followed+@cosa_fanno+@replys+@products+@vote).sort!{|a,b| a.updated_at <=> b.updated_at}.reverse
+     end
+      @comments=@cu.comments
+      @replys=[]
+      @comments.each do |f|
+        @replys+=f.replys+f.responds
+     end
+      @cosa_fanno=[]
+      @followed=@user_follow.where(follower_id: @cu.id)
+      @commenti_followed=[]
+      @vote=[]
+      @followed.each do |f|
+        @commenti_followed+=User.find(f.followed_id).comments
+        @cosa_fanno+=FollowStore.where(user_id: f.followed_id)
+        @vote+=ActsAsVotable::Vote.where(voter_id: f.followed_id)
+      end
+      @list=(@commenti_followed+@cosa_fanno+@replys+@products+@vote).sort!{|a,b| a.updated_at <=> b.updated_at}.reverse
+      
   end
 
   def back

@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   scope :user do
     get "/:id"=>'users#show', as: 'user'
+    
     post 'change' => 'users#change', as: 'change'
     post 'back' => 'users#back', as: 'back'
     get "" => 'users#index', as: 'users'
@@ -12,7 +13,7 @@ Rails.application.routes.draw do
     post '/:id/unfollow' => 'users#unfollow', as: 'unfollow_user'
   end
 
-
+  get "/admin" => 'admins#homeadmin', as:'admin'
   resources :stores do  #aggiungiamo routes per stores
 	   member do
         post 'chooseyes'=>'stores#choose_yes'
