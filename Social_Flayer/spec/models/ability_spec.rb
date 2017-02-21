@@ -8,7 +8,12 @@ RSpec.describe Ability do
     @ability=Ability.new(@user)
 
   end
-
+  it "admin" do
+    @admin = @user=User.create(:email => 'test3@example.com', :password => 'password', :password_confirmation => 'password',:name => 'do', :surname => 'do', :username=> 'admin',:admin =>true)
+    @ability1=Ability.new(@admin)
+    expect(@ability1).to be_able_to(:manage,:all)
+    expect(@ability).to_not be_able_to(:manage,:all)
+  end
   context "a guest user" do
     it "should be able to manage self" do
       expect(@ability).to be_able_to(:manageuser, @user)
@@ -17,6 +22,7 @@ RSpec.describe Ability do
     it "should not be able to manage others" do
       expect(@ability).to_not be_able_to(:manageuser, @user2)
     end
+    
     it "funzioniruolo0" do
       @store = Store.create(:name => "Negozio",:location => "dpgland",:owner_id => 3)
       expect(@ability).to be_able_to(:funzioniruolo0, @store)
