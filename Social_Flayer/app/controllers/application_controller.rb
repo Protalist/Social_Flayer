@@ -5,10 +5,27 @@ class ApplicationController < ActionController::Base
 
   #risolve l'eccezione  create da can can
   rescue_from CanCan::AccessDenied do |exception|
-    if current_user.roles_mask==0
+
+    if current_user.roles_mask==nil
+      redirect_to new_user_session_path, :alert =>  exception.message
+
+    elsif current_user.roles_mask==0
       redirect_to main_app.root_url, :alert => exception.message
+
+    elsif current_user.roles_mask==1 || current_user.roles_mask==2
+
+      if cookies[:last_store] == nil
+        current_user.update(roles_mask: 0)
+        redirect_to main_app.root_url, :alert =>  exception.message
+
+      else
+        redirect_to store_path(cookies[:last_store]), :alert =>  exception.message
+
+      end
+
     else
-      redirect_to store_path(cookies[:last_store]), :alert =>  exception.message
+      redirect_to new_user_session_path, :alert =>  exception.message
+
     end
   end
 
@@ -16,7 +33,7 @@ class ApplicationController < ActionController::Base
 
     if exception.message == "lost_connection"
       render :file => "#{Rails.root}/public/500.html"
-    
+
     elsif exception.message == "not found"
       render :file => "#{Rails.root}/public/404.html"
     end
