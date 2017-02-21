@@ -5,7 +5,6 @@ RSpec.describe CommentsController, type: :controller do
 
         @fake_user_comment1 = double("User",id:1,roles_mask:0)
         @fake_user_comment2 = double("User",id:1,roles_mask:1)
-
         @fake_store_comment = double("Store")
         @fake_comment = double("Comment",id:1,content:"ciaone")
         allow(Comment).to receive(:ids).and_return(@fake_comment)
@@ -210,13 +209,13 @@ RSpec.describe CommentsController, type: :controller do
 
         it "tramite html" do
             delete :destroy, params: {store_id:1,id:1}
-            
+
             expect(response).to redirect_to(store_path(1))
         end
 
         it "tramite ajax" do
           delete :destroy, params: {store_id:1,id:1, format: "js"}
-          
+
 
           expect(response).to render_template(:destroy)
         end

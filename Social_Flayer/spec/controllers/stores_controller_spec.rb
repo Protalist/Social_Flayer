@@ -8,6 +8,7 @@ RSpec.describe StoresController, type: :controller do
     @fake_store=double('Stores', stores: [double("store1",id:1),double("store2",id:2)])
     @fake_producs=double('Product', products: [double("prod1"),double("prod2")])
     @fake_comments=double('Comment', comments: [double("comment1"),double("comment2")])
+    allow(controller).to receive(:authorize!).and_return(true)
     allow(Store).to receive(:ids).and_return(@fake_store)
     allow(@fake_store).to receive(:include?).with(1).and_return(true)
     allow(Store).to receive(:find).with("1").and_return(@fake_store.stores[0])
@@ -116,37 +117,6 @@ RSpec.describe StoresController, type: :controller do
 
     end
 
-    describe "non autorizzato" do
-      before(:each) do
-        allow(@fake_store).to receive(:include?).with(1).and_return(true)
-        allow(@fake_store.stores[0]).to receive(:destroy).and_return(true)
-        allow(controller).to receive(:current_user).and_return(@fake_user_client)
-        allow(@fake_user_client).to receive(:update).with(roles_mask: 0).and_return(true)
-      end
-
-      it "non deve eseguire i comandi" do
-          expect(@fake_store.stores[0]).to_not receive(:destroy)
-          expect(@fake_user_store).to_not receive(:update)
-          delete :destroy, params:{id: "1"}
-      end
-
-      it "per un altro negozio" do
-        allow(controller).to receive(:current_user).and_return(@fake_user_store)
-        cookies[:last_store]=2
-        delete :destroy, params:{id: "1"}
-        expect(response).to redirect_to(store_path(2))
-      end
-
-      it "per un utente" do
-        allow(controller).to receive(:current_user).and_return(@fake_user_client)
-        delete :destroy, params:{id: "1"}
-        expect(response).to redirect_to(root_path)
-      end
-
-    end
-
-
-
 
   end
 
@@ -155,19 +125,13 @@ RSpec.describe StoresController, type: :controller do
     describe 'autorizzato' do
       it "rendirizza la pagina" do
         allow(controller).to receive(:current_user).and_return(@fake_user_client)
+        allow(@fake_user_client).to receive(:admin?).and_return(false)
+        allow(controller).to receive(:authorize!).and_return(true)
         get :new
         expect(response).to render_template(:new)
       end
     end
 
-    describe 'non autorizzato' do
-      it "renderizzo al " do
-        allow(controller).to receive(:current_user).and_return(@fake_user_store)
-        cookies[:last_store]=1
-        get :new
-        expect(response).to redirect_to(store_path(1))
-      end
-    end
   end
 
   describe 'POST create' do
@@ -203,15 +167,6 @@ RSpec.describe StoresController, type: :controller do
         expect(response).to render_template(:new)
       end
     end
-
-    describe "non autorizzato" do
-      it "negozio" do
-        allow(controller).to receive(:current_user).and_return(@fake_user_store)
-        cookies[:last_store]=1
-        post :create, @params
-        expect(response).to redirect_to(store_path(1))
-      end
-    end
   end
 
 describe "upvote e downvote store" do
@@ -228,13 +183,6 @@ describe "upvote e downvote store" do
       expect(response).to redirect_to(store_path(1))
     end
 
-    it "non sei autorizzato" do
-      allow(controller).to receive(:current_user).and_return(@fake_user_store)
-      expect(@fake_store.stores[0]).to_not receive(:upvote_from).with(@fake_user_client)
-      cookies[:last_store]=1
-      put :upvote, params:{id: 1}
-      expect(response).to redirect_to(store_path(1))
-    end
   end
 
   describe "downvote" do
@@ -246,13 +194,6 @@ describe "upvote e downvote store" do
       expect(response).to redirect_to(store_path(1))
     end
 
-    it "non sei autorizzato" do
-      allow(controller).to receive(:current_user).and_return(@fake_user_store)
-      expect(@fake_store.stores[0]).to_not receive(:downvote_from).with(@fake_user_client)
-      cookies[:last_store]=1
-      put :downvote, params:{id: 1}
-      expect(response).to redirect_to(store_path(1))
-    end
   end
 end
 
@@ -277,22 +218,6 @@ describe "follow and unfollo" do
 
     end
 
-    it "non autorizzato utente" do
-      allow(controller).to receive(:current_user).and_return(@fake_user_client)
-      expect(FollowStore).to_not receive(:new)
-      expect(@FollowStore).to_not receive(:save)
-      post :follow, params:{id: 1}
-      expect(response).to redirect_to(root_path)
-    end
-
-    it "non autorizzato negozio" do
-      allow(controller).to receive(:current_user).and_return(@fake_user_store)
-      expect(FollowStore).to_not receive(:new)
-      expect(@FollowStore).to_not receive(:save)
-      cookies[:last_store]=1
-      post :follow, params:{id: 1}
-      expect(response).to redirect_to(store_path(1))
-    end
   end
 
   describe "unfollow" do
@@ -305,23 +230,6 @@ describe "follow and unfollo" do
       post :unfollow, params:{id: 1}
       expect(response).to redirect_to(store_path(1))
 
-    end
-
-    it "non autorizzato utente" do
-      allow(controller).to receive(:current_user).and_return(@fake_user_client)
-      expect(FollowStore).to_not receive(:new)
-      expect(@FollowStore).to_not receive(:save)
-      post :unfollow, params:{id: 1}
-      expect(response).to redirect_to(root_path)
-    end
-
-    it "non autorizzato negozio" do
-      allow(controller).to receive(:current_user).and_return(@fake_user_store)
-      expect(FollowStore).to_not receive(:new)
-      expect(@FollowStore).to_not receive(:save)
-      cookies[:last_store]=1
-      post :unfollow, params:{id: 1}
-      expect(response).to redirect_to(store_path(1))
     end
   end
 
@@ -349,13 +257,6 @@ describe "choose_yes e choose_no" do
       expect(response).to redirect_to(store_path(1))
     end
 
-    it "non autorizzato" do
-      allow(controller).to receive(:current_user).and_return(@fake_user_client)
-      expect(@fake_work).to_not receive(:update).with(accept: true)
-      post :choose_yes, params:{id: 1}
-      expect(response).to redirect_to(root_path)
-    end
-
   end
 
   describe "choose_no" do
@@ -370,12 +271,6 @@ describe "choose_yes e choose_no" do
       expect(response).to redirect_to(root_path)
     end
 
-    it "non autorizzato" do
-      allow(controller).to receive(:current_user).and_return(@fake_user_client)
-      expect(@fake_work).to_not receive(:update).with(accept: true)
-      post :choose_no, params:{id: 1}
-      expect(response).to redirect_to(root_path)
-    end
 
   end
 end
@@ -415,15 +310,7 @@ describe "change_admin" do
     end
   end
 
-  describe "non autorizzato" do
-    it "come cliente" do
-      allow(controller).to receive(:current_user).and_return(@fake_user_client)
-    end
 
-    it "come store" do
-      allow(controller).to receive(:current_user).and_return(@fake_user_store)
-    end
-  end
 
 end
 
