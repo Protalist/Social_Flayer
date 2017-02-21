@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CommentsController, type: :controller do
     before(:each) do
-
+        allow(controller).to receive(:authorize!).and_return(true)
         @fake_user_comment1 = double("User",id:1,roles_mask:0)
         @fake_user_comment2 = double("User",id:1,roles_mask:1)
 
@@ -45,15 +45,7 @@ RSpec.describe CommentsController, type: :controller do
               expect(response).to redirect_to(store_path(1))
             end
 
-            it "non sono un utente semplice , non ho il pandino per commentare e sto muto" do
-                allow(controller).to receive(:current_user).and_return(@fake_user_comment2)
-
-                allow(@fake_comment).to receive(:user_id=).and_return(1)
-                allow(@fake_comment).to receive(:save).and_return(true)
-                cookies[:last_store]=2
-                post :create , params: {store_id:1,comment:@paramsi}
-                expect(response).to redirect_to(store_path(2))
-            end
+            
         end
       end
     end
@@ -88,16 +80,7 @@ RSpec.describe CommentsController, type: :controller do
                 expect(response).to redirect_to(store_path(1))
             end
 
-            it "non sono un risvoltinato semplice , se vedo un commento devo stare zitto" do
-                expect(@fake_comment).to_not receive(:save)
-                allow(controller).to receive(:current_user).and_return(@fake_user_comment2)
-
-                allow(@fake_comment).to receive(:user_id=).and_return(1)
-                allow(@fake_comment).to receive(:save).and_return(true)
-                cookies[:last_store]=2
-                post :reply , params: {store_id:1,id:1,comment:@paramsi}
-                expect(response).to redirect_to(store_path(2))
-            end
+            
         end
 
         describe "rispondiamo tramite ajax" do
@@ -119,15 +102,7 @@ RSpec.describe CommentsController, type: :controller do
                 expect(response).to render_template("shared/nothing")
             end
 
-            it "non sono un risvoltinato semplice , se vedo un commento devo stare zitto" do
-                expect(@fake_comment).to_not receive(:save)
-                allow(controller).to receive(:current_user).and_return(@fake_user_comment2)
-                allow(@fake_comment).to receive(:user_id=).and_return(1)
-                allow(@fake_comment).to receive(:save).and_return(true)
-                cookies[:last_store]=2
-                post :reply , params: {store_id:1,id:1,comment:@paramsi,format: "js"}
-                expect(response).to redirect_to(store_path(2))
-            end
+            
         end
 
     end

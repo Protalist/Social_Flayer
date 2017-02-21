@@ -34,12 +34,12 @@ RSpec.describe FollowerUser, type: :model do
      it "follower" do
         assc = described_class.reflect_on_association(:follower)
         expect(assc.macro).to eq :belongs_to
-        expect(assc.options).to eq(class_name:"User")
+        expect(assc.options).to eq(class_name:"User",foreign_key: "user.id")
       end
       it "followed" do
         assc = described_class.reflect_on_association(:followed)
         expect(assc.macro).to eq :belongs_to
-        expect(assc.options).to eq(class_name:"User")
+        expect(assc.options).to eq(class_name:"User",foreign_key: "user.id")
       end
   end
   describe FollowerUser do
