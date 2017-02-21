@@ -9,6 +9,9 @@ class Product < ApplicationRecord
   validates :type_p, presence: true
   validate :number_products
 
+  has_many :follow_product, dependent: :destroy
+  has_many :followers, :through => :follow_product, :source => 'user'
+
 
 
   def time_offer

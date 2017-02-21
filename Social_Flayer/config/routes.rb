@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   scope :user do
     get "/:id"=>'users#show', as: 'user'
-    
+
     post 'change' => 'users#change', as: 'change'
     post 'back' => 'users#back', as: 'back'
     get "" => 'users#index', as: 'users'
@@ -26,7 +26,11 @@ Rails.application.routes.draw do
         get 'leave' => 'stores#leave_store'
         post 'change_admin' => 'stores#change_admin'
       end
-      resources :products, :except => [:index]
+
+      resources :products, :except => [:index] do
+        post 'follow'=>'product#follow'
+        post 'unfollow'=>'product#unfollow'
+      end
 
       resources :comments ,:except => [:show, :index] do  #questo vuol dire che i commenti sono legati ai negozi
 

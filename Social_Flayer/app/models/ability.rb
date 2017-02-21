@@ -49,6 +49,14 @@ class Ability
       #product
       can :show, Product
 
+      can :follow, Product do |product|
+        !FollowProduct.where(user_id: user.id,product_id:product.id).exists?
+      end
+
+      can :unfollow, Product do |product|
+        FollowProduct.where(user_id: user.id,product_id:product.id).exists?
+      end
+
 
       #comment
       can :new,Comment do |comment|

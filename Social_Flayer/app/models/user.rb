@@ -30,6 +30,9 @@ class User < ApplicationRecord
   has_many :followeds, :through => :followed, :source => :followed
   has_many :followed, foreign_key: :followed_id, class_name: "FollowerUser", dependent: :destroy
 
+  has_many :follow_product, dependent: :destroy
+  has_many :followed_product, :through => :follow_product, :source => 'Product'
+
   def self.from_omniauth(auth, f)
     item=auth.extra.raw_info.name.split
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|

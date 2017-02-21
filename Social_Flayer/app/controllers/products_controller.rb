@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_filter :product, only: [:show, :edit ,:update,:destroy]
+  before_action :product, only: [:show, :edit ,:update,:destroy, :follow, :unfollow]
   load_and_authorize_resource :except => :create
 
 
@@ -45,6 +45,19 @@ class ProductsController < ApplicationController
   end
 
 
+  def follow
+     @follow=FollowProduct.new()
+     @follow.product_id=@product.id
+     @follow.user_id=current_user.id
+     @follow.save
+  end
+
+
+  def unfollow
+     @follow=FollowProduct.where(product_id: @product.id, user_id: current_user.id).destroy_all
+  end
+
+
   private
   def product
     if (Product.ids.include?(params[:id].to_i))
@@ -57,7 +70,7 @@ class ProductsController < ApplicationController
   def product_params
       params.require(:product).permit(:name,:price,:feature,:type_p,:duration_h)
   end
-  
+
 
 
 end

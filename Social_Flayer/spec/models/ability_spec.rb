@@ -22,7 +22,7 @@ RSpec.describe Ability do
     it "should not be able to manage others" do
       expect(@ability).to_not be_able_to(:manageuser, @user2)
     end
-    
+
     it "funzioniruolo0" do
       @store = Store.create(:name => "Negozio",:location => "dpgland",:owner_id => 3)
       expect(@ability).to be_able_to(:funzioniruolo0, @store)
@@ -48,6 +48,28 @@ RSpec.describe Ability do
 
       expect(@ability).to be_able_to(:show,Product)
     end
+
+    describe "can follow product?" do
+      it "can follow" do
+        @store = Store.create(:name => "Negozio",:location => "dpgland",:owner_id => 3)
+        allow(@store).to receive(:products).and_return(true)
+        @product=Product.create(:name => "prova", :store_id => 1 ,:id => 1, :price => 1, :type_p => 1, :duration_h => 1)
+        @follow=double("follow", exists?: false)
+        allow(FollowProduct).to receive(:where).and_return(@follow)
+        expect(@ability).to be_able_to(:follow,@product)
+        expect(@ability).to_not be_able_to(:unfollow,@product)
+      end
+      it "can't follow" do
+        @store = Store.create(:name => "Negozio",:location => "dpgland",:owner_id => 3)
+        allow(@store).to receive(:products).and_return(true)
+        @product=Product.create(:name => "prova", :store_id => 1 ,:id => 1, :price => 1, :type_p => 1, :duration_h => 1)
+        @follow = double("follow",exists?:true)
+        allow(FollowProduct).to receive(:where).and_return(@follow)
+        expect(@ability).to_not be_able_to(:follow,@product)
+        expect(@ability).to be_able_to(:unfollow,@product)
+      end
+    end
+    
     describe "can follow stores?" do
       it "can follow" do
         @store = Store.create(:name => "Negozio",:location => "dpgland",:owner_id => 3)
