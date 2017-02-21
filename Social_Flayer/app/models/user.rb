@@ -22,8 +22,11 @@ class User < ApplicationRecord
   has_many :follow_stores,dependent: :destroy
   has_many :followed_store, :through => :follow_stores, :source => 'Store'
 
-  has_many :follower, :source => 'follower_user', as: :follower , dependent: :destroy
-  has_many :followed, :source => 'follower_user', as: :followed , dependent: :destroy
+  has_many :followers, :through => :follower, :source => :follower
+  has_many :follower, foreign_key: :follower_id, class_name: "FollowerUser", dependent: :destroy
+
+  has_many :followeds, :through => :followed, :source => :followed
+  has_many :followed, foreign_key: :followed_id, class_name: "FollowerUser", dependent: :destroy
 
   def self.from_omniauth(auth, f)
     item=auth.extra.raw_info.name.split
