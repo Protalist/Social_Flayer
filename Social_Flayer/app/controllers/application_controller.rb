@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   #risolve l'eccezione  create da can can
   rescue_from CanCan::AccessDenied do |exception|
 
-    if current_user.roles_mask==nil
+    if current_user==nil
       redirect_to new_user_session_path, :alert =>  exception.message
 
     elsif current_user.roles_mask==0
