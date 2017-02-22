@@ -1,2 +1,15 @@
 <h1> Il nome del prodotto è: </h1>
 <%= @product.name %>
+<div id='followp'>
+		<%if can? :follow, @product%>
+
+				<%= button_to 'follow del prodotto', follow_store_product_path(@product.store_id, @product.id), method: :post, remote: true %>
+
+		<%end%>
+		<%if can? :unfollow, @product%>
+
+
+        <%= button_to 'unfollow del prodotto', unfollow_store_product_path(@product.store_id, @product.id), method: :post, remote: true %>
+
+		<%end%>
+  </div>

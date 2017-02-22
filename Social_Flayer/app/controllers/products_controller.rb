@@ -50,11 +50,21 @@ class ProductsController < ApplicationController
      @follow.product_id=@product.id
      @follow.user_id=current_user.id
      @follow.save
+
+     respond_to do |format|
+      format.html {redirect_to store_product_path(@product.store_id, @product.id)}
+		  format.js{}
+	   end
   end
 
 
   def unfollow
      @follow=FollowProduct.where(product_id: @product.id, user_id: current_user.id).destroy_all
+
+     respond_to do |format|
+      format.html {redirect_to store_product_path(@product.store_id, @product.id)}
+		  format.js{}
+	   end
   end
 
 

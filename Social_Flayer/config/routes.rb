@@ -28,8 +28,10 @@ Rails.application.routes.draw do
       end
 
       resources :products, :except => [:index] do
-        post 'follow'=>'product#follow'
-        post 'unfollow'=>'product#unfollow'
+        member do
+          post 'follow'=>'products#follow'
+          post 'unfollow'=>'products#unfollow'
+        end
       end
 
       resources :comments ,:except => [:show, :index] do  #questo vuol dire che i commenti sono legati ai negozi
