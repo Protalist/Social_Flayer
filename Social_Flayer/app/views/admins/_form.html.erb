@@ -1,0 +1,12 @@
+<%= form_for :report, url: path do |f| %>
+  <div class="field">
+    <%= f.label :motivation %><br />
+    <%= f.text_area :motivation, autofocus: true %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Sign up" %>
+    <%= link_to 'chiudi', user_path(params[:id]) %>
+  </div>
+
+<% end %>

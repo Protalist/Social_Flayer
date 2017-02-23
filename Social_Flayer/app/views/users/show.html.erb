@@ -10,3 +10,9 @@ afito <br/>
 </div>
 
 pagina di <%=@show.name%> <br/>
+
+<%if can? :report, @show%>
+<div id= "report">
+  <%= button_to "segnala utente" , show_report_user_path(@show.id), method: :get, remote: true%>
+</div>
+<%end%>

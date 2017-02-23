@@ -14,7 +14,7 @@ RSpec.describe Ability do
     expect(@ability1).to be_able_to(:manage,:all)
     expect(@ability).to_not be_able_to(:manage,:all)
   end
-  context "a guest user" do
+  context "a  user client" do
     it "should be able to manage self" do
       expect(@ability).to be_able_to(:manageuser, @user)
     end
@@ -23,6 +23,17 @@ RSpec.describe Ability do
       expect(@ability).to_not be_able_to(:manageuser, @user2)
     end
 
+    it "can report a user" do
+      @report=double("follow", exists?: false)
+      allow(Report).to receive(:where).and_return(@report)
+      expect(@ability).to be_able_to(:report,@user2)
+    end
+
+    it "can't report a user" do
+      @report=double("follow", exists?: true)
+      allow(Report).to receive(:where).and_return(@report)
+      expect(@ability).to_not be_able_to(:report,@user2)
+    end
     it "funzioniruolo0" do
       @store = Store.create(:name => "Negozio",:location => "dpgland",:owner_id => 3)
       expect(@ability).to be_able_to(:funzioniruolo0, @store)
@@ -69,7 +80,7 @@ RSpec.describe Ability do
         expect(@ability).to be_able_to(:unfollow,@product)
       end
     end
-    
+
     describe "can follow stores?" do
       it "can follow" do
         @store = Store.create(:name => "Negozio",:location => "dpgland",:owner_id => 3)

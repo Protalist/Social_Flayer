@@ -11,6 +11,8 @@ Rails.application.routes.draw do
     get "" => 'users#index', as: 'users'
     post '/:id/follow' => 'users#follow', as: 'follow_user'
     post '/:id/unfollow' => 'users#unfollow', as: 'unfollow_user'
+    get "/:id/show_report" => 'admins#show_report', as: 'show_report_user'
+    post "/:id/report" => 'admins#report', as: 'report_user'
   end
 
   get "/admin" => 'admins#homeadmin', as:'admin'

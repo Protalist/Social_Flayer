@@ -9,6 +9,7 @@ class Ability
     alias_action :edit, :update, :destroy, :addadmin, :change_admin, to: :owner_ab
     alias_action :show, :create, :edit, :update, :destroy, to: :crud_prod
     alias_action :new,:create,:edit,:update,:destroy, to: :crud_respond
+    alias_action :index,:show,:home,:back,:change,:follow,:unfollow, to: :manageuser
 
     if user.admin?
       can :manage,:all
@@ -23,7 +24,7 @@ class Ability
       can :unfollow, User do |client|
         FollowerUser.where(follower_id: user.id,followed_id:client.id).exists? && client.id != user.id
       end
-      alias_action :index,:show,:home,:back,:change,:follow,:unfollow, to: :manageuser
+
       #can menage  it self
       can :manageuser, User do |client|
        client.id == user.id
@@ -31,6 +32,13 @@ class Ability
 
       can :show, User
       can :index, User
+      can :show_report, User
+      can :report, User do |client|
+        user.id!=client.id && !Report.where(reporter_id: user.id, reported_id: client.id).exists?
+      end
+
+
+
       alias_action :new, :create, :show, :upvote, :index,:downvote,:choose_no,:choose_yes, to: :funzioniruolo0
       #store
 
