@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 20170222171228) do
   create_table "products", force: :cascade do |t|
     t.string   "name"
     t.float    "price"
+    t.string   "image"
     t.integer  "duration_h"
     t.string   "type_p"
     t.text     "feature"
@@ -80,6 +81,7 @@ ActiveRecord::Schema.define(version: 20170222171228) do
   create_table "stores", force: :cascade do |t|
     t.string   "name"
     t.string   "location"
+    t.string   "image"
     t.integer  "owner_id"
     t.string   "owner_type"
     t.datetime "created_at", null: false
@@ -93,6 +95,7 @@ ActiveRecord::Schema.define(version: 20170222171228) do
     t.string   "name"
     t.string   "surname"
     t.string   "username"
+    t.string   "image"
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"

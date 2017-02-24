@@ -7,7 +7,8 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.0]
       t.string :name
       t.string :surname
       t.string :username
-    
+      t.string :image
+
 
       ## Recoverable
       t.string   :reset_password_token
