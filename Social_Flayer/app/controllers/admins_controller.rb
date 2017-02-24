@@ -1,5 +1,6 @@
 class AdminsController < ApplicationController
     def homeadmin
+      @reports = Report.all
     end
 
     def show_report
@@ -19,6 +20,9 @@ class AdminsController < ApplicationController
       else
         redirect_to root_path, :alert => "non esiste questo utente"
       end
+    end
+
+    def show_ban
     end
 
     private

@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   end
 
   get "/admin" => 'admins#homeadmin', as:'admin'
+  get "/admin/ban/:id" => 'admins#show_ban', as: 'ban'
   resources :stores do  #aggiungiamo routes per stores
 	   member do
         post 'chooseyes'=>'stores#choose_yes'

@@ -1,1 +1,7 @@
-<h1> Ciao bellissimo! Tu sei stato selzionato per essere l'admin. Solo tu puoi farcela. Che il triplo 7 non venga infamato </h1>
+<h1> Ciao bellissimo! Tu sei stato selzionato per essere l'admin. Solo tu puoi farcela. Che il triplo 7 non venga infamato </h1> </br>
+
+<% @reports.each do |r| %>
+   <table> gestione report
+       <tr><td>di <%= User.find(r.reporter_id).name%></td>  <td>a:<%=link_to User.find(r.reported_id).name,user_path(r.reported_id)%> </td> <td>per:<%=r.motivation%><%=button_to "vai al ban",ban_path(r.reported_id),method: :get%></td></tr> 
+   </table>
+<%end%>
