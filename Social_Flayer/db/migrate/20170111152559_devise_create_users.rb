@@ -7,7 +7,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.0]
       t.string :name
       t.string :surname
       t.string :username
-      t.integer :ban
+      t.integer :ban, default: 0
     
 
       ## Recoverable

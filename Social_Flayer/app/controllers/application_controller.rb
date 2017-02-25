@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   #permette di modificare parametri aggiunti dai programmatori
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :deny_banned
 
   #risolve l'eccezione  create da can can
   rescue_from CanCan::AccessDenied do |exception|
@@ -49,7 +50,17 @@ class ApplicationController < ActionController::Base
       devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :surname, :username])
       devise_parameter_sanitizer.permit(:account_update, keys: [:name, :surname,:username])
   end
-
   add_flash_types :error_comments
+  
+  protected
+  def deny_banned
+    if user_signed_in? && current_user.ban != 0
+      redirect_to root_path, :notice => "You are banned from this site."
+      
+    end
+  end
+
+
+  
 
 end

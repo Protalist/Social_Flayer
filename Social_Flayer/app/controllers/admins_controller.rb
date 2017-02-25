@@ -1,5 +1,5 @@
 class AdminsController < ApplicationController
-    before_action :authorize
+    before_action :authorize, :except => [:show_report,:report]
 
     def homeadmin
       @reports = Report.all

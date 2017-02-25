@@ -1,4 +1,4 @@
-<h1> decidi il destino del utente <%= User.find(@ban.first.reported_id).username%></h1>
+<h1> decidi il destino dell' utente <%= User.find(@ban.first.reported_id).username%></h1>
 <%= link_to "vai alla pagina di#{User.find(@ban.first.reported_id).username} ", user_path(@ban.first.reported_id)%>
 
 <ul>
