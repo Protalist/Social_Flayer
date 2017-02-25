@@ -93,6 +93,7 @@ ActiveRecord::Schema.define(version: 20170222171228) do
     t.string   "name"
     t.string   "surname"
     t.string   "username"
+    t.integer  "ban"
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"

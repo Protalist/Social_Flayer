@@ -1,0 +1,18 @@
+<%=form_for :ban, url: send_ban_path(id) do |f| %>
+  <strong> Inserire i giorni di ban per l'utente </strong>
+  <ul>
+    <li>day = 0 => l'utente viene assolto dai suoi ban</li>
+    <li>day =-1 => l'utente viene bannato definitivamente </li>
+    <li>day > 0 => l'utente viene bannato per "day" giorni</li>
+  </ul>
+  <div  class="motivation">
+    <div class="field">
+      <%= f.label :day %><br />
+      <%= f.number_field :day,value: 0,min: -1 , autofocus: true %>
+    </div>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "invia" %>
+  </div>
+<%end%>

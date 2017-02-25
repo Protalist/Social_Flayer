@@ -23,6 +23,25 @@ class AdminsController < ApplicationController
     end
 
     def show_ban
+      @ban=Report.where(reported_id: params[:id])
+    end
+
+    def send_ban
+      if Report.where(reported_id: params[:id]).exists?
+        day=params.require(:ban).permit(:day)
+        day=day[:day].to_i
+        if day >0
+          data=Time.now()+day.day
+          User.find(params[:id]).update(ban: data.to_i)
+        elsif day < 0
+          User.find(params[:id]).update(ban: day)
+        else
+        end
+        Report.where(reported_id: params[:id]).destroy_all
+      else
+        flas[:alert]="non esiste il report"
+      end
+      redirect_to admin_path
     end
 
     private

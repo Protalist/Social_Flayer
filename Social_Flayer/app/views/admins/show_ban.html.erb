@@ -1,1 +1,11 @@
-<h1> decidi il destino</h1>
+<h1> decidi il destino del utente <%= User.find(@ban.first.reported_id).username%></h1>
+<%= link_to "vai alla pagina di#{User.find(@ban.first.reported_id).username} ", user_path(@ban.first.reported_id)%>
+
+<ul>
+  <%@ban.each do |b|%>
+    <li> l'utente <%= link_to "#{User.find(b.reporter_id).username}", user_path(b.reporter_id)%> ha reportato il sogetto perché:<br/>
+      &nbsp; <%= b.motivation %> </li>
+  <%end%>
+</ul>
+
+<%= render "admins/activeban", id: @ban.first.reported_id %>

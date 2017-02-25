@@ -23,7 +23,7 @@
     <% end %>
     <%= yield %>
     <% if user_signed_in? %>
-    
+    <br/><br/>
      Logged in as <%= current_user.email%> with role: <%= current_user.roles_mask %> [<%= link_to 'Edit', edit_user_registration_path%>,<%= link_to 'Logout',  destroy_user_session_path, :method => :delete%> <% if can? :admin,User%> <%= link_to "homepage admin", admin_path%> <%end%>]
     <% end %>
   </body>
