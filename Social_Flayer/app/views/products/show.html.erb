@@ -1,5 +1,12 @@
 <h1> Il nome del prodotto è: </h1>
 <%= @product.name %>
+<p>
+
+  <% if @product.image.thumb.url!=nil %>
+  <strong>Immagine prodotto:</strong>
+  <%= image_tag @product.image.thumb.url %>
+  <% end %>
+</p>
 <div id='followp'>
 		<%if can? :follow, @product%>
 

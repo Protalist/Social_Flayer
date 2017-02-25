@@ -1,4 +1,4 @@
-<%= form_for (prod), url: path, remote: true do |f| %>
+<%= form_for (prod), url: path do |f| %>
   <% if prod.errors.any? %>
     <ul>
     <% prod.errors.full_messages.each do |msg| %>
