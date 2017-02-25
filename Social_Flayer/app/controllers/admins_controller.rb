@@ -1,4 +1,6 @@
 class AdminsController < ApplicationController
+    before_action :authorize
+
     def homeadmin
       @reports = Report.all
     end
@@ -39,12 +41,15 @@ class AdminsController < ApplicationController
         end
         Report.where(reported_id: params[:id]).destroy_all
       else
-        flas[:alert]="non esiste il report"
+        flash[:alert]="non esiste il report"
       end
       redirect_to admin_path
     end
 
     private
+    def authorize
+      authorize! :admin, User
+    end
 
     def report_params
       params.require(:report).permit(:motivation)
