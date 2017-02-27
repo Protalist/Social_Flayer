@@ -1,15 +1,17 @@
 class AdminsController < ApplicationController
-    before_action :authorize, :except => [:show_report,:report]
+    before_action :authorize , :except => [:show_report,:report]
 
     def homeadmin
       @reports = Report.all
     end
 
     def show_report
+        authorize! :show_report, User
     end
 
     def report
       if User.where(id: params[:id]).exists?
+        authorize! :report, User.find(params[:id])
         report=Report.new(report_params)
         report.reported_id=params[:id]
         report.reporter_id=current_user.id

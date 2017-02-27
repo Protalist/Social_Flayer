@@ -89,3 +89,9 @@ add an add_admin
 <%end%> <br/>
 <%= link_to 'destroy', store_path(@show), data: { confirm: "Are you sure?" }, method: :delete %>
 <%= link_to 'edit', edit_store_path(@show) %>
+
+<%if can? :report, @show.owner%>
+<div id= "report">
+  <%= button_to "segnala proprietario" , show_report_user_path(@show.owner_id), method: :get, remote: true%>
+</div>
+<%end%>
