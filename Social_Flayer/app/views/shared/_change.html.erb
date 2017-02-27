@@ -1,4 +1,10 @@
+<div class="row center">
+ <div class="col s12 m4">
+
 <%= form_for :role, url: change_path do |f| %>
   <% s=current_user.workstores.where("works.accept = ?" ,true) %>
-  <%= select_tag "store_id", options_from_collection_for_select(s, "id", "name" ),prompt: "select store", onchange: "this.form.submit()" %>
+  <%= select_tag "store_id", options_from_collection_for_select(s, "id", "name" ),prompt: "select store", onchange: "this.form.submit()", class: "browser-default"  %>
 <% end %>
+
+</div>
+</div>
