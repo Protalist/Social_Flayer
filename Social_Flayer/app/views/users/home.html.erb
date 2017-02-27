@@ -4,7 +4,13 @@
 <%= @cu.surname%> <br/>
 <%= @cu.name %> <br/>
 
+<p>
 
+  <% if @cu.image.thumb.url!=nil %>
+  <strong>Immagine profilo:</strong>
+  <%= image_tag @cu.image.propic.url %>
+  <% end %>
+</p>
 
 <div id='followandi'>
    <ul>

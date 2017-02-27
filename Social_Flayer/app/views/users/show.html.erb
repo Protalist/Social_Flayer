@@ -9,7 +9,16 @@ afito <br/>
 <% end%>
 </div>
 
-pagina di <%=@show.name%> <br/>
+pagina di <%=@show.name%>
+<p>
+
+  <% if @show.image.thumb.url!=nil %>
+  <strong>Immagine profilo:</strong>
+  <%= image_tag @show.image.thumb.url %>
+  <% end %>
+</p>
+
+<br/>
 
 <%if can? :report, @show%>
 <div id= "report">

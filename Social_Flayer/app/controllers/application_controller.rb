@@ -47,8 +47,8 @@ class ApplicationController < ActionController::Base
 
   #permette di modificare i parametri all'interno di devise
   def configure_permitted_parameters
-      devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :surname, :username])
-      devise_parameter_sanitizer.permit(:account_update, keys: [:name, :surname,:username])
+      devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :surname, :username, :image])
+      devise_parameter_sanitizer.permit(:account_update, keys: [:name, :surname,:username, :image])
   end
   add_flash_types :error_comments
 

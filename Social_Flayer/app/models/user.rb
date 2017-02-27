@@ -14,6 +14,7 @@ class User < ApplicationRecord
 
   acts_as_voter
 
+  mount_uploader :image, ImageUploader
   has_many :stores, :through => :owner, source: :store
   has_many :store, foreign_key: :owner_id, class_name: "Store", dependent: :destroy
 

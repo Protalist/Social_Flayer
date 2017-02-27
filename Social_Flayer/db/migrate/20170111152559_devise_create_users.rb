@@ -8,8 +8,8 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.0]
       t.string :surname
       t.string :username
       t.integer :ban, default: 0
-    
-
+      t.string :image
+      
       ## Recoverable
       t.string   :reset_password_token
       t.datetime :reset_password_sent_at
