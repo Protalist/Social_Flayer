@@ -19,4 +19,12 @@
 
 $( document ).ready(function(){
   $(".dropdown-button").dropdown();
+  $
 });
+
+function autocomplete(){
+    autocomplete = new google.maps.places.Autocomplete(
+        (document.getElementById('address')),
+            {types: ['geocode']});
+
+}

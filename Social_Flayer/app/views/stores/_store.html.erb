@@ -1,8 +1,27 @@
 <%s=Store.find(store)%>
 <div name='store' id='<%=store.id%>' s='<%= s.name%>' loc='<%= s.location%>'>
-<p> Nome:
-<%= s.name %>,<%= s.owner.name%><br/></p>
-situato in : <%=s.location%>
-<%= button_to 'vai al negozio', store_path(store), method: :get %>
-<br/>
+
+  <div class="col s12 m7">
+    <h2 class="header"><%= s.name %></h2>
+    <div class="card horizontal">
+      <div class="card-image">
+        <% if store.image.thumb.url!=nil %>
+        <%= image_tag store.image.propic.url %>
+        <%else%>
+        <%= image_tag 'nopropic.jpg', style: "width: 150px; height: 150px;" %>
+        <% end %>
+      </div>
+      <div class="card-stacked">
+        <div class="card-content">
+          <p><%= s.owner.name%><br/></p>
+          situato in : <%=s.location%>
+
+          <br/>
+        </div>
+        <div class="card-action">
+          <%= button_to 'vai al negozio', store_path(store), method: :get, class: "waves-effect waves-light btn-large"%>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
