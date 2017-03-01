@@ -1,4 +1,4 @@
-<br><br>
+
 <div class="row">
         <div class="col s12 m7">
           <div class="card horizontal">
@@ -17,24 +17,24 @@
             </div>
           </div>
         </div>
-      </div>
- <br/>
 
 
-
-
-  <% if @cu.image.thumb.url!=nil %>
-  <%= image_tag @cu.image.propic.url %>
-  <% end %>
-</p>
-
+ <div class="col2 s12 m7">
+   <div class="card horizontal">
+     
+     <div class="card-content">
 <div id='followandi'>
    <ul>
      <% @followings.each do |followati| %>
 
-		<li >negozio seguito  ------    <%=Store.find(followati.store_id).name %> </li>
-	<%end%>
+  <li >negozio seguito  ------    <%=Store.find(followati.store_id).name %> </li>
+ <%end%>
    </ul>
+   </div>
+</div>
+
+</div>
+</div>
 </div>
 
 <div style="width: 700px; height: 500px; overflow-y: scroll;">
