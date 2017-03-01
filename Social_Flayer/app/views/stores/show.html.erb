@@ -74,6 +74,18 @@
 <% end %>
 
 
+<h1> Foto</h1>
+<%@show.pictures.each do |p|%>
+  <%= link_to image_tag(p.image.thumb.url), show_photo_store_path(@show.id,p.id) %>
+  <%= link_to 'destroy', destroy_photo_store_path(@show.id,p.id), data: { confirm: "Are you sure?" }, method: :delete %>
+<%end%>
+</br>
+
+
+
+<%= link_to "agoimgo foto", new_photo_store_path(@show.id)%>
+
+
 <%if can? :addadmin,@show %>
 add an add_admin
 <% if flash[:errors] %> <%= flash[:errors] %> <%end %>

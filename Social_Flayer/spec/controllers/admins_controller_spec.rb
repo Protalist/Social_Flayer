@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AdminsController, type: :controller do
   before(:each) do
-    @user=double("user",id: 1)
+    @user=double("user",id: 1, ban:0)
     @user2=double("user2", exists?: true)
     allow(controller).to receive(:authorize!).and_return(true)
   end
@@ -22,6 +22,7 @@ RSpec.describe AdminsController, type: :controller do
  describe "report" do
    it "report funziona" do
      @report=double("report", :reported_id= => true, :reporter_id= => true, save: true)
+     allow(User).to receive(:find).and_return(@user2)
      allow(Report).to receive(:new).and_return(@report)
      allow(controller).to receive(:current_user).and_return(@user)
      allow(User).to receive(:where).and_return(@user2)
@@ -31,7 +32,7 @@ RSpec.describe AdminsController, type: :controller do
    end
 
    it "report il report è già stato fatto" do
-
+     allow(User).to receive(:find).and_return(@user2)
      @report=double("report", :reported_id= => true, :reporter_id= => true, save: false)
      allow(Report).to receive(:new).and_return(@report)
      allow(controller).to receive(:current_user).and_return(@user)
@@ -91,6 +92,6 @@ RSpec.describe AdminsController, type: :controller do
      expect(flash[:alert]).to eq("non esiste il report")
    end
  end
- 
+
 
 end

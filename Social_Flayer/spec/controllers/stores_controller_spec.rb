@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe StoresController, type: :controller do
   before(:each) do
     #simula l'inserimento del current user e regola il controllo se esiste uno store
-    @fake_user_client=double('User', id: 1, roles_mask: 0)
-    @fake_user_store=double('USer',id: 1, roles_mask: 1)
+    @fake_user_client=double('User', id: 1, roles_mask: 0,ban:0)
+    @fake_user_store=double('USer',id: 1, roles_mask: 1,ban: 0)
     @fake_store=double('Stores', stores: [double("store1",id:1),double("store2",id:2)])
     @fake_producs=double('Product', products: [double("prod1"),double("prod2")])
     @fake_comments=double('Comment', comments: [double("comment1"),double("comment2")])
@@ -343,6 +343,41 @@ describe "leave_store" do
       expect(response).to redirect_to(root_path)
     end
 
+  end
+end
+
+describe "show_photo" do
+  it "render a template" do
+    #allow(controller).to receive(:authorize!).and_return(true)
+    d=double("foto",exists?: true)
+    allow(PhotoStore).to receive(:where).and_return(d)
+    allow(PhotoStore).to receive(:find).and_return(d)
+    get :show_photo, params:{id: 1, picture_id: 2}
+    expect(response).to render_template(:show_photo)
+  end
+
+  it "render a template home" do
+    #allow(controller).to receive(:authorize!).and_return(true)
+    allow(PhotoStore).to receive(:where).and_return(double("foto",exists?: false))
+    get :show_photo, params:{id: 1, picture_id: 2}
+    expect(response).to redirect_to(root_path)
+  end
+end
+
+describe "destroy_comment" do
+  it "destroy" do
+    @photo=double("foto",exists?: true,destroy_all: true)
+    allow(PhotoStore).to receive(:where).and_return(@photo)
+    delete :destroy_photo, params:{id: 1, picture_id: 1}
+    expect(response).to redirect_to(store_path(1))
+  end
+
+  it "not destroy" do
+    @photo=double("foto",exists?: false,destroy_all: false)
+    allow(PhotoStore).to receive(:where).and_return(@photo)
+    expect(@photo).to_not receive(:destroy_all)
+    delete :destroy_photo, params:{id: 1, picture_id: 1}
+    expect(response).to redirect_to(store_path(1))
   end
 end
 

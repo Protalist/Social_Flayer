@@ -13,6 +13,9 @@ class Store < ApplicationRecord
   has_many :follow_stores, dependent: :destroy
   has_many :followers, :through => :follow_stores, :source => 'user'
 
+  has_many :pictures, :class_name => "PhotoStore", dependent: :destroy
+
+
   acts_as_votable
 
   validates_uniqueness_of :name, :scope => :owner_id
