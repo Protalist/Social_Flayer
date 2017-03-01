@@ -11,19 +11,31 @@
 
   </head>
 
-    <body onload="autocomplete()">
+    <body>
       <% if user_signed_in? %>
+
+  <ul id="dropdown1" class="dropdown-content">
+    <li><span class="teal-text" >Logged in as <%= current_user.email%></span></li>
+    <li><span class="teal-text" >with role: <%= current_user.roles_mask %><span class="teal-text" ></li>
+      <li class="divider"></li>
+    <li><%= link_to edit_user_registration_path do %> <i class="material-icons">mode_edit</i> edit <%end%></li>
+      <li class="divider"></li>
+    <li><%= link_to destroy_user_session_path, :method => :delete do%><i class="material-icons">input</i> log_out <%end%></li>
+
+    <li> <% if can? :admin,User%> <%= link_to "homepage admin", admin_path%> <%end%> </li>
+  </ul>
+  <%end%>
+
       <div class="navbar-fixed">
         <nav class="nav-extended  teal darken-4">
         <div class="nav-wrapper">
           <a href="#" class="brand-logo">Logo</a>
-          
+          <% if user_signed_in? %>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
             <li><a><%= render 'shared/back' %> </a></li>
             <li> <a><%= render 'shared/change' %></a></li>
-            
+            <li><a class="dropdown-button" href="#!" data-activates="dropdown1">            __ Menu __         <i class="material-icons right">arrow_drop_down</i></a></li>
           </ul>
-         
         </div>
         <div class="nav-content teal darken-3">
           <nav>
@@ -36,11 +48,11 @@
       </form>
 
   </nav>
+  <%end%>
         </div>
       </nav>
 
   </div>
-  <% end %>
 
 <br><br><br><br>
 <div class="container ">
@@ -50,18 +62,15 @@
     <% if flash[:alert] %>
       <div class="allert"><%= flash[:alert] %></div>
     <% end %>
-    
-      
-    
+
+
+
       <%= yield %>
 </div>
 <% if user_signed_in? %>
 <footer class="page-footer teal darken-3">
 <div class="footer-copyright  teal darken-4">
   <div class="container">
-
-
-     <h5 class="header col s12 light">Logged in as <%= current_user.email%> with role: <%= current_user.roles_mask %> [<%= link_to 'Edit', edit_user_registration_path%>,<%= link_to 'Logout',  destroy_user_session_path, :method => :delete%> <% if can? :admin,User%> <%= link_to "homepage admin", admin_path%> <%end%> ]</h5>
 
   </div>
 </div>

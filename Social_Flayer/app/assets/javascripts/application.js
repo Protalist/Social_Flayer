@@ -13,4 +13,10 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require materialize/extras/nouislider
+//= require materialize-sprockets
 //= require_tree .
+
+$( document ).ready(function(){
+  $(".dropdown-button").dropdown();
+});

@@ -4,5 +4,3 @@
   <% s=current_user.workstores.where("works.accept = ?" ,true) %>
   <%= select_tag "store_id", options_from_collection_for_select(s, "id", "name" ),prompt: "select store", onchange: "this.form.submit()", class: "lwaves-effect waves-light btn"  %>
 <% end %>
-
-

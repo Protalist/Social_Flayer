@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :user,:only => [:show,:follow,:unfollow]
-  load_and_authorize_resource
   before_action :authenticate_user!
+  load_and_authorize_resource :except => :home
 
 
   def index
@@ -13,7 +13,7 @@ class UsersController < ApplicationController
   end
 
   def home
-   
+
       @cu=current_user
       @works_pendent=@cu.works.where(accept: false)
       @followings=FollowStore.where(user_id: current_user.id)
@@ -40,7 +40,7 @@ class UsersController < ApplicationController
         @vote+=ActsAsVotable::Vote.where(voter_id: f.followed_id)
       end
       @list=(@commenti_followed+@cosa_fanno+@replys+@products+@vote).sort!{|a,b| a.updated_at <=> b.updated_at}.reverse
-      
+
   end
 
   def back
