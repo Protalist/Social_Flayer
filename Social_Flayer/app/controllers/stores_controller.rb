@@ -1,5 +1,5 @@
 class StoresController < ApplicationController
-  before_action :store, only: [:show, :edit, :update,:destroy,:upvote,:downvote,:follow,:unfollow]
+  before_action :store, only: [:show, :edit, :update,:destroy,:upvote,:downvote,:follow,:unfollow,:create_photo]
   load_and_authorize_resource :except => :create
 
   def show
@@ -154,6 +154,39 @@ class StoresController < ApplicationController
       current_user.update(roles_mask: 0)
     end
     redirect_to root_path
+  end
+
+
+  def show_photo
+    if PhotoStore.where(id: params[:picture_id]).exists?
+      @photo=PhotoStore.find(params[:picture_id])
+      render 'show_photo'
+    else
+      redirect_to root_path
+    end
+  end
+
+  def new_photo
+  end
+
+  def create_photo
+      pic=@store.pictures.build(params.fetch(:picture, {}).permit(:image))
+      if pic.save
+        flash[:alert]="riuscito"
+          redirect_to store_path(@store.id)
+      else
+        flash[:alert]= "non riuscito"
+        render "new_photo"
+      end
+  end
+
+  def destroy_photo
+    if !PhotoStore.where(id: params[:picture_id], store_id: @store.id).exists?
+      flash[:alert]="non esiste la foto"
+    else
+      PhotoStore.where(id: params[:picture_id], store_id: @store.id).destroy_all
+    end
+    redirect_to store_path(@store.id)
   end
 
   protected

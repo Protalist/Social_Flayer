@@ -1,0 +1,11 @@
+<%= form_for :picture, url: create_photo_store_path do |f| %>
+<div class="field">
+  <%= f.label :image %><br>
+  <%= f.file_field :image  %>
+</div>
+
+<div class="actions">
+  <%= f.submit "carica" %>
+</div>
+
+<%end%>

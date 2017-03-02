@@ -50,6 +50,7 @@ class User < ApplicationRecord
         f[:notice]="questa è la tua password per modificare il tuo account: "+"'"+user.password+"' "+"questo messaggio non verrà più mostrato quindi bisogna salvarsi questa password"
         user.name=item[0]
         user.surname=item[1]
+        #user.remote_image_url = auth.info.image
         user.username=auth.info.email+"/"+item[0]+"/"+item[1]
     end
   end

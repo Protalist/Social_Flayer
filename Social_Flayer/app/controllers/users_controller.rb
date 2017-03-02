@@ -49,17 +49,21 @@ class UsersController < ApplicationController
   end
 
   def change
-   @role=params.require(:store_id)
-   cookies[:last_store]=@role
-   @store=Store.find(@role)
-   if @store.owner_id==current_user.id
-     current_user.update(roles_mask: 1)
-     redirect_to store_path(@role)
-   elsif !Work.where(store_id: @role, user_id: current_user.id).exists?
+   @role=params.fetch(:store_id,{})
+   if @role == ""
      redirect_to root_path
    else
-     current_user.update(roles_mask: 2)
-     redirect_to store_path(@role)
+     cookies[:last_store]=@role
+     @store=Store.find(@role)
+     if @store.owner_id==current_user.id
+       current_user.update(roles_mask: 1)
+       redirect_to store_path(@role)
+     elsif !Work.where(store_id: @role, user_id: current_user.id).exists?
+       redirect_to root_path
+     else
+       current_user.update(roles_mask: 2)
+       redirect_to store_path(@role)
+     end
    end
  end
 

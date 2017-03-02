@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe ApplicationController, type: :controller do
   before(:each) do
-    @fake_user=double('User', id: 1, roles_mask: 0)
-    @fake_user2=double('User', id: 2, roles_mask: 1)
-    @fake_userNM=double('User',id: 3, roles_mask: -1)
-    @fake_user3=double('User', id: 4, roles_mask: 2)
+    @fake_user=double('User', id: 1, roles_mask: 0, ban: 0)
+    @fake_user2=double('User', id: 2, roles_mask: 1,ban: 0)
+    @fake_userNM=double('User',id: 3, roles_mask: -1,ban: 0)
+    @fake_user3=double('User', id: 4, roles_mask: 2,ban: 0)
 
   end
   controller do

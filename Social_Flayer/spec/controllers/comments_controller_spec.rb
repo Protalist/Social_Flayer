@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe CommentsController, type: :controller do
     before(:each) do
         allow(controller).to receive(:authorize!).and_return(true)
-        @fake_user_comment1 = double("User",id:1,roles_mask:0)
-        @fake_user_comment2 = double("User",id:1,roles_mask:1)
+        @fake_user_comment1 = double("User",id:1,roles_mask:0,ban:0)
+        @fake_user_comment2 = double("User",id:1,roles_mask:1,ban:0)
         @fake_store_comment = double("Store")
         @fake_comment = double("Comment",id:1,content:"ciaone")
         allow(Comment).to receive(:ids).and_return(@fake_comment)
@@ -44,7 +44,7 @@ RSpec.describe CommentsController, type: :controller do
               expect(response).to redirect_to(store_path(1))
             end
 
-            
+
         end
       end
     end
@@ -79,7 +79,7 @@ RSpec.describe CommentsController, type: :controller do
                 expect(response).to redirect_to(store_path(1))
             end
 
-            
+
         end
 
         describe "rispondiamo tramite ajax" do
@@ -101,7 +101,7 @@ RSpec.describe CommentsController, type: :controller do
                 expect(response).to render_template("shared/nothing")
             end
 
-            
+
         end
 
     end

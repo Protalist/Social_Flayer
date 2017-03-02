@@ -20,6 +20,11 @@ Rails.application.routes.draw do
   post "/admin/ban/:id" => 'admins#send_ban', as: 'send_ban'
   resources :stores do  #aggiungiamo routes per stores
 	   member do
+       get 'picture/new' => "stores#new_photo", as: "new_photo"
+        get 'picture/:picture_id' => "stores#show_photo", as: "show_photo"
+        post 'picture/create' => "stores#create_photo", as: "create_photo"
+        delete 'picture/:picture_id' => "stores#destroy_photo", as: "destroy_photo"
+
         post 'chooseyes'=>'stores#choose_yes'
         post 'follow'=>'stores#follow'
         post 'unfollow'=>'stores#unfollow'
@@ -50,7 +55,7 @@ Rails.application.routes.draw do
   end
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  
+
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks", :sessions => "sessions" }
   get "*a" => "application#not_found"
 end

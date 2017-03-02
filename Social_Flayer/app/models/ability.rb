@@ -43,7 +43,7 @@ class Ability
       #store
 
       can :funzioniruolo0, Store
-
+      can :show_photo, Store
 
       #control if an user can follow a store or he has already followed it.
       can :follow, Store do |store|
@@ -96,6 +96,19 @@ class Ability
         store.owner_id==user.id
       end
 
+      can :new_photo, Store
+
+      can :create_photo, Store do |s|
+        Work.where(store_id: s.id , user_id: user.id).exists?
+      end
+
+      can :destroy_photo, Store do |s|
+        puts Work.where(store_id: s.id , user_id: user.id).exists?
+        Work.where(store_id: s.id , user_id: user.id).exists?
+      end
+
+      can :show_photo, Store
+
       #product
       can :crud_prod, Product do |product|
         Work.where(store_id: product.store_id, user_id: user.id).exists?
@@ -125,7 +138,7 @@ class Ability
       can :leave_store, Store do |store|
         Work.where(store_id: store.id, user_id: user.id).exists?
       end
-
+      can :show_photo, Store
 
       #product
       can :show, Product do |product|

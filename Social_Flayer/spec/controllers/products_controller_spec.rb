@@ -4,8 +4,8 @@ require 'rails_helper'
 
 RSpec.describe ProductsController, type: :controller do
   before(:each) do
-       @fake_user_client=double('User', id: 1, roles_mask: 0)
-       @fake_user_store=double('USer',id: 1, roles_mask: 1)
+       @fake_user_client=double('User', id: 1, roles_mask: 0,ban:0)
+       @fake_user_store=double('USer',id: 1, roles_mask: 1,ban: 0)
        @fake_products=double('Product', id:1, price:1, type_p:1, duration_h:1, store_id: 1)
        @fake_store=double('Stores', stores: [double("store1",id:1 ,products: @fake_products),double("store2",id:2)])
        allow(controller).to receive(:authorize!).and_return(true)
