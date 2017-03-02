@@ -20,7 +20,7 @@ class Ability
       can :follow, User do |client|
         !FollowerUser.where(follower_id: user.id,followed_id:client.id).exists? && client.id != user.id
       end
-
+      can :updatefollow,User
       can :unfollow, User do |client|
         FollowerUser.where(follower_id: user.id,followed_id:client.id).exists? && client.id != user.id
       end
@@ -86,7 +86,7 @@ class Ability
     elsif user.roles_mask==1
       #user
       can :roles, User
-
+      can :updatefollow,User
       #store
       can :show, Store do |store|
         Work.where(store_id: store.id, user_id: user.id).exists?
@@ -119,7 +119,7 @@ class Ability
       #user
       can :back, User
       can :change, User
-
+      can :updatefollow,User
       #store
       can :show, Store do |store|
         Work.where(store_id: store.id, user_id: user.id).exists?
