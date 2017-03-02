@@ -6,12 +6,12 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9DIhdJpFjMX2Kl7W2qf4pjYivfJah8y8&libraries=places"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
   </head>
 
-    <body >
+    <body onload="autocomplete()" >
       <% if user_signed_in? %>
 
   <ul id="dropdown1" class="dropdown-content">

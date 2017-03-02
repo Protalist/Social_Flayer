@@ -1,4 +1,13 @@
 <div >
+  <%if can? :create , Comment.new(store_id: params[:store_id])%>
+    &nbsp;<h6>Rispondi</h6><%= render "comments/form",comment: Comment.new , path:reply_store_comment_path(params[:store_id],params[:id])  %>
+  <%end%>
+
+  <%if can? :create , Respond.new(store_id: params[:store_id].to_i)%>
+    &nbsp;<h6>Rispondi come negozio </h6> <%= render "responds/form", respond: Respond.new, path: store_comment_responds_path(params[:store_id],params[:id]) %>
+  <%end%>
+  <%= link_to 'chiudi',store_path(params[:store_id])%>
+<br/>
   <ul class="collection" id="reply2<%=params[:id]%>">
  <% (@comment.responds+@replys).sort!{|a,b| a.updated_at <=> b.updated_at}.reverse.each do |reply|%>
  <li class="collection-item avatar">
@@ -18,11 +27,3 @@
   <% end %>
 </div>
 </ul>
-<%if can? :create , Comment.new(store_id: params[:store_id])%>
-  &nbsp;<h4>Rispondi</h4><%= render "comments/form",comment: Comment.new , path:reply_store_comment_path(params[:store_id],params[:id])  %>
-<%end%>
-
-<%if can? :create , Respond.new(store_id: params[:store_id].to_i)%>
-  &nbsp;<h4>rispondi come negozio </h4> <%= render "responds/form", respond: Respond.new, path: store_comment_responds_path(params[:store_id],params[:id]) %>
-<%end%>
-<%= link_to 'chiudi',store_path(params[:store_id])%>

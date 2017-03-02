@@ -19,12 +19,6 @@
 
 $( document ).ready(function(){
   $(".dropdown-button").dropdown();
-  $
+    $('.carousel').carousel();
+    $('.materialboxed').materialbox();
 });
-
-function autocomplete(){
-    autocomplete = new google.maps.places.Autocomplete(
-        (document.getElementById('address')),
-            {types: ['geocode']});
-
-}

@@ -70,7 +70,7 @@
       <td><%= prod.name %></td>
       <td><%= prod.price %></td>
       <td><%= prod.time_offer%></td>
-      <%if can? :crud_prod, @show%>
+      <%if can? :crud_prod, prod%>
       <td> <%= link_to 'edit', edit_store_product_path(@show,prod) %>
       <td> <%= link_to 'destroy', store_product_path(@show,prod), data: { confirm: "Are you sure?" }, method: :delete %></td>
       <%end%>
@@ -83,7 +83,7 @@
 </div>
 <div id=prova >
 </div>
-<%if can? :crud_prod, @show%>
+<%if can? :new, Product%>
 <div id='new_product'>
   <%= link_to 'Crea prodotto', new_store_product_path(params[:id]), remote: true, class: "waves-effect waves-light btn" %> <br/>
 </div>
@@ -98,11 +98,13 @@
 
 
 <h1> Foto</h1>
+<div class="carousel" >
 <%@show.pictures.each do |p|%>
-  <%= link_to image_tag(p.image.thumb.url), show_photo_store_path(@show.id,p.id) %>
-  <%= link_to 'destroy', destroy_photo_store_path(@show.id,p.id), data: { confirm: "Are you sure?" }, method: :delete %>
+  <%= link_to image_tag(p.image.superpic.url), show_photo_store_path(@show.id,p.id),class: "carousel-item" %>
+
 <%end%>
-</br>
+</div>
+
 
 
 
