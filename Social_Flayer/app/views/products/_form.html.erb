@@ -13,7 +13,7 @@
 
   <div class="field">
     <%= f.label :price %><br />
-    <%= f.text_field :price  %>
+    <%= f.number_field :price ,min: 0, max:2000000  %>
   </div>
 
   <div class="field">
@@ -23,7 +23,7 @@
 
   <div class="field">
     <%= f.label :duration_h %><br />
-    <%= f.text_field :duration_h   %>
+    <%= f.number_field :duration_h,min: 0, max:2000000   %>
   </div>
 
   <div class="field">

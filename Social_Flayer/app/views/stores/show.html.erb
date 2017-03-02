@@ -1,12 +1,28 @@
 <h1> Il nome del negozio è:
 <%= @store.name %> </h1>
 <p>
+  <div class="card">
+    <div class="card-image waves-effect waves-block waves-light">
+      <% if @store.image.thumb.url!=nil %>
+      <%= image_tag @store.image.propic.url %>
+      <%else%>
+      <%= image_tag 'nopropic.jpg', style: "width: 150px; height: 150px;" %>
+      <% end %>
+    </div>
+    <div class="card-content">
+      <span class="card-title activator grey-text text-darken-4"><%= @store.name %><i class="material-icons right">more_vert</i></span>
+      <p><a href="#">This is a link</a></p>
+    </div>
+    <div class="card-reveal">
+      <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+      <p><ul><li>Nome: <%= @store.name%></li>
+        <li> posizione: <%= @store.location%></li>
+        <li> numero follower: <%= @store.followers.count%></li>
+        <li> gradimento medio: <%= (@store.get_upvotes.count-@store.get_upvotes.count)/2%>
+      </ul></p>
+    </div>
+  </div>
 
-  <% if @store.image.thumb.url!=nil %>
-  <strong>Immagine negozio:</strong>
-  <%= image_tag @store.image.thumb.url %>
-  <% end %>
-</p>
 <div class='vote'>
   <table>
     <tr>
@@ -15,8 +31,8 @@
     </tr>
 
     <tr>
-      <td><%= link_to 'like', like_store_path(@show), method: :put %></td>
-      <td><%= link_to 'unlike', unlike_store_path(@show), method: :put %></td>
+      <td><%= link_to like_store_path(@show), method: :put do %>  <i class="material-icons">thumb_up</i> <%end%></td>
+      <td><%= link_to  unlike_store_path(@show), method: :put do %> <i class="material-icons">thumb_down</i> <%end%></td>
     </tr>
 
     <tr>
@@ -28,43 +44,50 @@
 <div id='follow'>
 		<%if can? :follow, @show%>
 
-				<%= button_to 'follow del negozio', follow_store_path(@show), method: :post, remote: true %>
+				<%= button_to 'follow del negozio', follow_store_path(@show), method: :post, remote: true , class: "waves-effect waves-light btn-large"%>
 
 		<%end%>
 		<%if can? :unfollow, @show%>
 
 
-        <%= button_to 'unfollow del negozio', unfollow_store_path(@show), method: :post, remote: true %>
+        <%= button_to 'unfollow del negozio', unfollow_store_path(@show), method: :post, remote: true, class: "waves-effect waves-light btn-large" %>
 
 		<%end%>
     <h1> numero followerZ <%= @show.followers.count%> </h1>
 
   </div>
 <table>
+  <thead>
   <tr>
     <th>nome</th>
     <th>prezzo</th>
     <th>manca</th>
   </tr>
+</thead>
+  <tbody>
 <% @products.each do |prod| %>
     <tr id=prod<%=prod.id%> >
       <td><%= prod.name %></td>
       <td><%= prod.price %></td>
       <td><%= prod.time_offer%></td>
+      <%if can? :crud_prod, @show%>
       <td> <%= link_to 'edit', edit_store_product_path(@show,prod) %>
       <td> <%= link_to 'destroy', store_product_path(@show,prod), data: { confirm: "Are you sure?" }, method: :delete %></td>
+      <%end%>
       <td><%=link_to 'show',store_product_path(@show,prod) %> </td>
     </tr>
   <% end %>
+</tbody>
 
 </table>
 </div>
 <div id=prova >
 </div>
-
+<%if can? :crud_prod, @show%>
 <div id='new_product'>
-  <%= link_to 'Crea prodotto', new_store_product_path(params[:id]), remote: true %> <br/>
+  <%= link_to 'Crea prodotto', new_store_product_path(params[:id]), remote: true, class: "waves-effect waves-light btn" %> <br/>
 </div>
+<%end%>
 
 
 <%= render 'comments/index' %>
@@ -94,8 +117,11 @@ add an add_admin
   <%= select_tag "user_id", options_from_collection_for_select(s, "id", "username", @show.owner_id), onchange: "this.form.submit()",data: { confirm: "Are you sure?" } %>
 <% end %>
 <%end%> <br/>
+
+<%if can? :owner_ab, @show%>
 <%= link_to 'destroy', store_path(@show), data: { confirm: "Are you sure?" }, method: :delete %>
 <%= link_to 'edit', edit_store_path(@show) %>
+<%end%>
 
 <%if can? :report, @show.owner%>
 <div id= "report">

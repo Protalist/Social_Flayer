@@ -104,6 +104,9 @@ class Ability
       can :new, Product
 
 
+      #comments
+      can :indexReply,Comment
+
       #respond
 
 

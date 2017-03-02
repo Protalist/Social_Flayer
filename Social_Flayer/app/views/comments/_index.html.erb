@@ -1,12 +1,16 @@
 <% if @comments!=nil %>
-<h4> Commenti: </h4>
-<% @comments.each do |comment| %>
+<h4> Commenti: </h4></br>
+<ul class="collection">
+<% @comments.order(:updated_at).reverse.each do |comment| %>
   <div id='comment<%=comment.id%>'>
+    <li class="collection-item avatar">
     <%= render 'comments/comment', comment: comment %>
     <div id='reply<%=comment.id%>' >
       <%= link_to 'mostra risposte', replyIndex_store_comment_path(params[:id], comment.id),remote: true%>
     </div>
+  </li>
   </div>
 <%end%>
+</ul>
 
 <% end %>

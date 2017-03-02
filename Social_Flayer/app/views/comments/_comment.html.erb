@@ -1,3 +1,5 @@
+
+<%= image_tag User.find(comment.user_id).image.thumb,alt: "" ,class: "circle" %>
 utente: <%=User.find(comment.user_id).username%> <br />
 &nbsp;dice:<%= comment.content %> <br/>
 <%if can? :update, comment%>
