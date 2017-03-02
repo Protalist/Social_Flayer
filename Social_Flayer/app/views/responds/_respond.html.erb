@@ -1,3 +1,5 @@
+<%= image_tag respond.store.image.thumb,alt: "" ,class: "circle" %>
+
 utente: <%=Store.find(respond.store_id).name%> <br />
 &nbsp;dice:<%= respond.content %> <br/>
 <% if can? :updare, respond%>

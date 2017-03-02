@@ -6,16 +6,16 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-@user = User.new(:email => 'test@example.com', :password => 'password', :password_confirmation => 'password',:name => 'aldo', :surname => 'baglio', :username=> 'all',:admin => true)
+@user = User.new(:email => 'test@example.com', :password => 'password', :password_confirmation => 'password',:name => 'aldo', :surname => 'baglio', :username=> 'all',image: "nopropic.jpg")
 @user.save
 
 @user2  = User.new(:email => 'test2@example.com', :password => 'password', :password_confirmation => 'password',:name => 'giovanni', :surname => 'baglio', :username=> 'jova')
 @user2.save
 
-@user3 = User.new(:email => 'test3@example.com', :password => 'password', :password_confirmation => 'password',:name => 'giacomo', :surname => 'baglio', :username=> 'gionni')
+@user3 = User.new(:email => 'test3@example.com', :password => 'password', :password_confirmation => 'password',:name => 'giacomo', :surname => 'baglio', :username=> 'gionni',:admin => true)
 @user3.save
 
-@store = Store.new(:name => 'pizza_bella' , :location => 'Roma,piazza trento', :owner_id=> @user.id)
+@store = Store.new(:name => 'pizza_bella' , :location => 'Roma,piazza trento', :owner_id=> @user.id,image: "nopropic.jpg")
 @store.save
 @store_admin= Work.new(:user_id => @user.id, :store_id => @store.id, :accept => true)
 @store_admin.save
@@ -69,10 +69,10 @@
 @comment3=Comment.new(:user_id => @user3.id, :store_id => @store.id, :content => "commento 3")
 @comment3.save
 
-@comment4=Comment.new(:user_id => @user3.id, :store_id => @store.id,:comment_id => @comment2.id, :content => "commento 3")
+@comment4=Comment.new(:user_id => @user3.id, :store_id => @store.id,:comment_id => @comment2.id, :content => "reply 1")
 @comment4.save
 
-@comment5=Comment.new(:user_id => @user2.id, :store_id => @store.id,:comment_id => @comment3.id, :content => "commento 3")
+@comment5=Comment.new(:user_id => @user2.id, :store_id => @store.id,:comment_id => @comment3.id, :content => "reply 2")
 @comment5.save
 
 @respond=Respond.new(:store_id => @store.id, :comment_id => @comment2.id, :content => "respond1")

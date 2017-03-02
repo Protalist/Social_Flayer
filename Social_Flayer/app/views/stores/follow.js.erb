@@ -1,1 +1,1 @@
-$('#follow').html('<%= button_to "unfollow del negozio", unfollow_store_path(@store), method: :post, remote: true %>'+"<h1> numero followerZ <%= @store.followers.count %> </h1>");
+$('#follow').html('<%= button_to "unfollow del negozio", unfollow_store_path(@store), method: :post, remote: true, class: "waves-effect waves-light btn-large" %>'+"<h1> numero followerZ <%= @store.followers.count %> </h1>");

@@ -11,7 +11,7 @@
 
   </head>
 
-    <body>
+    <body >
       <% if user_signed_in? %>
 
   <ul id="dropdown1" class="dropdown-content">
@@ -22,7 +22,7 @@
       <li class="divider"></li>
     <li><%= link_to destroy_user_session_path, :method => :delete do%><i class="material-icons">input</i> log_out <%end%></li>
 
-    <li> <% if can? :admin,User%> <%= link_to "homepage admin", admin_path%> <%end%> </li>
+    <% if can? :admin,User%><li>  <%= link_to "homepage admin", admin_path%></li>  <%end%>
   </ul>
   <%end%>
 
@@ -32,20 +32,18 @@
           <a href="#" class="brand-logo">Logo</a>
           <% if user_signed_in? %>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a><%= render 'shared/back' %> </a></li>
-            <li> <a><%= render 'shared/change' %></a></li>
+            <li><%= render 'shared/back' %> </li>
+            <li><%= render 'shared/change' %></li>
+            <li> <%= link_to new_store_path,class: "btn-floating btn-large waves-effect waves-light red"  do %> <i class="material-icons  lime accent-3">add</i> crea negozio<%end%> </li>
             <li><a class="dropdown-button" href="#!" data-activates="dropdown1">            __ Menu __         <i class="material-icons right">arrow_drop_down</i></a></li>
           </ul>
         </div>
         <div class="nav-content teal darken-3">
           <nav>
-      <form>
         <div class="input-field teal darken-3">
-          <input id="search" type="search" required>
-          <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-          <i class="material-icons">close</i>
+          <%= render "shared/search"%>
+          <i class="material-icons">search</i>
         </div>
-      </form>
 
   </nav>
   <%end%>
@@ -67,14 +65,6 @@
 
       <%= yield %>
 </div>
-<% if user_signed_in? %>
-<footer class="page-footer teal darken-3">
-<div class="footer-copyright  teal darken-4">
-  <div class="container">
 
-  </div>
-</div>
-</footer>
-<% end %>
   </body>
 </html>

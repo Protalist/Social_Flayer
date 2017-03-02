@@ -6,22 +6,23 @@
     <% end %>
   </ul>
   <% end %>
-  <div class="field">
-    <%= f.label :name %><br />
+  <div class="input-field col s12">
     <%= f.text_field :name, autofocus: true %>
+    <label for="name">Nome</label>
   </div>
 
-  <div class="field">
-    <%= f.label :location %><br />
+  <div class="input-field col s12">
     <%= f.text_field :location, autofocus: true, id: "address" %>
+    <label for="name">Posizione</label>
   </div>
 
   <div class="field">
-    <%= f.label :image %><br>
-    <%= f.file_field :image %>
+    <%= f.file_field :image,class: "btn" %>
+    <br/>
   </div>
 
   <div class="actions">
+    <br/>
     <%= f.submit "Sign up",class: "waves-effect waves-light btn"%>
   </div>
 

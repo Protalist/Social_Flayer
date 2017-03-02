@@ -1,5 +1,6 @@
 <%= form_tag stores_path, method: :get do %>
-  Cerca negozio
-    <%= text_field_tag :location ,params[:location], id:"address"  %>
-<%= submit_tag "cerca", id: "submit"%>
+  <div class="input-field col s6">
+     <i class="material-icons prefix">search</i>
+    <%= text_field_tag :location ,params[:location], id:"address",placeholder:"Inserisci una località" %>
+  </div>
 <% end %>
