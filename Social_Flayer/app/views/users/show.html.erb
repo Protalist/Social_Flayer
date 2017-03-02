@@ -1,14 +1,14 @@
 afito <br/>
 <div class="row">
         <div class="col s12 m7">
-          
+
           <div class="card horizontal">
-             
+
             <div class="card-image" style="width: 150px; height: 150px;",align ="center">
-             
-              
+
+
               <% if @show.image.thumb.url!=nil %>
-  
+
                  <%= image_tag @show.image.thumb.url %>
               <%else%>
               <%= image_tag 'nopropic.jpg' %>
@@ -21,38 +21,38 @@ afito <br/>
              seguito da : <%=FollowerUser.where(followed_id:@show.id).count%> persone
              </br>
             <%= link_to upfollow_path  do%> <i class="material-icons">loop</i> <%end%> aggiorna numero followers
-             
+
             </div>
           </div>
         </div>
      <div class="col2 s12 m7"style="width: 150px; height: 150px;">
        <div class="card horizontal">
-     
+
          <div class="card-content">
 
             <div id='follow'>
-             <%if !current_user.admin? || !FollowerUser.where(follower_id: current_user.id,followed_id:@show.id).exists? && current_user.id != @show.id %> 
+             <%if !current_user.admin? || !FollowerUser.where(follower_id: current_user.id,followed_id:@show.id).exists? && current_user.id != @show.id %>
               <%if can? :follow, @show %>
-              <%= button_to 'follow', follow_user_path(params[:id]), remote: true,class:"waves-effect waves-light btn" %> 
+              <%= button_to 'follow', follow_user_path(params[:id]), remote: true,class:"waves-effect waves-light btn" %>
               <% end%>
             <%end%>
-            <%if !current_user.admin? || FollowerUser.where(follower_id: current_user.id,followed_id:@show.id).exists? && current_user.id != @show.id%>  
+            <%if !current_user.admin? || FollowerUser.where(follower_id: current_user.id,followed_id:@show.id).exists? && current_user.id != @show.id%>
                   <%if can? :unfollow, @show %>
-                   <%= button_to 'unfollow', unfollow_user_path(params[:id]), remote: true,class:"waves-effect waves-light btn"%> 
+                   <%= button_to 'unfollow', unfollow_user_path(params[:id]), remote: true,class:"waves-effect waves-light btn"%>
                   <% end%>
             <%end%>
-            
+
             </div>
             </br>
             <div id="report">
             <%if can? :report, @show%>
-            <%= button_to "segnala utente" , show_report_user_path(@show.id), method: :get, remote: true,class:"waves-effect waves-light btn"%> 
+            <%= button_to "segnala utente" , show_report_user_path(@show.id), method: :get, remote: true,class:"waves-effect waves-light btn"%>
 
             <%end%>
             </div>
-            
-            
-            
+
+
+
           </div>
         </div>
       </div>
@@ -62,77 +62,29 @@ afito <br/>
     <p class="flow-text"> <i class="material-icons">store</i>Negozi seguiti: <%=FollowStore.where(user_id:@show.id).count%> </p>
     <%if FollowStore.where(user_id:@show.id)!=nil%>
         <% FollowStore.where(user_id:@show.id).each do |n|%>
-    
-        <div class="row">
-       
-          <div class="col s12 m7">
-        
-            <div class="card horizontal">
-            
-            
-                  <%if Store.where(id:n.store_id).first.name !=nil%>
-                  nome negozio: <%=Store.where(id:n.store_id).first.name%>
-                  <%else%>
-                  no name WTF
-                  <%end%>
-
-               
-          
-          <div class="col2 s12 m7 "style="padding-left:50px">
-            <div class="card-image" style="width: 100px; height: 100px;">
-                 <%if  Store.where(id:n.store_id).first.image.propic.url!=nil%>
-                  <%=image_tag Store.where(id:n.store_id).first.image.propic.url%>
-                  <%else%>
-                  <%= image_tag 'nopropic.jpg' %>
-                  <%end%>
-                  </div>
-                </div>
-              </div>
-            </div>
+              <%= render "stores/store", store: Store.find(n.store_id) %>
                 <%end%>
              <%end%>
-            
-          
-        
-    
-  </div>
-</div>
+
 
 <!-- COMMENTI DELL'UTENTE -->
 <p class="flow-text">Commenti di <%=@show.name%> </p>
+<ul class="collection">
 <%if Comment.where(user_id:@show.id).first != nil%>
    <% Comment.where(user_id:@show.id).each do |c|%>
   <div class="row">
-       
+
           <div class="col s12 m7">
-        
-            
+
+
               <div class ="card content">
-                <%=@show.name%> ha commentato il negozio <%=link_to Store.find(c.store_id).name,store_path(c.store_id)%> </br>
-                Commento:    <%=Comment.find(c.id).content%> 
-              
+                <li class="collection-item avatar"><%= render "comments/comment", comment: c%></li>
+
             </div>
           </div>
         </div>
         <%end%>
       <%end%>
+      </ul>
       </div>
 </div>
-    
-
-                
-
-
-
-
-      
-           
-            
-    
-
-
-
-
-
-
-
