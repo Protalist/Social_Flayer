@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   scope :user do
     get "/:id"=>'users#show', as: 'user'
-
+    get "/:id/updatefollow" =>'users#updatefollow', as: 'upfollow'
     post 'change' => 'users#change', as: 'change'
     post 'back' => 'users#back', as: 'back'
     get "" => 'users#index', as: 'users'

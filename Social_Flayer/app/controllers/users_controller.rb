@@ -83,7 +83,12 @@ class UsersController < ApplicationController
      end
    end
  end
-
+ def updatefollow
+   respond_to do |format|
+        format.html {redirect_to user_path(@user.id)}
+        format.js {}
+      end
+ end
  def unfollow
     @follow=FollowerUser.where(followed_id: params[:id],follower_id: current_user.id).first
     if @follow
