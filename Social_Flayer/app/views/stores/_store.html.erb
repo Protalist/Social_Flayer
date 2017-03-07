@@ -5,7 +5,7 @@
     <h4 class="header"><%= s.name %></h4>
     <div class="card horizontal">
       <div class="card-image">
-        <% if store.image.thumb.url!=nil %>
+        <% if store.image.superpic.url!=nil %>
         <%= image_tag store.image.propic.url %>
         <%else%>
         <%= image_tag 'nopropic.jpg', style: "width: 150px; height: 150px;" %>

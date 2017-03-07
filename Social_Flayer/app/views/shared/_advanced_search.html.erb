@@ -1,3 +1,4 @@
+<h4>Ricerca avanzata</h4>
 <%= form_tag stores_path, method: :get do %>
 punto di partenza<br/>
 <%= text_field_tag :location,params[:location], id: 'address' %> <br />
@@ -14,5 +15,6 @@ tipologia di prodotto<br/>
 <%= radio_button_tag(:view, "map",class: "with-gap") %>
 <%= label_tag(:view_map, "visualizza sulla mappa") %>
 <br/>
-<%= submit_tag "cerca" %>
+<%= submit_tag "cerca", class: "waves-effect waves-light btn" %>
 <% end %>
+<br/><br/>

@@ -11,10 +11,10 @@
   <ul class="collection" id="reply2<%=params[:id]%>">
  <% (@comment.responds+@replys).sort!{|a,b| a.updated_at <=> b.updated_at}.reverse.each do |reply|%>
  <li class="collection-item avatar">
- <%=reply.class%> <br/>
+ <br/>
  <% if reply.class ==Comment %>
     <div id='comment<%=reply.id%>'>
-      &nbsp;<%= render 'comments/comment', comment: reply %>
+      &nbsp;<%= render 'comments/comment', comment: reply , store: nil%>
       <br/><br/>
     </div>
   <% else %>

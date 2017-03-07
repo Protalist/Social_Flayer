@@ -34,12 +34,14 @@ class UsersController < ApplicationController
       @followed=@user_follow.where(follower_id: @cu.id)
       @commenti_followed=[]
       @vote=[]
+      @segue_prodotto=[]
       @followed.each do |f|
         @commenti_followed+=User.find(f.followed_id).comments
         @cosa_fanno+=FollowStore.where(user_id: f.followed_id)
         @vote+=ActsAsVotable::Vote.where(voter_id: f.followed_id)
+        @segue_prodotto+= FollowProduct.where(user_id: f.followed_id)
       end
-      @list=(@commenti_followed+@cosa_fanno+@replys+@products+@vote).sort!{|a,b| a.updated_at <=> b.updated_at}.reverse
+      @list=(@commenti_followed+@cosa_fanno+@replys+@products+@vote+@segue_prodotto).sort!{|a,b| a.updated_at <=> b.updated_at}.reverse
 
   end
 

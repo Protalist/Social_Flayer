@@ -1,6 +1,6 @@
 
 <%= image_tag User.find(comment.user_id).image.thumb,alt: "" ,class: "circle" %>
-utente: <%=User.find(comment.user_id).username%> ha commentato il negozio <%=Store.find(comment.store_id).name%> <br />
+utente: <%=link_to User.find(comment.user_id).username, users_path(comment.user_id)%> <%if store%>ha commentato il negozio <%=link_to Store.find(comment.store_id).name, store_path(comment.store_id)%><%end%> <br />
 &nbsp;dice: <%= comment.content %> <br/>
 <%if can? :update, comment%>
 &nbsp;<%= link_to 'edit', edit_store_comment_path(comment.store_id,comment.id), remote: true %>
