@@ -140,8 +140,9 @@
 <%end%> <br/>
 
 <%if can? :owner_ab, @show%>
-<%= link_to 'destroy', store_path(@show), data: { confirm: "Are you sure?" }, method: :delete,class: "waves-effect waves-light btn" %>
+<%= link_to 'destroy', store_path(@show), data: { confirm: "Are you sure?" }, method: :delete,class: "waves-effect waves-light btn" %> 
 <%= link_to 'edit', edit_store_path(@show), class: "waves-effect waves-light btn" %>
+
 <%end%>
 
 <%if can? :report, @show.owner%>
@@ -149,3 +150,6 @@
   <%= button_to "segnala proprietario" , show_report_user_path(@show.owner_id), method: :get, remote: true,class: "waves-effect waves-light btn"%>
 </div>
 <%end%>
+<br>
+<br>
+<br>
