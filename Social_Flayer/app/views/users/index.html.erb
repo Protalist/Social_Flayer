@@ -1,7 +1,10 @@
+<%if @users.count == 0%>
+  <h5>Non ci sono utenti che combaciano con l'username "<%= params[:username]%>" </h5>
+<%end%>
+
 <div id='utenti'>
   <br/><br/>
    <%@users.each do |useri| %>
     <li> <%=useri.username%>  <%= link_to "vai all'utente", user_path(useri)%></li>
    <%end%>
-
 </div>

@@ -12,6 +12,10 @@
 </div>
 
 
+<%if @stores.count == 0%>
+  <h5>Nessun negozio torvato</h5>
+<%end%>
+
 <div id="store-list" style="width: 40%; height:700px; overflow-y: scroll;"%>
 <% @stores.each do |store| %>
   <%= render 'stores/store', store: store %>

@@ -5,6 +5,9 @@
   Lista dei nego in ordine di gradimento
 <%end%>
 </h1>
+<%if @stores.count == 0%>
+  <h5>Nessun negozio torvato</h5>
+<%end%>
 <table class="striped">
 
 <%if params[:view]== 'distance'%>
