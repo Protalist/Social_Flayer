@@ -1,17 +1,16 @@
 <h1> Il nome del negozio è:
 <%= @store.name %> </h1>
 <p>
-  <div class="card">
+  <div class="card horizontal medium">
     <div class="card-image waves-effect waves-block waves-light">
       <% if @store.image.thumb.url!=nil %>
-      <%= image_tag @store.image.propic.url %>
+      <%= image_tag @store.image.superpic.url %>
       <%else%>
       <%= image_tag 'nopropic.jpg', style: "width: 150px; height: 150px;" %>
       <% end %>
     </div>
     <div class="card-content">
       <span class="card-title activator grey-text text-darken-4"><%= @store.name %><i class="material-icons right">more_vert</i></span>
-      <p><a href="#">This is a link</a></p>
     </div>
     <div class="card-reveal">
       <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
@@ -122,19 +121,20 @@ add an add_admin
 <%end%>
 <%if can? :leave_store, @show%>
 <br/>
-<%= button_to 'lascia negozio', leave_store_path, method: :get%>
+<%= button_to 'lascia negozio', leave_store_path, method: :get,class: "waves-effect waves-light btn"%>
 <br/>
 <%end%>
 <%if can? :change_admin, @show%>
 <%= form_for :role, url: change_admin_store_path do |f| %>
+  <h6> Cambia amministratore </h6>
   <% s=@show.admin.where("Works.accept = ?", true) %>
-  <%= select_tag "user_id", options_from_collection_for_select(s, "id", "username", @show.owner_id), onchange: "this.form.submit()",data: { confirm: "Are you sure?" } %>
+  <%= select_tag "user_id", options_from_collection_for_select(s, "id", "username", @show.owner_id), onchange: "this.form.submit()",data: { confirm: "Are you sure?" } , class: "lwaves-effect waves-light btn"%>
 <% end %>
 <%end%> <br/>
 
 <%if can? :owner_ab, @show%>
-<%= link_to 'destroy', store_path(@show), data: { confirm: "Are you sure?" }, method: :delete %>
-<%= link_to 'edit', edit_store_path(@show) %>
+<%= link_to 'destroy', store_path(@show), data: { confirm: "Are you sure?" }, method: :delete,class: "waves-effect waves-light btn" %>
+<%= link_to 'edit', edit_store_path(@show), class: "waves-effect waves-light btn" %>
 <%end%>
 
 <%if can? :report, @show.owner%>

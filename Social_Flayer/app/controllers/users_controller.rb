@@ -13,7 +13,7 @@ class UsersController < ApplicationController
   end
 
   def home
-
+      authorize! :home, User
       @cu=current_user
       @works_pendent=@cu.works.where(accept: false)
       @followings=FollowStore.where(user_id: current_user.id)

@@ -6,12 +6,13 @@ Cerca negozio<br/>
 tipologia di prodotto<br/>
 <%=text_field_tag :type, params[:type] %> <br />
 <br/>
-<%= radio_button_tag(:view, "map", true) %>
-<%= label_tag(:view_like, "visualizza nella mappa") %>
-<%= radio_button_tag(:view, "distance") %>
+
+<%= radio_button_tag(:view, "distance",class: "with-gap") %>
 <%= label_tag(:view_distance, "visualizza in ordine di distanza") %>
-<%= radio_button_tag(:view, "like") %>
+<%= radio_button_tag(:view, "like",class: "with-gap") %>
 <%= label_tag(:view_like, "visualizza in ordine di gradimento") %>
+<%= radio_button_tag(:view, "map",class: "with-gap") %>
+<%= label_tag(:view_map, "visualizza sulla mappa") %>
 <br/>
 <%= submit_tag "cerca" %>
 <% end %>

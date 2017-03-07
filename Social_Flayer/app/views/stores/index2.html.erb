@@ -11,7 +11,7 @@
   <% @distance.sort_by {|key,value| value}.each do |store| %>
     <tr>
       <th><%= render 'stores/store', store: store[0] %></th>
-      <th>Distanza<br/><h3><span> <%=store[1]%></span></h3></th>
+      <th>Distanza<br/><h3><span> <%=store[1]%> Km</span></h3></th>
   </tr>
   <%end%>
 <%elsif params[:view]== 'like'%>
