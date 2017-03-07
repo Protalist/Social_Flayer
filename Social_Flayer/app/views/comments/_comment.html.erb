@@ -1,7 +1,7 @@
 
 <%= image_tag User.find(comment.user_id).image.thumb,alt: "" ,class: "circle" %>
-utente: <%=User.find(comment.user_id).username%> <br />
-&nbsp;dice:<%= comment.content %> <br/>
+utente: <%=User.find(comment.user_id).username%> ha commentato il negozio <%=Store.find(comment.store_id).name%> <br />
+&nbsp;dice: <%= comment.content %> <br/>
 <%if can? :update, comment%>
 &nbsp;<%= link_to 'edit', edit_store_comment_path(comment.store_id,comment.id), remote: true %>
 &nbsp;<%= link_to 'destroy', store_comment_path(comment.store_id,comment.id), data: { confirm: "Are you sure?" }, method: :delete ,remote: true%> <br/>
