@@ -1,7 +1,7 @@
 <h1> Il nome del negozio è:
 <%= @store.name %> </h1>
 <p>
-  <div class="card horizontal medium">
+  <div class="card horizontal small">
     <div class="card-image waves-effect waves-block waves-light">
       <% if @store.image.thumb.url!=nil %>
       <%= image_tag @store.image.superpic.url %>
@@ -94,29 +94,35 @@
 <% if can? :create, Comment.new(store_id: @show.id) %>
 <%= render 'comments/new' %>
 <% end %>
-
-
 <h1> Foto</h1>
+<%if @show.pictures.first!=nil%> 
+
 <div class="carousel" >
-<%@show.pictures.each do |p|%>
+ 
+  <%@show.pictures.each do |p|%>
+  
   <%= link_to image_tag(p.image.superpic.url), show_photo_store_path(@show.id,p.id),class: "carousel-item" %>
 
-<%end%>
+  <%end%>
 </div>
+ <%else%>
+   <p>NESSUNA FOTO DISPONIBILE</p>
+  <%end%>
+
 
 
 <% if can? :create_photo, @show %>
 
-<%= link_to "agoimgo foto", new_photo_store_path(@show.id)%>
+<%= link_to "aggiungi foto", new_photo_store_path(@show.id)%> <br>
 <%end%>
 
 <%if can? :addadmin,@show %>
-add an add_admin
+<h4>Aggiungi un amministratore </h4>
 <% if flash[:errors] %> <%= flash[:errors] %> <%end %>
 <%= form_for :admin, url: addadmin_store_path(params[:id]), method: :post do |f| %>
   <%= f.label :username %>
   <%= f.text_field :username %>
-  <%= f.submit "aggiungi" %>
+  <%= f.submit "aggiungi",class:"waves-effect waves-light btn"  %> <br>
 <% end %>
 <%end%>
 <%if can? :leave_store, @show%>
@@ -126,7 +132,7 @@ add an add_admin
 <%end%>
 <%if can? :change_admin, @show%>
 <%= form_for :role, url: change_admin_store_path do |f| %>
-  <h6> Cambia amministratore </h6>
+  <h4> Cambia amministratore </h4>
   <% s=@show.admin.where("Works.accept = ?", true) %>
   <%= select_tag "user_id", options_from_collection_for_select(s, "id", "username", @show.owner_id), onchange: "this.form.submit()",data: { confirm: "Are you sure?" } , class: "lwaves-effect waves-light btn"%>
 <% end %>
@@ -139,6 +145,6 @@ add an add_admin
 
 <%if can? :report, @show.owner%>
 <div id= "report">
-  <%= button_to "segnala proprietario" , show_report_user_path(@show.owner_id), method: :get, remote: true%>
+  <%= button_to "segnala proprietario" , show_report_user_path(@show.owner_id), method: :get, remote: true,class: "waves-effect waves-light btn"%>
 </div>
 <%end%>
