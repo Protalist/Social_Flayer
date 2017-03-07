@@ -1,11 +1,19 @@
 <%= form_for :picture, url: create_photo_store_path do |f| %>
 <div class="field">
-  <%= f.label :image %><br>
-  <%= f.file_field :image  %>
+  <div class="file-field input-field gallery_picture">
+
+ <div class="btn">
+
+   <span>Upload file</span>
+   <%= f.file_field :image %>
+   </div>
+ <input class="file-path validate" type="text"/>
+ </div>
+
 </div>
 
 <div class="actions">
-  <%= f.submit "carica" %>
+  <%= f.submit "carica",class: "waves-effect waves-light btn" %>
 </div>
 
 <%end%>

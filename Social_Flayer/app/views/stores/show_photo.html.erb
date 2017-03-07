@@ -1,5 +1,5 @@
 <%= image_tag @photo.image.superpic.url, class: "materialboxed" %>
 
 <%if can? :destroy_photo, @store%>
-<%=link_to "destroy" , destroy_photo_store_path(params[:id],params[:picture_id]), class: "waves-effect waves-light btn" %>
+<%=link_to "destroy" , destroy_photo_store_path(params[:id],params[:picture_id]), method: :delete, class: "waves-effect waves-light btn" %>
 <%end%>
