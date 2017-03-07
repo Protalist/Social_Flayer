@@ -19,8 +19,7 @@
   <% end -%>
 
   <div class="actions">
-    <%= f.submit "Log in" %>
+    <%= f.submit "Log in",class: "waves-effect waves-light btn" %>
   </div>
 <% end %>
-<%= link_to "Sign in with Facebook", user_facebook_omniauth_authorize_path %>
 <%= render "users/shared/links" %>

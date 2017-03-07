@@ -106,10 +106,10 @@
 </div>
 
 
-
+<% if can? :create_photo, @show %>
 
 <%= link_to "agoimgo foto", new_photo_store_path(@show.id)%>
-
+<%end%>
 
 <%if can? :addadmin,@show %>
 add an add_admin
