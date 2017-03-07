@@ -25,8 +25,18 @@
   </div>
 
   <div class="field">
-    <%= f.label :image %><br>
-    <%= f.file_field :image %>
+    <div class="#">
+         <div class="file-field input-field gallery_picture">
+
+        <div class="btn">
+
+          <span>Upload Profile Picture</span>
+          <%= f.file_field :image %>
+          </div>
+        <input class="file-path validate" type="text"/>
+        </div>
+
+    </div> 
   </div>
 
 

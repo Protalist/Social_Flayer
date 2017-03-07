@@ -16,14 +16,22 @@
     <label for="name">Posizione</label>
   </div>
 
-  <div class="field">
-    <%= f.file_field :image,class: "btn" %>
-    <br/>
-  </div>
+  <div class="#">
+         <div class="file-field input-field gallery_picture">
+
+        <div class="btn">
+
+          <span>Upload file</span>
+          <%= f.file_field :image %>
+          </div>
+        <input class="file-path validate" type="text"/>
+        </div>
+
+    </div> 
 
   <div class="actions">
     <br/>
-    <%= f.submit "Sign up",class: "waves-effect waves-light btn"%>
+    <%= f.submit "Crea Negozio",class: "waves-effect waves-light btn"%>
   </div>
 
 <% end %>

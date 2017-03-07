@@ -1,6 +1,6 @@
 <%= image_tag respond.store.image.thumb,alt: "" ,class: "circle" %>
 
-utente: <%=Store.find(respond.store_id).name%> <br />
+il negozio: <%=Store.find(respond.store_id).name%> <br />
 &nbsp;dice:<%= respond.content %> <br/>
 <% if can? :updare, respond%>
   &nbsp;<%= link_to 'edit', edit_store_comment_respond_path(respond.store_id,respond.comment_id,respond.id), remote: true %>
