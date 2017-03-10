@@ -1,7 +1,19 @@
-<h1> Ciao bellissimo! Tu sei stato selzionato per essere l'admin. Solo tu puoi farcela. Che il triplo 7 non venga infamato </h1> </br>
-
+<h3>controlla questi report</h3>
 <% @reports.each do |r| %>
-   <table> gestione report
-       <tr><td> <%= User.find(r.reporter_id).name%></td>  <td>a:<%=link_to User.find(r.reported_id).name,user_path(r.reported_id)%> </td> <td>per:<%=r.motivation%><%=button_to "vai al ban",ban_path(r.reported_id),method: :get%></td></tr> 
+   <table class="highlight">
+      <thead>
+        <tr>
+          <th >Inviato da</th>
+          <th >a</th>
+          <th >motivazione</th>
+          <th> gestisci<th>
+          </tr>
+      </thead>
+       <tr>
+         <td><%= User.find(r.reporter_id).name%></td>
+         <td><%=link_to User.find(r.reported_id).name,user_path(r.reported_id)%> </td>
+         <td><%=r.motivation%></td>
+         <td><%=button_to "vai al ban",ban_path(r.reported_id),method: :get%></td>
+       </tr>
    </table>
 <%end%>

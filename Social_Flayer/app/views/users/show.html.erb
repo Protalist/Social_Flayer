@@ -78,7 +78,7 @@ afito <br/>
 
 
               <div class ="card content">
-                <li class="collection-item avatar"><%= render "comments/comment", comment: c%></li>
+                <li class="collection-item avatar"><%= render "comments/comment", comment: c, store: true%></li>
 
             </div>
           </div>
@@ -95,10 +95,10 @@ afito <br/>
      <% FollowProduct.where(user_id:@show.id).each do |p|%>
     <div class="row">
         <div class="col s12 m7">
-           
+
              <li> segue l'offerta del prodotto <%=Product.find(p.product_id).name%>
                   venduto da <%=Store.where(id:Product.find(p.product_id).store_id).first.name%><br>vai al negozio --> <%= link_to store_path(Product.find(p.product_id).store_id)  do%> <i class="material-icons">store</i> <%end%></li>
-           
+
         </div>
       </div>
       <%end%>
